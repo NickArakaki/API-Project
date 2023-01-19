@@ -24,7 +24,7 @@ if (!isProduction) {
     app.use(cors());
   }
 
-// helmet helps set a variety of headers to better secure your app
+// helmet helps set a variety of headers to better secure app
 app.use(
 helmet.crossOriginResourcePolicy({
     policy: "cross-origin"
