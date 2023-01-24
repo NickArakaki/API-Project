@@ -71,16 +71,14 @@ router.post(
         })
         next(error);
       } else {
-        const newUser = await User.signup({ email, username, password, firstName, lastName });
+        let newUser = await User.signup({ email, username, password, firstName, lastName });
         setTokenCookie(res, newUser);
+        newUser = newUser.toJSON();
+        newUser.token = '';
         res.json({
-          user: newUser.toSafeObject()
+          user: newUser
         });
       }
-
-
-
-
     }
   );
 
