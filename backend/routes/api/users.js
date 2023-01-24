@@ -75,9 +75,7 @@ router.post(
         setTokenCookie(res, newUser);
         newUser = newUser.toJSON();
         newUser.token = '';
-        res.json({
-          user: newUser
-        });
+        res.json(newUser);
       }
     }
   );
