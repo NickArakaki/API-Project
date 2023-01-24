@@ -1,8 +1,5 @@
 'use strict';
-const {
-  Model,
-  Validator
-} = require('sequelize');
+const { Model, Validator } = require('sequelize');
 
 const bcrypt = require('bcryptjs');
 
@@ -50,8 +47,34 @@ module.exports = (sequelize, DataTypes) => {
       return await User.scope('currentUser').findByPk(user.id);
     }
 
+/****************************** Associations **************************************/
     static associate(models) {
-      // define association here
+      // User -> Spot
+      User.hasMany(
+        models.Spot,
+        {
+          foreignKey: 'ownerId',
+          onDelete: 'CASCADE',
+          hooks: true
+        });
+
+      // User -> Booking
+      User.hasMany(
+        models.Booking,
+        {
+          foreignKey: 'userId',
+          onDelete: 'CASCADE',
+          hooks: true
+        });
+
+      // User -> Review
+      User.hasMany(
+        models.Review,
+        {
+          foreignKey: 'userId',
+          onDelete: 'CASCADE',
+          hooks: true
+        });
     }
   }
   User.init({
