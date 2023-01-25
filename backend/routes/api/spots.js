@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { appendFile } = require('fs');
-const { Spot, SpotImage, Review, sequelize } = require('../../db/models');
+const { Spot, User, SpotImage, Review, sequelize } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -73,7 +73,7 @@ router.get('/', async (req, res) => {
 
         if (avgRating) {
             avgRating = avgRating.toJSON().avgRating;
-            spot.avgRating = avgRating;
+            spot.avgRating = avgRating.toFixed(1);
         } else {
             spot.avgRating = null
         }
@@ -139,6 +139,106 @@ router.post('/', requireAuth, validateAddSpot, async (req, res, next) => {
         const newSpot = await Spot.findByPk(spot.id);
         res.json(newSpot);
     }
+})
+
+// GET all Spots owned by current user
+router.get('/current', requireAuth, async (req, res, next) => {
+  const user = req.user.toJSON();
+
+  let spots = await Spot.findAll({
+    where: {
+      ownerId: user.id
+    }
+  });
+
+  spots = spots.map(spot => spot.toJSON());
+
+  for (let spot of spots) {
+    let avgRating = await Review.findOne({
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col("stars")),
+                    "avgRating"
+                ]
+            ]
+        },
+        where: {
+            spotId : spot.id
+        }
+    });
+
+    avgRating = avgRating.toJSON().avgRating;
+
+    if (avgRating) {
+        spot.avgRating = avgRating.toFixed(1);
+    } else {
+        spot.avgRating = null
+    }
+
+    let previewImage = await SpotImage.findOne({
+        where: {
+            spotId: spot.id,
+            preview: true
+        }
+    });
+
+    if (previewImage) {
+        previewImage = previewImage.toJSON().url;
+        spot.previewImage = previewImage;
+    } else {
+        spot.previewImage = 'No Preview Image Available'
+    }
+  }
+
+  return res.json({Spots: spots});
+})
+
+// GET details of a Spot from an id
+router.get('/:spotId', async (req, res, next) => {
+  let spot = await Spot.findByPk(req.params.spotId, {
+    include: [
+      {
+        model: SpotImage,
+        attributes: ['id', 'url', 'preview']
+      },
+      {
+        model: User,
+        as: 'Owner',
+        attributes: ['id', 'firstName', 'lastName']
+      }
+    ]
+  });
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next(err);
+  } else {
+      const reviewAggregate = await Review.findOne({
+        attributes: {
+          include: [
+            [
+              sequelize.fn("AVG", sequelize.col("stars")), "avgStarRating"
+            ],
+            [
+              sequelize.fn('COUNT', sequelize.col('id')), 'numReviews'
+            ]
+          ]
+      },
+      where: {
+        spotId: req.params.spotId
+      }
+    })
+
+    spot = spot.toJSON();
+    const { avgStarRating, numReviews } = reviewAggregate.toJSON();
+
+    spot.avgStarRating = avgStarRating.toFixed(1);
+    spot.numReviews = numReviews;
+
+    res.json(spot);
+  }
 })
 
 module.exports = router;
