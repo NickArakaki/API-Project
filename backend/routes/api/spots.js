@@ -71,13 +71,13 @@ router.get('/', async (req, res) => {
             }
         });
 
+        avgRating = avgRating.toJSON().avgRating;
+
         if (avgRating) {
-            avgRating = avgRating.toJSON().avgRating;
             spot.avgRating = avgRating.toFixed(1);
         } else {
             spot.avgRating = null
         }
-
 
         let previewImage = await SpotImage.findOne({
             where: {
