@@ -52,6 +52,21 @@ const validateAddSpot = [
     handleValidationErrors
   ];
 
+const validateReviewData = [
+  check('review')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Review text is required'),
+  check('stars')
+    .exists({ checkFalsy: true })
+    .isInt()
+    .withMessage('Stars must be an integer from 1 to 5'),
+  check('stars')
+    .custom( value => value > 5 || value < 1 ? false : true)
+    .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+]
+
 // GET all spots
 router.get('/', async (req, res) => {
     let spots = await Spot.findAll();
@@ -115,7 +130,7 @@ router.post('/', requireAuth, validateAddSpot, async (req, res, next) => {
     });
 
     if (spot.length) {
-        const err = new Error('Location already in database');
+        const err = new Error('Spot already exists');
         err.status = 403;
         next(err);
     } else {
@@ -223,18 +238,16 @@ router.get('/:spotId', async (req, res, next) => {
       }
     });
 
-    if (numRatings && totalStars) {
-        const avgRating = (totalStars / numRatings).toFixed(1);
-        console.log('totalStars: ', totalStars);
-        console.log('numRatings: ', numRatings);
-        console.log('avg: ', (totalStars / numRatings));
-
-        spot.avgRating = avgRating
-    }
-
     spot = spot.toJSON();
     spot.numReviews = numRatings;
-    spot.avgStarRating = (totalStars / numRatings).toFixed(1);
+
+    if (!numRatings) {
+      spot.avgStarRating = 0
+    } else {
+      const avgStarRating = (totalStars / numRatings).toFixed(1);
+      spot.avgStarRating = avgStarRating;
+    }
+
     res.json(spot);
   }
 })
@@ -348,6 +361,41 @@ router.get('/:spotId/reviews', async (req, res, next) => {
   }
 })
 
-//
+// POST Review for Spot by SpotId (REQ AUTHENTICATION):
+router.post('/:spotId/reviews', requireAuth, validateReviewData, async (req, res, next) => {
+  // build a review obj with the data from req.body
+  const spot = await Spot.findByPk(req.params.spotId);
+  const previousReview = await Review.findOne({
+    where: {
+      spotId: req.params.spotId,
+      userId: req.user.id
+    }
+  });
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next(err);
+  } else if (previousReview) {
+    const reviewError = new Error('User already has a review for this spot');
+    reviewError.status = 403;
+    next(reviewError);
+  } else {
+    const { review, stars } = req.body;
+    // use req.params.spotId to assign spotId to reviewObj
+    const newReview = Review.build({
+      spotId: req.params.spotId,
+      userId: req.user.id,
+      review,
+      stars
+    })
+    // validate review obj
+    newReview.validate();
+    // save review obj
+    await newReview.save();
+    // return review obj
+    res.json(newReview);
+  }
+})
 
 module.exports = router;
