@@ -35,6 +35,8 @@ const validateAddSpot = [
     check('name') // update once we know the specs, update table and model
       .exists({ checkFalsy: true })
       .notEmpty()
+      .withMessage('Name is rerquired'),
+    check('name')
       .custom(val => val.length < 50)
       .withMessage('Name must be less than 50 characters'),
     check('description') // update once we know the specs, update table and model
@@ -98,7 +100,6 @@ router.get('/', async (req, res) => {
 // POST a spot
 router.post('/', requireAuth, validateAddSpot, async (req, res, next) => {
     const user = req.user.toJSON();
-
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
     // check if address is already in db
@@ -133,14 +134,11 @@ router.post('/', requireAuth, validateAddSpot, async (req, res, next) => {
         });
 
         spot.validate();
-
         await spot.save();
+
         const newSpot = await Spot.findByPk(spot.id);
-
         res.json(newSpot);
-
     }
-
 })
 
 module.exports = router;
