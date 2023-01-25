@@ -1,5 +1,5 @@
 'use strict';
-const { seedReviews } = require('../../utils/faker-seed');
+const { seedReviewImages } = require('../../utils/faker-seed');
 
 /** @type {import('sequelize-cli').Migration} */
 
@@ -8,12 +8,12 @@ if (process.env.NODE_ENV === 'production') {
  options.schema = process.env.SCHEMA; // define your schema in options object
 }
 
-options.tableName = 'Reviews'
+options.tableName = 'ReviewImages'
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const reviews = seedReviews(500);
-    return await queryInterface.bulkInsert(options, reviews)
+    const reviewImages = seedReviewImages(50);
+    return await queryInterface.bulkInsert(options, reviewImages);
   },
 
   async down (queryInterface, Sequelize) {
