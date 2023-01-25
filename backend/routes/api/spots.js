@@ -141,4 +141,58 @@ router.post('/', requireAuth, validateAddSpot, async (req, res, next) => {
     }
 })
 
+// GET all Spots owned by current user
+router.get('/current', requireAuth, async (req, res, next) => {
+  const user = req.user.toJSON();
+
+  let spots = await Spot.findAll({
+    where: {
+      ownerId: user.id
+    }
+  });
+
+  spots = spots.map(spot => spot.toJSON());
+
+  for (let spot of spots) {
+    let avgRating = await Review.findOne({
+        attributes: {
+            include: [
+                [
+                    sequelize.fn("AVG", sequelize.col("stars")),
+                    "avgRating"
+                ]
+            ]
+        },
+        where: {
+            spotId : spot.id
+        }
+    });
+
+    avgRating = avgRating.toJSON().avgRating;
+
+    if (avgRating) {
+        spot.avgRating = avgRating.toFixed(1);
+    } else {
+        spot.avgRating = null
+    }
+
+
+    let previewImage = await SpotImage.findOne({
+        where: {
+            spotId: spot.id,
+            preview: true
+        }
+    });
+
+    if (previewImage) {
+        previewImage = previewImage.toJSON().url;
+        spot.previewImage = previewImage;
+    } else {
+        spot.previewImage = 'No Preview Image Available'
+    }
+  }
+
+  return res.json(spots);
+})
+
 module.exports = router;
