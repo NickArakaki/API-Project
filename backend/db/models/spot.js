@@ -55,15 +55,45 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    address: DataTypes.TEXT,
-    city: DataTypes.STRING,
-    state: DataTypes.STRING,
-    country: DataTypes.STRING,
-    lat: DataTypes.DECIMAL,
-    lng: DataTypes.DECIMAL,
-    name: DataTypes.STRING,
-    description: DataTypes.TEXT,
-    price: DataTypes.DECIMAL
+    address: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    city: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    lat: {
+      type: DataTypes.DECIMAL(10, 7),
+      allowNull: false
+    },
+    lng: {
+      type: DataTypes.DECIMAL(10, 7),
+      allowNull: false
+    },
+    name: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      validate: {
+        // len: [1, 49]
+      }
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    price: {
+      type: DataTypes.DECIMAL(6, 2),
+      allowNull: false
+    }
   }, {
     sequelize,
     modelName: 'Spot',
