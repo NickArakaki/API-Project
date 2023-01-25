@@ -39,4 +39,43 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json({ Reviews: reviews });
 })
 
+// POST Image to a Review based on Review's id (REQ AUTHENTICATION & AUTHORIZATION)
+    // validation middleware?
+router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
+    const review = await Review.findByPk(req.params.reviewId, {
+        include: [
+            {
+                model: ReviewImage,
+                attributes: ['url']
+            }
+        ]
+    });
+
+    if (!review) {
+        const err = new Error("Review couldn't be found");
+        err.status = 404;
+        next(err);
+    } else if (review.userId !== req.user.id) {
+        const authErr = new Error("Forbidden");
+        authErr.status = 403;
+        next(authErr);
+    } else if (review.ReviewImages.length >= 10) {
+        const sizeErr = new Error('Maximum number of images for this resource was reached');
+        sizeErr.status = 403;
+        next(sizeErr)
+    } else {
+        const { url } = req.body;
+        const reviewImage = ReviewImage.build({
+            reviewId: req.params.reviewId,
+            url
+         });
+        reviewImage.validate();
+        await reviewImage.save();
+        res.json({
+            id: reviewImage.id,
+            url: reviewImage.url
+        });
+    }
+})
+
 module.exports = router;
