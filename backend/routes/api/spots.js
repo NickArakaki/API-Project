@@ -1,11 +1,13 @@
 const router = require('express').Router();
 const { appendFile } = require('fs');
-const { Spot, User, SpotImage, Review, sequelize } = require('../../db/models');
+const { Spot, User, SpotImage, Review, ReviewImage, sequelize } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { requireAuth, restoreUser } = require('../../utils/auth');
+
+// MAKE MIDDLEWARE TO CHECK IF SPOT EXISTS...maybe
 
 const validateAddSpot = [
     check('address')
@@ -298,7 +300,7 @@ router.put('/:spotId', requireAuth, validateAddSpot, async (req, res, next) => {
   }
 })
 
-// DELTE a Spot (REQ AUTHENTICATION AND AUTHORIZATION)
+// DELETE a Spot (REQ AUTHENTICATION AND AUTHORIZATION)
 router.delete('/:spotId', requireAuth, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
@@ -316,5 +318,36 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
   }
 })
 
+// GET all Reviews by Spot Id
+router.get('/:spotId/reviews', async (req, res, next) => {
+
+  const spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next(err);
+  } else {
+    const reviews = await Review.findAll({
+      where: {
+        spotId: req.params.spotId
+      },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName']
+        },
+        {
+          model: ReviewImage,
+          attributes: ['id', 'url']
+        }
+      ]
+    });
+
+    res.json({Reviews: reviews});
+  }
+})
+
+//
 
 module.exports = router;
