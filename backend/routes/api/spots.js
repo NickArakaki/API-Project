@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { appendFile } = require('fs');
-const { Spot, SpotImage, Review, sequelize } = require('../../db/models');
+const { Spot, User, SpotImage, Review, sequelize } = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -176,7 +176,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
         spot.avgRating = null
     }
 
-
     let previewImage = await SpotImage.findOne({
         where: {
             spotId: spot.id,
@@ -192,7 +191,54 @@ router.get('/current', requireAuth, async (req, res, next) => {
     }
   }
 
-  return res.json(spots);
+  return res.json({Spots: spots});
+})
+
+// GET details of a Spot from an id
+router.get('/:spotId', async (req, res, next) => {
+  let spot = await Spot.findByPk(req.params.spotId, {
+    include: [
+      {
+        model: SpotImage,
+        attributes: ['id', 'url', 'preview']
+      },
+      {
+        model: User,
+        as: 'Owner',
+        attributes: ['id', 'firstName', 'lastName']
+      }
+    ]
+  });
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next(err);
+  } else {
+      const reviewAggregate = await Review.findOne({
+        attributes: {
+          include: [
+            [
+              sequelize.fn("AVG", sequelize.col("stars")), "avgStarRating"
+            ],
+            [
+              sequelize.fn('COUNT', sequelize.col('id')), 'numReviews'
+            ]
+          ]
+      },
+      where: {
+        spotId: req.params.spotId
+      }
+    })
+
+    spot = spot.toJSON();
+    const { avgStarRating, numReviews } = reviewAggregate.toJSON();
+
+    spot.avgStarRating = avgStarRating.toFixed(1);
+    spot.numReviews = numReviews;
+
+    res.json(spot);
+  }
 })
 
 module.exports = router;
