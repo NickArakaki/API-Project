@@ -57,19 +57,6 @@ router.get('/', async (req, res) => {
     spots = spots.map(spot => spot.toJSON());
 
     for (let spot of spots) {
-        // let avgRating = await Review.findOne({
-        //     attributes: {
-        //         include: [
-        //             [
-        //                 sequelize.fn("AVG", sequelize.col("stars")),
-        //                 "avgRating"
-        //             ]
-        //         ]
-        //     },
-        //     where: {
-        //         spotId : spot.id
-        //     }
-        // });
         let numRatings = await Review.count({
           where: {
             spotId: spot.id
@@ -164,19 +151,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
   spots = spots.map(spot => spot.toJSON());
 
   for (let spot of spots) {
-    // let avgRating = await Review.findOne({
-    //     attributes: {
-    //         include: [
-    //             [
-    //                 sequelize.fn("AVG", sequelize.col("stars")),
-    //                 "avgRating"
-    //             ]
-    //         ]
-    //     },
-    //     where: {
-    //         spotId : spot.id
-    //     }
-    // });
     let numRatings = await Review.count({
       where: {
         spotId: spot.id
@@ -235,21 +209,6 @@ router.get('/:spotId', async (req, res, next) => {
     err.status = 404;
     next(err);
   } else {
-    //   const reviewAggregate = await Review.findOne({
-    //     attributes: {
-    //       include: [
-    //         [
-    //           sequelize.fn("AVG", sequelize.col("stars")), "avgStarRating"
-    //         ],
-    //         [
-    //           sequelize.fn('COUNT', sequelize.col('id')), 'numReviews'
-    //         ]
-    //       ]
-    //   },
-    //   where: {
-    //     spotId: req.params.spotId
-    //   }
-    // })
     let numRatings = await Review.count({
       where: {
         spotId: spot.id
@@ -274,12 +233,39 @@ router.get('/:spotId', async (req, res, next) => {
     spot = spot.toJSON();
     spot.numReviews = numRatings;
     spot.avgStarRating = (totalStars / numRatings).toFixed(1);
-    // const { avgStarRating, numReviews } = reviewAggregate.toJSON();
-
-    // spot.avgStarRating = avgStarRating.toFixed(1);
-    // spot.numReviews = numReviews;
-
     res.json(spot);
+  }
+})
+
+// POST an Image to a Spot based on SpotId (REQ AUTH)
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+  // get the spot from the id
+  let spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next (err);
+  } else if (spot.ownerId !== req.user.id) {
+    // check to make sure the owner id matches the current user id
+    // if not throw an authorization error
+    const authErr = new Error('Forbidden');
+    authErr.status = 403;
+    next(authErr);
+  } else {
+    // else get the image from req body
+    const { url, preview } = req.body;
+    // add to review images table
+    const newSpotImage = SpotImage.build({
+      spotId: req.params.spotId,
+      url,
+      preview
+    });
+    newSpotImage.validate();
+    await newSpotImage.save();
+    // await newSpotImage.save();
+    // return res
+    res.json(newSpotImage);
   }
 })
 
