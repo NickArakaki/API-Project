@@ -5,6 +5,7 @@ const { Spot, SpotImage, Review, sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
+const { requireAuth, restoreUser } = require('../../utils/auth');
 
 const validateAddSpot = [
     check('address')
@@ -95,9 +96,50 @@ router.get('/', async (req, res) => {
 });
 
 // POST a spot
-router.post('/', validateAddSpot, async (req, res, next) => {
-    const { address, city, state, ocuntry, lat, lng, name, description, price } = req.body;
+router.post('/', requireAuth, validateAddSpot, async (req, res, next) => {
+    const user = req.user.toJSON();
 
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+    // check if address is already in db
+    let spot = await Spot.findAll({
+        where: {
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name
+        }
+    });
+
+    if (spot.length) {
+        const err = new Error('Location already in database');
+        err.status = 403;
+        next(err);
+    } else {
+        const spot = Spot.build({
+            ownerId: user.id,
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
+            price
+        });
+
+        spot.validate();
+
+        await spot.save();
+        const newSpot = await Spot.findByPk(spot.id);
+
+        res.json(newSpot);
+
+    }
 
 })
 
