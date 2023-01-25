@@ -265,7 +265,36 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     await newSpotImage.save();
     // await newSpotImage.save();
     // return res
-    res.json(newSpotImage);
+    // WILL WANT TO REFACTOR THIS BEFORE MONDAY
+    res.json({id: newSpotImage.id, url: newSpotImage.url, preview: newSpotImage.preview});
+  }
+})
+
+// PUT a Spot based on SpotId (REQ AUTHENTICATION AND AUTHORIZATION)
+router.put('/:spotId', requireAuth, validateAddSpot, async (req, res, next) => {
+  // get spot from id
+  const spot = await Spot.findByPk(req.params.spotId);
+    // if spot doesn't exist throw 404 error
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next(err)
+  } else if (spot.id !== req.user.id) {
+    // compare spot owner id to user id
+    // if no match throw an authorization error
+    const authError = new Error('Fobidden');
+    authError.status = 403;
+    next(authError);
+  } else {
+    // if match update spot with data from req.body
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    // validate changes
+    spot.set({ address, city, state, country, lat, lng, name, description, price });
+    spot.validate();
+    await spot.save();
+    // save changes
+    // return updated spot
+    res.json(spot);
   }
 })
 
