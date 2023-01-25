@@ -57,19 +57,6 @@ router.get('/', async (req, res) => {
     spots = spots.map(spot => spot.toJSON());
 
     for (let spot of spots) {
-        // let avgRating = await Review.findOne({
-        //     attributes: {
-        //         include: [
-        //             [
-        //                 sequelize.fn("AVG", sequelize.col("stars")),
-        //                 "avgRating"
-        //             ]
-        //         ]
-        //     },
-        //     where: {
-        //         spotId : spot.id
-        //     }
-        // });
         let numRatings = await Review.count({
           where: {
             spotId: spot.id
@@ -164,19 +151,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
   spots = spots.map(spot => spot.toJSON());
 
   for (let spot of spots) {
-    // let avgRating = await Review.findOne({
-    //     attributes: {
-    //         include: [
-    //             [
-    //                 sequelize.fn("AVG", sequelize.col("stars")),
-    //                 "avgRating"
-    //             ]
-    //         ]
-    //     },
-    //     where: {
-    //         spotId : spot.id
-    //     }
-    // });
     let numRatings = await Review.count({
       where: {
         spotId: spot.id
@@ -235,21 +209,6 @@ router.get('/:spotId', async (req, res, next) => {
     err.status = 404;
     next(err);
   } else {
-    //   const reviewAggregate = await Review.findOne({
-    //     attributes: {
-    //       include: [
-    //         [
-    //           sequelize.fn("AVG", sequelize.col("stars")), "avgStarRating"
-    //         ],
-    //         [
-    //           sequelize.fn('COUNT', sequelize.col('id')), 'numReviews'
-    //         ]
-    //       ]
-    //   },
-    //   where: {
-    //     spotId: req.params.spotId
-    //   }
-    // })
     let numRatings = await Review.count({
       where: {
         spotId: spot.id
@@ -274,13 +233,88 @@ router.get('/:spotId', async (req, res, next) => {
     spot = spot.toJSON();
     spot.numReviews = numRatings;
     spot.avgStarRating = (totalStars / numRatings).toFixed(1);
-    // const { avgStarRating, numReviews } = reviewAggregate.toJSON();
-
-    // spot.avgStarRating = avgStarRating.toFixed(1);
-    // spot.numReviews = numReviews;
-
     res.json(spot);
   }
 })
+
+// POST an Image to a Spot based on SpotId (REQ AUTH)
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+  // get the spot from the id
+  let spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next (err);
+  } else if (spot.ownerId !== req.user.id) {
+    // check to make sure the owner id matches the current user id
+    // if not throw an authorization error
+    const authErr = new Error('Forbidden');
+    authErr.status = 403;
+    next(authErr);
+  } else {
+    // else get the image from req body
+    const { url, preview } = req.body;
+    // add to review images table
+    const newSpotImage = SpotImage.build({
+      spotId: req.params.spotId,
+      url,
+      preview
+    });
+    newSpotImage.validate();
+    await newSpotImage.save();
+    // await newSpotImage.save();
+    // return res
+    // WILL WANT TO REFACTOR THIS BEFORE MONDAY
+    res.json({id: newSpotImage.id, url: newSpotImage.url, preview: newSpotImage.preview});
+  }
+})
+
+// PUT a Spot based on SpotId (REQ AUTHENTICATION AND AUTHORIZATION)
+router.put('/:spotId', requireAuth, validateAddSpot, async (req, res, next) => {
+  // get spot from id
+  const spot = await Spot.findByPk(req.params.spotId);
+    // if spot doesn't exist throw 404 error
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next(err)
+  } else if (spot.id !== req.user.id) {
+    // compare spot owner id to user id
+    // if no match throw an authorization error
+    const authError = new Error('Fobidden');
+    authError.status = 403;
+    next(authError);
+  } else {
+    // if match update spot with data from req.body
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+    // validate changes
+    spot.set({ address, city, state, country, lat, lng, name, description, price });
+    spot.validate();
+    await spot.save();
+    // save changes
+    // return updated spot
+    res.json(spot);
+  }
+})
+
+// DELTE a Spot (REQ AUTHENTICATION AND AUTHORIZATION)
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+  const spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next(err);
+  } else if (spot.ownerId !== req.user.id) {
+    const authError = new Error('Forbidden');
+    authError.status = 403;
+    next(authError);
+  } else {
+    await spot.destroy();
+    res.json({ message: "Successfully deleted", "statusCode": 200 });
+  }
+})
+
 
 module.exports = router;
