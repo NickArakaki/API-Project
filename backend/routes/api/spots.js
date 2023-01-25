@@ -5,7 +5,7 @@ const { Spot, User, SpotImage, Review, ReviewImage, sequelize } = require('../..
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { requireAuth, restoreUser } = require('../../utils/auth');
+const { requireAuth } = require('../../utils/auth');
 
 // MAKE MIDDLEWARE TO CHECK IF SPOT EXISTS...maybe
 
