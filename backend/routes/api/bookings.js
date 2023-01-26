@@ -104,6 +104,10 @@ router.put('/:bookingId', requireAuth, validation, async (req, res, next) => {
 // DELETE a Booking (REQ AUTHENTICATION AND AUTHORIZATION)
 router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const booking = await Booking.findByPk(req.params.bookingId);
+    console.log(booking.startDate.getTime())
+    console.log(Date.now())
+    console.log(booking.startDate.getTime() <= Date.now())
+
     if (!booking) {
         const err = new Error("Booking couldn't be found");
         err.status = 404;
@@ -112,6 +116,11 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
         const authErr = new Error("Forbidden");
         authErr.status = 403;
         next(authErr);
+    } else if (booking.startDate.getTime() <= Date.now()) {
+        console.log('we in it')
+        const newErr = new Error('Cannot delete booking after startDate');
+        newErr.status = 400;
+        next(newErr);
     } else {
         await booking.destroy();
         res.json({ message: "Successfully deleted", statusCode: 200 })
