@@ -23,9 +23,20 @@ const bookingExist = async (req, res, next) => {
     next();
 }
 
+const endDateVerification = (req, res, next) => {
+    const endDate = new Date(req.body.endDate);
+    if (endDate.getTime() <= Date.now()) {
+        const err = new Error("Past bookings can't be modified");
+        err.status = 403;
+        next(err);
+    }
+    next()
+}
+
 const validation = [
     validBookingData,
     bookingEndDate,
+    endDateVerification,
     bookingExist,
     extSpotId,
     validateTimeFrame
