@@ -1,12 +1,12 @@
 const router = require('express').Router();
 
 const { Review, User, Spot, ReviewImage, SpotImage } = require('../../db/models');
-const spotimage = require('../../db/models/spotimage');
 
 const { requireAuth } = require('../../utils/auth');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+
 const validateReviewData = [
     check('review')
       .exists({ checkFalsy: true })
@@ -49,8 +49,19 @@ router.get('/current', requireAuth, async (req, res, next) => {
     reviews = reviews.map(review => review.toJSON());
 
     for (let review of reviews) {
-        const previewImage = await SpotImage.findByPk(review.Spot.id);
-        review.Spot.previewImage = previewImage.url;
+        // console.log(review);
+        let previewImage = await SpotImage.findOne({
+            where: {
+                spotId: review.Spot.id,
+                preview: true
+            }
+        });
+
+        if (previewImage) {
+            review.Spot.previewImage = previewImage.url;
+        } else {
+            review.Spot.previewImage = 'Image not available'
+        }
     }
 
     res.json({ Reviews: reviews });
