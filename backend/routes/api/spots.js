@@ -300,7 +300,8 @@ router.get('/', async (req, res) => {
 router.post('/:spotId/bookings', requireAuth, validBookingData, bookingEndDate, validateTimeFrame, async (req, res, next) => {
   // get spot from id and make sure exists
   const spot = await Spot.findByPk(req.params.spotId);
-  const { startDate, endDate } = req.body;
+  const startDate = new Date(req.body.startDate);
+  const endDate = new Date(req.body.endDate)
 
   if (!spot) {
     // if not throw 404 error

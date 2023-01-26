@@ -19,20 +19,20 @@ const validBookingData = [
 
 // middleware check endDate is after startDate
 const bookingEndDate = (req, res, next) => {
-const err = new Error('Validation error');
-err.status = 400;
-err.title = 'Bad Request';
-err.errors = {};
+    const err = new Error('Validation error');
+    err.status = 400;
+    err.title = 'Bad Request';
+    err.errors = {};
 
-const startDate = new Date(req.body.startDate);
-const endDate = new Date(req.body.endDate);
+    const startDate = new Date(req.body.startDate);
+    const endDate = new Date(req.body.endDate);
 
-if (endDate <= startDate) {
-    err.errors.endDate = 'endDate cannot be on or before startDate'
-    return next(err);
-} else {
-    next();
-}
+    if (endDate <= startDate) {
+        err.errors.endDate = 'endDate cannot be on or before startDate'
+        return next(err);
+    } else {
+        next();
+    }
 }
 
 // middleware for validating booking data
@@ -49,14 +49,14 @@ const validateTimeFrame = async (req, res, next) => {
         startDate: {
             [Op.lte]: startDate
         },
-        spotId: req.params.spotId
+        spotId: req.spotId || req.params.spotId
         },
         order: [['startDate', 'DESC']]
     })
 
     const nextBooks = await Booking.findAll({
         where: {
-        spotId: req.params.spotId,
+        spotId: req.spotId || req.params.spotId,
         startDate: {
             [Op.gte]: startDate
         }
