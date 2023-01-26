@@ -375,12 +375,13 @@ router.post('/', requireAuth, validateAddSpot, async (req, res, next) => {
 // PUT a Spot based on SpotId (REQ AUTHENTICATION AND AUTHORIZATION)
 router.put('/:spotId', requireAuth, validateAddSpot, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
+
     // if spot doesn't exist throw 404 error
   if (!spot) {
     const err = new Error("Spot couldn't be found");
     err.status = 404;
     next(err)
-  } else if (spot.id !== req.user.id) {
+  } else if (spot.ownerId !== req.user.id) {
     // compare spot owner id to user id
     // if no match throw an authorization error
     const authError = new Error('Fobidden');
