@@ -43,7 +43,6 @@ router.post(
     async (req, res, next) => {
       const { email, password, username, firstName, lastName } = req.body;
 
-      console.log(email);
       // check if user exists before signing up
       let users = await User.findAll({
         where: {
@@ -53,8 +52,6 @@ router.post(
           ]
         }
       });
-
-      users = users.map(user => user.toJSON());
 
       if (users.length) {
         const error = new Error('User already exists');
