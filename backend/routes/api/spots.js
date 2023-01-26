@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const { appendFile } = require('fs');
-const { Spot, User, SpotImage, Review, ReviewImage, sequelize } = require('../../db/models');
+const { Spot, User, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
+
+const { Op } = require('sequelize');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -257,6 +259,100 @@ router.get('/', async (req, res) => {
 
   res.json({Spots: spots});
 });
+
+// POST a Booking from a Spot based on SpotId (REQ AUTHENTICATION AND AUTHORIZATION)
+  // validate that the body has startDate isDate and endDate isDate
+  // end date cannot be on or before start date
+  // cannot double book
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
+  // get spot from id and make sure exists
+  const spot = await Spot.findByPk(req.params.spotId);
+
+
+  if (!spot) {
+    // if not throw 404 error
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    next(err);
+  } else if (spot.ownerId === req.user.id) {
+    // user must not be the owner of the spot, otherwise authorization error
+    const authErr = new Error('Fobidden');
+    authErr.status = 403;
+    next(authErr);
+  } else {
+    // get the booking prior to newBooking
+    // const { startDate, endDate } = req.body;
+    const startDate = new Date(req.body.startDate);
+    // console.log(new Date(startDate));
+    const endDate = new Date(req.body.endDate);
+
+    const prevBooks = await Booking.findAll({
+      where: {
+        startDate: {
+          [Op.lte]: startDate
+        },
+        spotId: req.params.spotId
+      },
+      order: [['startDate', 'DESC']]
+    })
+
+    const prevBook = prevBooks[0];
+
+    console.log('previous bookings ', prevBook);
+    // get the booking after newBooking
+    const nextBooks = await Booking.findAll({
+      where: {
+        spotId: req.params.spotId,
+        startDate: {
+          [Op.gte]: startDate
+        }
+      },
+      order: [['startDate', 'ASC']]
+    })
+
+    const nextBook = nextBooks[0];
+
+    console.log('next bookings ', nextBook);
+
+    let isBefore = true;
+    let isAfter = true;
+
+    // prior booking ends before start of new booking
+    if (prevBook) {
+      const prevBookEnd = new Date(prevBook.endDate.toDateString());
+      // previous Booking endDate is after new Start Date
+      if (prevBookEnd >= new Date(startDate.toDateString())) isBefore = false;
+    }
+
+    // booking after starts after current booking ends
+    if (nextBook) {
+      const nextBookStart = new Date(nextBook.startDate.toDateString());
+      // next Booking start date is before new Booking endDate
+      if (nextBookStart <= new Date(endDate.toDateString())) isAfter = false;
+    };
+
+    if (isBefore && isAfter) {
+      // make new booking
+      const newBooking = Booking.build({
+        spotId: req.params.spotId,
+        userId: req.user.id,
+        startDate,
+        endDate
+      })
+
+      newBooking.validate();
+      await newBooking.save();
+
+      res.json(newBooking);
+    } else {
+      // throw overlapping time slot error
+      const timeErr = new Error('Sorry, this spot is already booked for the specified dates');
+      timeErr.status = 403;
+      next(timeErr);
+    }
+    // res.send('hi')
+  }
+})
 
 // POST an Image to a Spot based on SpotId (REQ AUTHENTICATION)
 // LOOK AT WHEN REFACTORING, IS IT NECESSARY TO VALIDATEIMAGE DATA HERE WHEN THERE'S ONLY 2 PARAMS
