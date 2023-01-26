@@ -262,9 +262,6 @@ router.get('/', async (req, res) => {
 });
 
 // POST a Booking from a Spot based on SpotId (REQ AUTHENTICATION AND AUTHORIZATION)
-  // validate that the body has startDate isDate and endDate isDate
-  // end date cannot be on or before start date
-  // cannot double book
 router.post('/:spotId/bookings', requireAuth, validBookingData, bookingEndDate, validateTimeFrame, async (req, res, next) => {
   // get spot from id and make sure exists
   const spot = await Spot.findByPk(req.params.spotId);
