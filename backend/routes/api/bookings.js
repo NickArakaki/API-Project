@@ -101,4 +101,21 @@ router.put('/:bookingId', requireAuth, validation, async (req, res, next) => {
     res.json(booking);
 })
 
+// DELETE a Booking (REQ AUTHENTICATION AND AUTHORIZATION)
+router.delete('/:bookingId', requireAuth, async (req, res, next) => {
+    const booking = await Booking.findByPk(req.params.bookingId);
+    if (!booking) {
+        const err = new Error("Booking couldn't be found");
+        err.status = 404;
+        next(err);
+    } else if (booking.userId !== req.user.id) {
+        const authErr = new Error("Forbidden");
+        authErr.status = 403;
+        next(authErr);
+    } else {
+        await booking.destroy();
+        res.json({ message: "Successfully deleted", statusCode: 200 })
+    }
+})
+
 module.exports = router;
