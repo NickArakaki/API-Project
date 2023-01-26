@@ -11,7 +11,7 @@ const seedUsers = num => {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
             username: faker.internet.userName(),
-            hashedPassword: bcrypt.hashSync(faker.internet.password()),
+            hashedPassword: bcrypt.hashSync('password'),
             email: faker.internet.email()
         };
     }

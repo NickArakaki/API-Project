@@ -41,4 +41,5 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json({Bookings: userBookings});
 })
 
+
 module.exports = router;

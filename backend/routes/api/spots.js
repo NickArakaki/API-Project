@@ -139,6 +139,41 @@ router.get('/current', requireAuth, async (req, res, next) => {
     return res.json({Spots: spots});
   })
 
+// GET all Bookings of a Spot based on the Spot's id
+  // Do we want to limit bookings to current/future bookings?
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+  const spot = await Spot.findByPk(req.params.spotId);
+
+  if (!spot) {
+    const err = new Error("Spot couldn't be found");
+    err.status = 404;
+    return next(err);
+  }
+
+  const attributes = ['spotId', 'startDate', 'endDate'];
+
+  let include = [];
+
+  // request more data if user is the owner of the Spot
+  if (spot.ownerId === req.user.id) {
+    attributes.push('id', 'userId', 'createdAt', 'updatedAt');
+    include.push({
+      model: User,
+      attributes: ['id', 'firstName', 'lastName']
+    })
+  }
+
+  const bookings = await Booking.findAll({
+    where: {
+      spotId: req.params.spotId
+    },
+    include,
+    attributes
+  })
+
+  res.send(bookings)
+})
+
 // GET all Reviews by Spot Id
 router.get('/:spotId/reviews', async (req, res, next) => {
 
