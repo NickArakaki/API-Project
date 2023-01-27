@@ -93,52 +93,40 @@ const validateImage = [
 
 // GET all Spots owned by current user (REQ AUTHENTICATION)
 router.get('/current', requireAuth, async (req, res, next) => {
-  const user = req.user.toJSON();
-
   let spots = await Spot.findAll({
     where: {
-      ownerId: user.id
-    }
+      ownerId: req.user.id
+    },
+    include: [{ model: Review }, { model: SpotImage }]
   });
 
-  spots = spots.map(spot => spot.toJSON());
+  const modifiedSpots = [];
 
   for (let spot of spots) {
-    let numRatings = await Review.count({
-      where: {
-        spotId: spot.id
-      }
-    });
+    spot = spot.toJSON();
 
-    let totalStars = await Review.sum('stars', {
-      where: {
-        spotId: spot.id
-      }
-    });
+    // avgRating
+    const avgRating = spot.Reviews.reduce((accumulator, review) => {
+      return parseInt(review.stars) + accumulator
+    }, 0) / spot.Reviews.length;
 
-    if (numRatings && totalStars) {
-      const avgRating = (totalStars / numRatings).toFixed(1);
-      spot.avgRating = (avgRating * 1)
-    } else {
-      spot.avgRating = null
-    }
+    spot.avgRating = avgRating.toFixed(1);
 
-    let previewImage = await SpotImage.findOne({
-        where: {
-            spotId: spot.id,
-            preview: true
-          }
-    });
+    // previewImage
+    const previewImage = spot.SpotImages.find(spotImage => spotImage.preview === true);
 
     if (previewImage) {
-      previewImage = previewImage.toJSON().url;
-      spot.previewImage = previewImage;
+      spot.previewImage = previewImage.url
     } else {
-        spot.previewImage = 'No Preview Image Available'
-      }
+      spot.previewImage = 'Preview Unavailable'
     }
 
-    return res.json({Spots: spots});
+    delete spot.SpotImages;
+    delete spot.Reviews;
+    modifiedSpots.push(spot);
+  }
+
+    return res.json({Spots: modifiedSpots});
   })
 
 // GET all Bookings of a Spot based on the Spot's id
