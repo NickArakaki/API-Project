@@ -111,7 +111,11 @@ router.get('/current', requireAuth, async (req, res, next) => {
       return parseInt(review.stars) + accumulator
     }, 0) / spot.Reviews.length;
 
-    spot.avgRating = avgRating.toFixed(1);
+    if (avgRating) {
+      spot.avgRating = avgRating.toFixed(1);
+    } else {
+      spot.avgRating = null
+    }
 
     // previewImage
     const previewImage = spot.SpotImages.find(spotImage => spotImage.preview === true);
@@ -385,7 +389,7 @@ router.post('/:spotId/reviews', requireAuth, validateReviewData, async (req, res
     // save review obj
     await newReview.save();
     // return review obj
-    res.json(newReview);
+    res.status(201).json(newReview);
   }
 })
 
