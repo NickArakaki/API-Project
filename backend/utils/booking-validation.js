@@ -49,7 +49,7 @@ const validateTimeFrame = async (req, res, next) => {
         startDate: {
             [Op.lte]: startDate
         },
-        spotId: req.spotId || req.params.spotId
+        spotId: req.spotId || req.params.spotId,
         },
         order: [['startDate', 'DESC']]
     })
