@@ -111,7 +111,11 @@ router.get('/current', requireAuth, async (req, res, next) => {
       return parseInt(review.stars) + accumulator
     }, 0) / spot.Reviews.length;
 
-    spot.avgRating = avgRating.toFixed(1);
+    if (avgRating) {
+      spot.avgRating = avgRating.toFixed(1);
+    } else {
+      spot.avgRating = null
+    }
 
     // previewImage
     const previewImage = spot.SpotImages.find(spotImage => spotImage.preview === true);
@@ -144,7 +148,8 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
   const attributes = ['spotId', 'startDate', 'endDate'];
 
   let include = [];
-
+  console.log(spot.ownerId)
+  console.log(req.user.id)
   // request more data if user is the owner of the Spot
   if (spot.ownerId === req.user.id) {
     attributes.push('id', 'userId', 'createdAt', 'updatedAt');
@@ -385,7 +390,7 @@ router.post('/:spotId/reviews', requireAuth, validateReviewData, async (req, res
     // save review obj
     await newReview.save();
     // return review obj
-    res.json(newReview);
+    res.status(201).json(newReview);
   }
 })
 

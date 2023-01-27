@@ -37,7 +37,7 @@ const bookingEndDate = (req, res, next) => {
 
 // middleware for validating booking data
 const validateTimeFrame = async (req, res, next) => {
-    const err = new Error('Booking Conflict');
+    const err = new Error('Sorry, this spot is already booked for the specified dates');
     err.status = 403;
     err.errors = {};
 
@@ -49,7 +49,7 @@ const validateTimeFrame = async (req, res, next) => {
         startDate: {
             [Op.lte]: startDate
         },
-        spotId: req.spotId || req.params.spotId
+        spotId: req.spotId || req.params.spotId,
         },
         order: [['startDate', 'DESC']]
     })
@@ -70,7 +70,6 @@ const validateTimeFrame = async (req, res, next) => {
 
     if (prevBook) {
         const prevBookEnd = new Date(prevBook.endDate.toDateString());
-        // console.log('Prev booking ', prevBookEnd);
         // previous Booking endDate is after new Start Date
         if (prevBookEnd >= new Date(startDate.toDateString())) {
             err.errors.startDate = 'Start date conflicts with an existing booking'
@@ -80,8 +79,7 @@ const validateTimeFrame = async (req, res, next) => {
     if (nextBook) {
         const nextBookStart = new Date(nextBook.startDate.toDateString());
         const newBookEnd = new Date(endDate.toDateString());
-        // console.log('next book', nextBookStart);
-        // console.log(nextBookStart <= newBookEnd);
+
         // next Booking start date is before new Booking endDate
         if (nextBookStart <= new Date(endDate.toDateString())) {
             err.errors.endDate = 'End date conflicts with an existing booking'
