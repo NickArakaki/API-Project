@@ -148,7 +148,8 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
   const attributes = ['spotId', 'startDate', 'endDate'];
 
   let include = [];
-
+  console.log(spot.ownerId)
+  console.log(req.user.id)
   // request more data if user is the owner of the Spot
   if (spot.ownerId === req.user.id) {
     attributes.push('id', 'userId', 'createdAt', 'updatedAt');

@@ -70,7 +70,6 @@ const validateTimeFrame = async (req, res, next) => {
 
     if (prevBook) {
         const prevBookEnd = new Date(prevBook.endDate.toDateString());
-        // console.log('Prev booking ', prevBookEnd);
         // previous Booking endDate is after new Start Date
         if (prevBookEnd >= new Date(startDate.toDateString())) {
             err.errors.startDate = 'Start date conflicts with an existing booking'
@@ -80,8 +79,7 @@ const validateTimeFrame = async (req, res, next) => {
     if (nextBook) {
         const nextBookStart = new Date(nextBook.startDate.toDateString());
         const newBookEnd = new Date(endDate.toDateString());
-        // console.log('next book', nextBookStart);
-        // console.log(nextBookStart <= newBookEnd);
+
         // next Booking start date is before new Booking endDate
         if (nextBookStart <= new Date(endDate.toDateString())) {
             err.errors.endDate = 'End date conflicts with an existing booking'

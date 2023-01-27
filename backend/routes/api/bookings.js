@@ -36,7 +36,6 @@ const bookingValid = async (req, res, next) => {
     }
 }
 
-
 const validation = [
     validBookingData,
     bookingEndDate,
@@ -112,9 +111,6 @@ router.put('/:bookingId', requireAuth, validation, async (req, res, next) => {
 // DELETE a Booking (REQ AUTHENTICATION AND AUTHORIZATION)
 router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const booking = await Booking.findByPk(req.params.bookingId);
-    console.log(booking.startDate.getTime())
-    console.log(Date.now())
-    console.log(booking.startDate.getTime() <= Date.now())
 
     if (!booking) {
         const err = new Error("Booking couldn't be found");
@@ -125,9 +121,8 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
         authErr.status = 403;
         next(authErr);
     } else if (booking.startDate.getTime() <= Date.now()) {
-        console.log('we in it')
         const newErr = new Error('Cannot delete booking after startDate');
-        newErr.status = 400;
+        newErr.status = 403;
         next(newErr);
     } else {
         await booking.destroy();
