@@ -93,11 +93,9 @@ const validateImage = [
 
 // GET all Spots owned by current user (REQ AUTHENTICATION)
 router.get('/current', requireAuth, async (req, res, next) => {
-  const user = req.user.toJSON();
-
   let spots = await Spot.findAll({
     where: {
-      ownerId: user.id
+      ownerId: req.user.id
     },
     include: [{ model: Review }, { model: SpotImage }]
   });
