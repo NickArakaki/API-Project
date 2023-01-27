@@ -9,6 +9,8 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { validBookingData, bookingEndDate, validateTimeFrame } = require('../../utils/booking-validation');
 
 const { requireAuth } = require('../../utils/auth');
+const { queryFilter } = require('../../utils/query-filter');
+const { query } = require('express');
 
 // MAKE MIDDLEWARE TO CHECK IF SPOT EXISTS...maybe
 
@@ -252,8 +254,9 @@ if (!spot) {
 })
 
 // GET all spots
-router.get('/', async (req, res) => {
-  let spots = await Spot.findAll();
+router.get('/', queryFilter, async (req, res) => {
+  console.log(req.queryFilter.where.price);
+  let spots = await Spot.findAll(req.queryFilter);
 
   spots = spots.map(spot => spot.toJSON());
 
