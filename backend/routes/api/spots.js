@@ -167,7 +167,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     attributes
   })
 
-  res.send(bookings)
+  res.send({Bookings: bookings})
 })
 
 // GET all Reviews by Spot Id
@@ -320,7 +320,7 @@ router.post('/:spotId/bookings', requireAuth, validBookingData, bookingEndDate, 
       newBooking.validate();
       await newBooking.save();
 
-      res.json({Bookings: newBooking});
+      res.json({newBooking});
   }
 })
 
