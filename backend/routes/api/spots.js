@@ -320,7 +320,7 @@ router.post('/:spotId/bookings', requireAuth, validBookingData, bookingEndDate, 
       newBooking.validate();
       await newBooking.save();
 
-      res.json(newBooking);
+      res.json({Bookings: newBooking});
   }
 })
 
