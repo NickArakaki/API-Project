@@ -35,7 +35,11 @@ const validateAddSpot = [
       .exists({ checkFalsy: true })
       .notEmpty()
       .isNumeric()
-      .withMessage('Latitude not valid'),
+      .withMessage('Latitude not valid')
+      .custom(val => val <= 90)
+      .withMessage('Latitude must be less than 90 degrees')
+      .custom(val => val >= -90)
+      .withMessage('Latitude must be greater than -90 degrees'),
     check('lng') // update once we know the specs
       .exists({ checkFalsy: true })
       .isNumeric()
@@ -44,11 +48,9 @@ const validateAddSpot = [
     check('name') // update once we know the specs, update table and model
       .exists({ checkFalsy: true })
       .notEmpty()
-      .withMessage('Name is rerquired'),
-    check('name')
+      .withMessage('Name is rerquired')
       .custom(val => val.length > 3)
-      .withMessage('Name must be longer than 3 characters'),
-    check('name')
+      .withMessage('Name must be longer than 3 characters')
       .custom(val => val.length < 50)
       .withMessage('Name must be less than 50 characters'),
     check('description') // update once we know the specs, update table and model
@@ -58,8 +60,7 @@ const validateAddSpot = [
     check('price') // update once we know the specs, update table and model
       .exists({ checkFalsy: true })
       .notEmpty()
-      .withMessage('Price per day is required'),
-    check('price')
+      .withMessage('Price per day is required')
       .isNumeric()
       .withMessage('Price per day must be a number'),
     handleValidationErrors
