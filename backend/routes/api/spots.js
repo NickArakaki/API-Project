@@ -102,7 +102,6 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
   const modifiedSpots = [];
 
-  // iterate over spots
   for (let spot of spots) {
     spot = spot.toJSON();
 
