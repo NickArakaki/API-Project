@@ -37,7 +37,7 @@ const bookingEndDate = (req, res, next) => {
 
 // middleware for validating booking data
 const validateTimeFrame = async (req, res, next) => {
-    const err = new Error('Booking Conflict');
+    const err = new Error('Sorry, this spot is already booked for the specified dates');
     err.status = 403;
     err.errors = {};
 

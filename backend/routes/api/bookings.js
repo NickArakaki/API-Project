@@ -89,6 +89,10 @@ router.put('/:bookingId', requireAuth, validation, async (req, res, next) => {
         const err = new Error("Booking couldn't be found");
         err.status = 404;
         return next(err);
+    } else if (booking.userId !== req.user.id) {
+        const authErr = new Error("Forbidden");
+        authErr.status = 403;
+        next(authErr);
     }
 
     const { startDate, endDate } = req.body;
