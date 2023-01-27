@@ -9,13 +9,13 @@ const queryFilter = (req, res, next) => {
     const minLat = req.query.minLat || -90;
     if (minLat < -90 || minLat > 90 || Number.isNaN(minLat * 1)) err.errors.minLat = 'Invalid Minimum Latitude Parameter'
     const maxLat = req.query.maxLat || 90;
-    console.log(maxLat * 1);
-    if (maxLat < -90 || maxLat > 90 || Number.isNaN(maxLat * 1) || maxLat < minLat) err.errors.maxLat = 'Invalid Maximum Latitude Parameter'
+    if (maxLat < -90 || maxLat > 90 || Number.isNaN(maxLat * 1) || ((maxLat * 1) < (minLat * 1))) err.errors.maxLat = 'Invalid Maximum Latitude Parameter'
 
     const minLng = req.query.minLng || -180;
     if (minLng < -180 || minLng > 180 || Number.isNaN(minLng * 1)) err.errors.minLng = 'Invalid Minimum Longitude Parameter'
     const maxLng = req.query.maxLng || 180;
-    if (maxLng < -180 || maxLng > 180 || Number.isNaN(maxLng * 1) || maxLng < minLng) err.errors.maxLng = 'Invalid Maximum Longitude Parameter'
+    if (maxLng < -180 || maxLng > 180 || Number.isNaN(maxLng * 1) || ((maxLng * 1) < (minLng * 1))) err.errors.maxLng = 'Invalid Maximum Longitude Parameter'
+    console.log(maxLng < minLng);
 
     const minPrice = req.query.minPrice || 0;
     if (minPrice < 0 || Number.isNaN(minPrice * 1)) err.errors.minPrice = 'Invalid Minimum Price Parameter'
