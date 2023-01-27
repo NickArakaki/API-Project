@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
+const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
 
 const { check } = require('express-validator');
@@ -57,6 +57,7 @@ router.delete(
 router.get(
     '/',
     restoreUser,
+    requireAuth,
     (req, res) => {
         const { user } = req;
         if (user) {

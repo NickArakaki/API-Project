@@ -74,11 +74,21 @@ module.exports = (sequelize, DataTypes) => {
     },
     lat: {
       type: DataTypes.DECIMAL(10, 7),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isDecimal: true,
+        min: -90,
+        max: 90
+      }
     },
     lng: {
       type: DataTypes.DECIMAL(10, 7),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isDecimal: true,
+        min: -180,
+        max: 180
+      }
     },
     name: {
       type: DataTypes.STRING(50),
@@ -92,8 +102,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     price: {
-      type: DataTypes.DECIMAL(6, 2),
-      allowNull: false
+      type: DataTypes.DECIMAL(8, 2),
+      allowNull: false,
+      validate: {
+        isDecimal: true,
+        min: 0
+      }
     }
   }, {
     sequelize,
