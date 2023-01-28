@@ -148,8 +148,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
   const attributes = ['spotId', 'startDate', 'endDate'];
 
   let include = [];
-  console.log(spot.ownerId)
-  console.log(req.user.id)
+
   // request more data if user is the owner of the Spot
   if (spot.ownerId === req.user.id) {
     attributes.push('id', 'userId', 'createdAt', 'updatedAt');
@@ -325,7 +324,6 @@ router.post('/:spotId/bookings', requireAuth, validBookingData, bookingEndDate, 
 })
 
 // POST an Image to a Spot based on SpotId (REQ AUTHENTICATION)
-// LOOK AT WHEN REFACTORING, IS IT NECESSARY TO VALIDATEIMAGE DATA HERE WHEN THERE'S ONLY 2 PARAMS
 router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next) => {
   let spot = await Spot.findByPk(req.params.spotId);
 
