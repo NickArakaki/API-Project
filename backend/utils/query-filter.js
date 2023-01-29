@@ -46,7 +46,7 @@ const checkQuery = [
     handleValidationErrors
 ]
 
-const queryFilter = (req, res, next) => {
+const queryValidation = (req, res, next) => {
     const err = new Error('Validation error')
     err.status = 400;
     err.errors = {}
@@ -98,7 +98,11 @@ const queryFilter = (req, res, next) => {
     }
 }
 
-module.exports = {
+const queryFilter = [
     checkQuery,
+    queryValidation
+]
+
+module.exports = {
     queryFilter
 }

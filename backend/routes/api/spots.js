@@ -9,7 +9,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { validBookingData, bookingEndDate, validateTimeFrame } = require('../../utils/booking-validation');
 
 const { requireAuth } = require('../../utils/auth');
-const { queryFilter, checkQuery } = require('../../utils/query-filter');
+const { queryFilter } = require('../../utils/query-filter');
 const { query } = require('express');
 
 
@@ -244,7 +244,7 @@ if (!spot) {
 })
 
 // GET all spots
-router.get('/', checkQuery, queryFilter, async (req, res) => {
+router.get('/', queryFilter, async (req, res) => {
   console.log(req.queryFilter.where.price);
   let spots = await Spot.findAll(req.queryFilter);
 
