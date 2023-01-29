@@ -2,15 +2,10 @@ const router = require('express').Router();
 const { appendFile } = require('fs');
 const { Spot, User, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
 
-const { Op } = require('sequelize');
-
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validation');
 const { validBookingData, bookingEndDate, validateTimeFrame } = require('../../utils/booking-validation');
 
 const { requireAuth } = require('../../utils/auth');
 const { queryFilter } = require('../../utils/query-filter');
-const { query } = require('express');
 
 /************************ Errors **********************/
 const { notFound , authorizationError } = require('../../utils/errors');
