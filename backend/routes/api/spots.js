@@ -9,10 +9,9 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { validBookingData, bookingEndDate, validateTimeFrame } = require('../../utils/booking-validation');
 
 const { requireAuth } = require('../../utils/auth');
-const { queryFilter } = require('../../utils/query-filter');
+const { queryFilter, checkQuery } = require('../../utils/query-filter');
 const { query } = require('express');
 
-// MAKE MIDDLEWARE TO CHECK IF SPOT EXISTS...maybe
 
 const validateAddSpot = [
     check('address')
@@ -34,25 +33,23 @@ const validateAddSpot = [
     check('lat') // update once we know the specs
       .exists({ checkFalsy: true })
       .notEmpty()
+      .withMessage('Latitude is required')
       .isNumeric()
-      .withMessage('Latitude not valid')
-      .custom(val => val <= 90)
-      .withMessage('Latitude must be less than 90 degrees')
-      .custom(val => val >= -90)
-      .withMessage('Latitude must be greater than -90 degrees'),
+      .custom(lat => (lat <= 90 && lat >= -90))
+      .withMessage('Latitude must be between -90 and 90 degrees'),
     check('lng') // update once we know the specs
       .exists({ checkFalsy: true })
-      .isNumeric()
       .notEmpty()
-      .withMessage('Longitude not valid'),
+      .withMessage('Longitude is required')
+      .isNumeric()
+      .custom(lng => (lng <= 180 && lng >= -180))
+      .withMessage('Longitude must be between -180 and 180 degrees'),
     check('name') // update once we know the specs, update table and model
       .exists({ checkFalsy: true })
       .notEmpty()
       .withMessage('Name is rerquired')
-      .custom(val => val.length > 3)
-      .withMessage('Name must be longer than 3 characters')
-      .custom(val => val.length < 50)
-      .withMessage('Name must be less than 50 characters'),
+      .custom(name => (name.length > 3 && name.length < 50))
+      .withMessage('Name must be between 3 and 50 characters long'),
     check('description') // update once we know the specs, update table and model
       .exists({ checkFalsy: true })
       .notEmpty()
@@ -247,7 +244,7 @@ if (!spot) {
 })
 
 // GET all spots
-router.get('/', queryFilter, async (req, res) => {
+router.get('/', checkQuery, queryFilter, async (req, res) => {
   console.log(req.queryFilter.where.price);
   let spots = await Spot.findAll(req.queryFilter);
 
