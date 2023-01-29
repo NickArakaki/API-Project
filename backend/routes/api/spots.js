@@ -391,7 +391,6 @@ router.post('/:spotId/reviews', requireAuth, validateReviewData, async (req, res
 
 // POST a spot
 router.post('/', requireAuth, validateAddSpot, async (req, res, next) => {
-    // const user = req.user.toJSON();
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
     // check if address is already in db
