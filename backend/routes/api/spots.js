@@ -1,17 +1,17 @@
 const router = require('express').Router();
 const { appendFile } = require('fs');
+
+/************************* Models **********************/
 const { Spot, User, SpotImage, Review, ReviewImage, Booking, sequelize } = require('../../db/models');
-
-const { validBookingData, bookingEndDate, validateTimeFrame } = require('../../utils/booking-validation');
-
-const { requireAuth } = require('../../utils/auth');
-const { queryFilter } = require('../../utils/query-filter');
 
 /************************ Errors **********************/
 const { notFound , authorizationError } = require('../../utils/errors');
 
 /************************* Validators *****************/
+const { validBookingData, bookingEndDate, validateTimeFrame } = require('../../utils/booking-validation');
 const { validateSpot, validateReview, validateImage } = require('../../utils/validation');
+const { requireAuth } = require('../../utils/auth');
+const { queryFilter } = require('../../utils/query-filter');
 
 
 // GET all Spots owned by current user (REQ AUTHENTICATION)
