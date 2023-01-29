@@ -237,15 +237,9 @@ router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next
   let spot = await Spot.findByPk(req.params.spotId);
 
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    next (err);
+    next(notFound('Spot'));
   } else if (spot.ownerId !== req.user.id) {
-    // check to make sure the owner id matches the current user id
-    // if not throw an authorization error
-    const authErr = new Error('Forbidden');
-    authErr.status = 403;
-    next(authErr);
+    next(authorizationError())
   } else {
     // else get the image from req body
     const { url, preview } = req.body;
@@ -257,10 +251,9 @@ router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next
     });
     newSpotImage.validate();
     await newSpotImage.save();
-    // await newSpotImage.save();
-    // return res
-    // WILL WANT TO REFACTOR THIS BEFORE MONDAY
-    res.json({id: newSpotImage.id, url: newSpotImage.url, preview: newSpotImage.preview});
+
+    const data = { id: newSpotImage.id, url: newSpotImage.url, preview: newSpotImage.preview };
+    res.json(data);
   }
 })
 
@@ -276,27 +269,25 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
   });
 
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    next(err);
+    next(notFound('Spot'));
   } else if (previousReview) {
     const reviewError = new Error('User already has a review for this spot');
     reviewError.status = 403;
     next(reviewError);
   } else {
     const { review, stars } = req.body;
-    // use req.params.spotId to assign spotId to reviewObj
+
     const newReview = Review.build({
       spotId: req.params.spotId,
       userId: req.user.id,
       review,
       stars
     })
-    // validate review obj
+
     newReview.validate();
-    // save review obj
+
     await newReview.save();
-    // return review obj
+
     res.status(201).json(newReview);
   }
 })
@@ -350,24 +341,14 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
 
     // if spot doesn't exist throw 404 error
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    next(err)
+    next(notFound('Spot'));
   } else if (spot.ownerId !== req.user.id) {
-    // compare spot owner id to user id
-    // if no match throw an authorization error
-    const authError = new Error('Fobidden');
-    authError.status = 403;
-    next(authError);
+    next(authorizationError());
   } else {
-    // if match update spot with data from req.body
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
-    // validate changes
     spot.set({ address, city, state, country, lat, lng, name, description, price });
     spot.validate();
     await spot.save();
-    // save changes
-    // return updated spot
     res.json(spot);
   }
 })
@@ -377,13 +358,9 @@ router.delete('/:spotId', requireAuth, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    next(err);
+    next(notFound('Spot'))
   } else if (spot.ownerId !== req.user.id) {
-    const authError = new Error('Forbidden');
-    authError.status = 403;
-    next(authError);
+    next(authorizationError());
   } else {
     await spot.destroy();
     res.json({ message: "Successfully deleted", "statusCode": 200 });
