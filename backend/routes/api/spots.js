@@ -57,14 +57,11 @@ router.get('/current', requireAuth, async (req, res, next) => {
   })
 
 // GET all Bookings of a Spot based on the Spot's id
-  // Do we want to limit bookings to current/future bookings?
 router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    return next(err);
+    return next(notFound('Spot'))
   }
 
   const attributes = ['spotId', 'startDate', 'endDate'];
@@ -97,9 +94,7 @@ router.get('/:spotId/reviews', async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
   if (!spot) {
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    next(err);
+    next(notFound('Spot'));
   } else {
     const reviews = await Review.findAll({
       where: {
@@ -138,9 +133,7 @@ router.get('/:spotId', async (req, res, next) => {
   });
 
 if (!spot) {
-  const err = new Error("Spot couldn't be found");
-  err.status = 404;
-  next(err);
+  next(notFound('Spot'));
 } else {
   let numRatings = await Review.count({
     where: {
@@ -222,15 +215,9 @@ router.post('/:spotId/bookings', requireAuth, validBookingData, bookingEndDate, 
   const endDate = new Date(req.body.endDate)
 
   if (!spot) {
-    // if not throw 404 error
-    const err = new Error("Spot couldn't be found");
-    err.status = 404;
-    next(err);
+    next(notFound('Spot'))
   } else if (spot.ownerId === req.user.id) {
-    // user must not be the owner of the spot, otherwise authorization error
-    const authErr = new Error('Fobidden');
-    authErr.status = 403;
-    next(authErr);
+    next(authorizationError());
   } else {
       const newBooking = Booking.build({
         spotId: req.params.spotId,
@@ -241,7 +228,7 @@ router.post('/:spotId/bookings', requireAuth, validBookingData, bookingEndDate, 
       newBooking.validate();
       await newBooking.save();
 
-      res.json({newBooking});
+      res.json(newBooking);
   }
 })
 
