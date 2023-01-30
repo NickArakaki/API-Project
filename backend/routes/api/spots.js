@@ -250,15 +250,16 @@ router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next
 // POST Review for Spot by SpotId (REQ AUTHENTICATION):
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
-  const previousReview = await Review.findAll({
+  const previousReviews = await Review.findAll({
     where: {
+      spotId: req.params.spotId,
       userId: req.user.id
     }
   });
-
+  console.log(previousReviews);
   if (!spot) {
     next(notFound('Spot'));
-  } else if (previousReview) {
+  } else if (previousReviews.length) {
     const reviewError = new Error('User already has a review for this spot');
     reviewError.status = 403;
     next(reviewError);
