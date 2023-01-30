@@ -119,6 +119,9 @@ router.get('/:spotId', async (req, res, next) => {
   let spot = await Spot.findByPk(req.params.spotId, {
     include: [
       {
+        model: Review
+      },
+      {
         model: SpotImage,
         attributes: ['id', 'url', 'preview']
       },
@@ -133,28 +136,24 @@ router.get('/:spotId', async (req, res, next) => {
 if (!spot) {
   next(notFound('Spot'));
 } else {
-  let numRatings = await Review.count({
-    where: {
-      spotId: spot.id
-    }
-  });
-
-  let totalStars = await Review.sum('stars', {
-    where: {
-      spotId: spot.id
-    }
-  });
-
   spot = spot.toJSON();
-  spot.numReviews = numRatings;
 
-  if (!numRatings) {
-    spot.avgStarRating = null
+  const numReviews = spot.Reviews.length;
+  spot.numReviews = numReviews;
+
+  const avgRating = spot.Reviews.reduce((accumulator, review) => {
+    return parseInt(review.stars) + accumulator
+  }, 0) / numReviews;
+
+  if (avgRating) {
+    spot.avgStarRating = avgRating.toFixed(1)
   } else {
-    const avgStarRating = (totalStars / numRatings).toFixed(1);
-    spot.avgStarRating = (avgStarRating * 1);
+    spot.avgStarRating = null
   }
 
+  delete spot.Reviews;
+
+  // console.log(spot);
   res.json(spot);
 }
 })
