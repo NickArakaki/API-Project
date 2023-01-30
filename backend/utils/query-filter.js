@@ -1,34 +1,74 @@
 const { Op } = require('sequelize');
+const { query } = require('express-validator');
+const { handleValidationErrors } = require('./validation');
 
-const queryFilter = (req, res, next) => {
-    const err = new Error('Invalid Search Filters')
+const checkQuery = [
+    query('size')
+        .optional({ checkFalsy: true })
+        .isInt()
+        .custom(size => size >= 1)
+        .withMessage('Size parameter must be greater than or equal to 1'),
+    query('page')
+        .optional({ checkFalsy: true })
+        .isInt()
+        .custom(page => page >= 1)
+        .withMessage('Page parameter must be greater than or equal to 1'),
+    query('minLat')
+        .optional({ checkFalsy: true })
+        .isNumeric()
+        .custom(lat => (lat <= 90 && lat >= -90))
+        .withMessage('minLat parameter must be between -90 and 90 degrees'),
+    query('maxLat')
+        .optional({ checkFalsy: true })
+        .isNumeric()
+        .custom(lat => (lat <= 90 && lat >= -90))
+        .withMessage('maxLat parameter must be between -90 and 90 degrees'),
+    query('minLng')
+        .optional({ checkFalsy: true })
+        .isNumeric()
+        .custom(lng => (lng <= 180 && lng >= -180))
+        .withMessage('minLng parameter must be between -180 and 180 degrees'),
+    query('maxLng')
+        .optional({ checkFalsy: true })
+        .isNumeric()
+        .custom(lng => (lng <= 180 && lng >= -180))
+        .withMessage('maxLng parameter must be between -180 and 180 degrees'),
+    query('minPrice')
+        .optional({ checkFalsy: true })
+        .isNumeric()
+        .custom(minPrice => minPrice >= 0)
+        .withMessage('minPrice must be greater than or equal to 0'),
+    query('maxPrice')
+        .optional({ checkFalsy: true })
+        .isNumeric()
+        .custom(maxPrice => maxPrice >= 0)
+        .withMessage('maxPrice must be greater than or equal to 0'),
+    handleValidationErrors
+]
+
+const queryValidation = (req, res, next) => {
+    const err = new Error('Validation error')
     err.status = 400;
     err.errors = {}
 
 
     const minLat = req.query.minLat || -90;
-    if (minLat < -90 || minLat > 90 || Number.isNaN(minLat * 1)) err.errors.minLat = 'Invalid Minimum Latitude Parameter'
     const maxLat = req.query.maxLat || 90;
-    if (maxLat < -90 || maxLat > 90 || Number.isNaN(maxLat * 1) || ((maxLat * 1) < (minLat * 1))) err.errors.maxLat = 'Invalid Maximum Latitude Parameter'
+    if ((maxLat * 1) < (minLat * 1)) err.errors.lat = 'Invalid latitude parameters'
 
     const minLng = req.query.minLng || -180;
-    if (minLng < -180 || minLng > 180 || Number.isNaN(minLng * 1)) err.errors.minLng = 'Invalid Minimum Longitude Parameter'
     const maxLng = req.query.maxLng || 180;
-    if (maxLng < -180 || maxLng > 180 || Number.isNaN(maxLng * 1) || ((maxLng * 1) < (minLng * 1))) err.errors.maxLng = 'Invalid Maximum Longitude Parameter'
-    console.log(maxLng < minLng);
+    if ((maxLng * 1) < (minLng * 1)) err.errors.lng = 'Invalid longitude parameters'
 
     const minPrice = req.query.minPrice || 0;
-    if (minPrice < 0 || Number.isNaN(minPrice * 1)) err.errors.minPrice = 'Invalid Minimum Price Parameter'
     const maxPrice = req.query.maxPrice || 1000000; // who would pay more than 1,000,000 per day?
-    if (maxPrice < 0 || maxPrice < minPrice || Number.isNaN(maxPrice * 1)) err.errors.maxPrice = 'Invalid Maximum Price Parameter'
+    if (maxPrice < minPrice) err.errors.price = 'Invalid price parameters'
 
     let size = req.query.size || 20;
     if (size <= 0 || size > 20) size = 20;
-    if (Number.isNaN(size * 1)) err.errors.size = 'Size Paramter Must Be a Number'
 
     let page = req.query.page || 1;
     if (page <= 0 || page > 10) page = 10;
-    if (Number.isNaN(page * 1)) err.errors.page = 'Page Parameter Must Be a Number'
 
     const limit = size;
     const offset = (page - 1) * limit;
@@ -57,6 +97,11 @@ const queryFilter = (req, res, next) => {
         next();
     }
 }
+
+const queryFilter = [
+    checkQuery,
+    queryValidation
+]
 
 module.exports = {
     queryFilter
