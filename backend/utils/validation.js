@@ -23,6 +23,17 @@ const handleValidationErrors = (req, _res, next) => {
     next();
   };
 
+const validateLogin = [
+  check('credential')
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage('Email or username is required'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Password is required'),
+  handleValidationErrors
+];
+
 const validateSpot = [
   check('address')
     .exists({ checkFalsy: true })
@@ -101,6 +112,7 @@ const validateImage = [
 
 module.exports = {
   handleValidationErrors,
+  validateLogin,
   validateSpot,
   validateReview,
   validateImage
