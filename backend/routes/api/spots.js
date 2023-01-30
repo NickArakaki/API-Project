@@ -146,7 +146,7 @@ if (!spot) {
   }, 0) / numReviews;
 
   if (avgRating) {
-    spot.avgStarRating = avgRating.toFixed(1)
+    spot.avgStarRating = avgRating.toFixed(1) * 1
   } else {
     spot.avgStarRating = null
   }
@@ -175,7 +175,7 @@ router.get('/', queryFilter, async (req, res) => {
     }, 0) / spot.Reviews.length;
 
     if (avgRating) {
-      spot.avgRating = avgRating.toFixed(1);
+      spot.avgRating = (avgRating.toFixed(1) * 1);
     } else {
       spot.avgRating = null;
     }
@@ -249,16 +249,12 @@ router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next
 
 // POST Review for Spot by SpotId (REQ AUTHENTICATION):
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
-  const spot = await Spot.findByPk(req.params.spotId, {
-    include: [
-      {
-        model: Review,
-        attributes: ['userId']
-      }
-    ]
+  const spot = await Spot.findByPk(req.params.spotId);
+  const previousReview = await Review.findAll({
+    where: {
+      userId: req.user.id
+    }
   });
-
-  const previousReview = spot.Reviews.find(review => review.userId = req.user.id);
 
   if (!spot) {
     next(notFound('Spot'));
