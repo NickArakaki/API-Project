@@ -2,6 +2,10 @@ const router = require('express').Router();
 
 const { ReviewImage, Review } = require('../../db/models');
 
+/************************ Errors **********************/
+const { notFound , authorizationError } = require('../../utils/errors');
+
+/************************ Validators ******************/
 const { requireAuth } = require('../../utils/auth');
 
 // DELETE Review Image (REQ AUTHENTICATION AND AUTHORIZATION)
@@ -16,13 +20,9 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
     });
 
     if (!reviewImage) {
-        const err = new Error("Review Image couldn't be found");
-        err.status = 404;
-        next(err);
+        next(notFound('Review Image'))
     } else if (reviewImage.Review.userId !== req.user.id) {
-        const authorizationErr = new Error("Forbidden");
-        authorizationErr.status = 403;
-        next(authorizationErr);
+        next(authorizationError());
     } else {
         await reviewImage.destroy();
         res.json({
