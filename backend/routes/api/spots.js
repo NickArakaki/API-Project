@@ -153,55 +153,48 @@ if (!spot) {
 
   delete spot.Reviews;
 
-  // console.log(spot);
   res.json(spot);
 }
 })
 
 // GET all spots
 router.get('/', queryFilter, async (req, res) => {
-  console.log(req.queryFilter.where.price);
-  let spots = await Spot.findAll(req.queryFilter);
+  let spots = await Spot.findAll({
+    include: [{ model: Review }, { model: SpotImage }],
+    ...req.queryFilter
+  });
 
-  spots = spots.map(spot => spot.toJSON());
+  const processedSpots = [];
 
-  // Aggregate for average review score
   for (let spot of spots) {
-      let numRatings = await Review.count({
-        where: {
-          spotId: spot.id
-        }
-      });
+    spot = spot.toJSON();
 
-      let totalStars = await Review.sum('stars', {
-        where: {
-          spotId: spot.id
-        }
-      });
+    // avgRating
+    const avgRating = spot.Reviews.reduce((accumulator, review) => {
+      return parseInt(review.stars) + accumulator
+    }, 0) / spot.Reviews.length;
 
-      if (numRatings && totalStars) {
-          const avgRating = (totalStars / numRatings).toFixed(1);
-          spot.avgRating = (avgRating * 1)
-      } else {
-          spot.avgRating = null
-      }
+    if (avgRating) {
+      spot.avgRating = avgRating.toFixed(1);
+    } else {
+      spot.avgRating = null;
+    }
 
-      let previewImage = await SpotImage.findOne({
-          where: {
-              spotId: spot.id,
-              preview: true
-          }
-      });
+    // previewImage
+    const previewImage = spot.SpotImages.find(spotImage => spotImage.preview === true);
+    if (previewImage) {
+      spot.previewImage = previewImage.url
+    } else {
+      spot.previewImage = 'No Preview Image Available'
+    }
 
-      if (previewImage) {
-          previewImage = previewImage.toJSON().url;
-          spot.previewImage = previewImage;
-      } else {
-          spot.previewImage = 'No Preview Image Available'
-      }
+    delete spot.SpotImages;
+    delete spot.Reviews;
+
+    processedSpots.push(spot);
   }
 
-  res.json({Spots: spots});
+  res.json({Spots: processedSpots});
 });
 
 // POST a Booking from a Spot based on SpotId (REQ AUTHENTICATION AND AUTHORIZATION)
