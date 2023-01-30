@@ -4,7 +4,7 @@ const router = require('express').Router();
 const { Booking, Spot, SpotImage } = require('../../db/models');
 
 /************************ Errors **********************/
-const { authorizationError } = require('../../utils/errors');
+const { authorizationError, notFound } = require('../../utils/errors');
 
 /************************ Validators ******************/
 const { validation } = require('../../utils/booking-validation');
@@ -75,13 +75,9 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const booking = await Booking.findByPk(req.params.bookingId);
 
     if (!booking) {
-        const err = new Error("Booking couldn't be found");
-        err.status = 404;
-        next(err);
+        next(notFound('Booking'))
     } else if (booking.userId !== req.user.id) {
-        const authErr = new Error("Forbidden");
-        authErr.status = 403;
-        next(authErr);
+        next(authorizationError())
     } else if (booking.startDate.getTime() <= Date.now()) {
         const newErr = new Error('Cannot delete booking after startDate');
         newErr.status = 403;
