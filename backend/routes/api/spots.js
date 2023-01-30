@@ -45,7 +45,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     if (previewImage) {
       spot.previewImage = previewImage.url
     } else {
-      spot.previewImage = 'Preview Unavailable'
+      spot.previewImage = 'No Preview Image Available'
     }
 
     delete spot.SpotImages;
@@ -91,15 +91,9 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 // GET all Reviews by Spot Id
 router.get('/:spotId/reviews', async (req, res, next) => {
 
-  const spot = await Spot.findByPk(req.params.spotId);
-
-  if (!spot) {
-    next(notFound('Spot'));
-  } else {
-    const reviews = await Review.findAll({
-      where: {
-        spotId: req.params.spotId
-      },
+  let spot = await Spot.findByPk(req.params.spotId, {
+    include: {
+      model: Review,
       include: [
         {
           model: User,
@@ -110,9 +104,13 @@ router.get('/:spotId/reviews', async (req, res, next) => {
           attributes: ['id', 'url']
         }
       ]
-    });
+    }
+  });
 
-    res.json({Reviews: reviews});
+  if (!spot) {
+    next(notFound('Spot'));
+  } else {
+    res.json({ Reviews: spot.Reviews });
   }
 })
 
