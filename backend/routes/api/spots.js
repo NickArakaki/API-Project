@@ -249,14 +249,14 @@ router.post('/:spotId/images', requireAuth, validateImage, async (req, res, next
 
 // POST Review for Spot by SpotId (REQ AUTHENTICATION):
 router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, next) => {
-  // build a review obj with the data from req.body
-  const spot = await Spot.findByPk(req.params.spotId);
-  const previousReview = await Review.findOne({
-    where: {
-      spotId: req.params.spotId,
-      userId: req.user.id
-    }
+  const spot = await Spot.findByPk(req.params.spotId, {
+    include: [
+      {
+        model: Review
+      }
+    ]
   });
+  const previousReview = spot.Reviews.find(review => review.userId = req.user.id);
 
   if (!spot) {
     next(notFound('Spot'));
