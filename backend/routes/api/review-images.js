@@ -10,14 +10,7 @@ const { requireAuth } = require('../../utils/auth');
 
 // DELETE Review Image (REQ AUTHENTICATION AND AUTHORIZATION)
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
-    const reviewImage = await ReviewImage.findByPk(req.params.imageId, {
-        include: [
-            {
-                model: Review,
-                attributes: ['userId']
-            }
-        ]
-    });
+    const reviewImage = await ReviewImage.findByPk(req.params.imageId);
 
     if (!reviewImage) {
         next(notFound('Review Image'))
