@@ -2,7 +2,7 @@ const { handleValidationErrors } = require('./validation');
 const { check } = require('express-validator');
 const { Booking } = require('../db/models');
 const { Op } = require('sequelize');
-
+const { notFound, authorizationError } = require('./errors');
 
 // Middleware for validating booking data before querying
 const validBookingData = [
