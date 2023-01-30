@@ -312,7 +312,6 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
-    // if spot doesn't exist throw 404 error
   if (!spot) {
     next(notFound('Spot'));
   } else if (spot.ownerId !== req.user.id) {
