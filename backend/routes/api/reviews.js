@@ -10,6 +10,8 @@ const { notFound , authorizationError } = require('../../utils/errors');
 const { requireAuth } = require('../../utils/auth');
 const { validateReview } = require('../../utils/validation');
 
+/************************** Routes ********************/
+
 // GET all Reviews of the current User
 router.get('/current', requireAuth, async (req, res, next) => {
     const reviews = await Review.findAll({
@@ -58,7 +60,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json({ Reviews: modifiedReviews });
 })
 
-// POST Image to a Review based on Review's id (REQ AUTHENTICATION & AUTHORIZATION)
+// POST Image to a Review based on Review's id (REQ AUTHENTICATION & AUTHORIZATION), MAX 10 / Review
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const review = await Review.findByPk(req.params.reviewId, {
         include: [
@@ -116,13 +118,9 @@ router.delete('/:reviewId', requireAuth, async (req, res, next) => {
     const review = await Review.findByPk(req.params.reviewId);
 
     if (!review) {
-        const err = new Error("Review couldn't be found");
-        err.status = 404;
-        next(err);
+        next(notFound('Review'));
     } else if (review.userId !== req.user.id) {
-        const authorizationErr = new Error('Forbidden');
-        authorizationErr.status = 403;
-        next(authorizationErr);
+        next(authorizationError());
     } else {
         await review.destroy();
         res.json({ message: "Successfully deleted", "statusCode": 200 });

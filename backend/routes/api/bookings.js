@@ -11,6 +11,8 @@ const { validation } = require('../../utils/booking-validation');
 const { requireAuth } = require('../../utils/auth');
 
 
+/************************ Routes **********************/
+
 // GET all of Current User's Bookings
 router.get('/current', requireAuth, async (req, res, next) => {
     let bookings = await Booking.findAll({

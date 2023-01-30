@@ -8,6 +8,7 @@ const { notFound , authorizationError } = require('../../utils/errors');
 /************************ Validators ******************/
 const { requireAuth } = require('../../utils/auth');
 
+/************************ Routes **********************/
 // DELETE Review Image (REQ AUTHENTICATION AND AUTHORIZATION)
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
     const reviewImage = await ReviewImage.findByPk(req.params.imageId);
