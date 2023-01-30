@@ -12,7 +12,7 @@ const { validateReview } = require('../../utils/validation');
 
 // GET all Reviews of the current User
 router.get('/current', requireAuth, async (req, res, next) => {
-    let reviews = await Review.findAll({
+    const reviews = await Review.findAll({
         where: {
             userId: req.user.id
         },
@@ -25,6 +25,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
                 model: Spot,
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'description']
+                },
+                include: {
+                    model: SpotImage,
+                    attributes: ['preview', 'url']
                 }
             },
             {
@@ -34,24 +38,24 @@ router.get('/current', requireAuth, async (req, res, next) => {
         ]
     });
 
-    reviews = reviews.map(review => review.toJSON());
+    const modifiedReviews = [];
 
     for (let review of reviews) {
-        let previewImage = await SpotImage.findOne({
-            where: {
-                spotId: review.Spot.id,
-                preview: true
-            }
-        });
+        review = review.toJSON();
+        const previewImage = review.Spot.SpotImages.find(spotImage => spotImage.preview === true)
 
         if (previewImage) {
-            review.Spot.previewImage = previewImage.url;
+            review.Spot.previewImage = previewImage.url
         } else {
-            review.Spot.previewImage = 'Image not available'
+            review.Spot.previewImage = 'Preview Unavailable'
         }
+
+        delete review.Spot.SpotImages;
+
+        modifiedReviews.push(review);
     }
 
-    res.json({ Reviews: reviews });
+    res.json({ Reviews: modifiedReviews });
 })
 
 // POST Image to a Review based on Review's id (REQ AUTHENTICATION & AUTHORIZATION)
