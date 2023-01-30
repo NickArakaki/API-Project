@@ -252,10 +252,12 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
   const spot = await Spot.findByPk(req.params.spotId, {
     include: [
       {
-        model: Review
+        model: Review,
+        attributes: ['userId']
       }
     ]
   });
+
   const previousReview = spot.Reviews.find(review => review.userId = req.user.id);
 
   if (!spot) {
@@ -284,45 +286,26 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
 
 // POST a spot
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
-    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+  const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-    // check if address is already in db
-    let spot = await Spot.findAll({
-        where: {
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name
-        }
-    });
+  const spot = Spot.build({
+      ownerId: req.user.id,
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price
+  });
 
-    if (spot.length) {
-        const err = new Error('Spot already exists');
-        err.status = 403;
-        next(err);
-    } else {
-        const spot = Spot.build({
-            ownerId: req.user.id,
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            description,
-            price
-        });
+  spot.validate();
+  await spot.save();
 
-        spot.validate();
-        await spot.save();
-
-        const newSpot = await Spot.findByPk(spot.id);
-        res.status(201).json(newSpot);
-    }
+  const newSpot = await Spot.findByPk(spot.id);
+  res.status(201).json(newSpot);
 })
 
 // PUT a Spot based on SpotId (REQ AUTHENTICATION AND AUTHORIZATION)
