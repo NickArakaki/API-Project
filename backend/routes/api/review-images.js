@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { ReviewImage, Review } = require('../../db/models');
+const { ReviewImage } = require('../../db/models');
 
 /************************ Errors **********************/
 const { notFound , authorizationError } = require('../../utils/errors');
