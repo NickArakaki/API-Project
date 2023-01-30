@@ -37,12 +37,12 @@ const checkQuery = [
         .optional({ checkFalsy: true })
         .isNumeric()
         .custom(minPrice => minPrice >= 0)
-        .withMessage('minPrice cannot be less than 0'),
+        .withMessage('minPrice must be greater than or equal to 0'),
     query('maxPrice')
         .optional({ checkFalsy: true })
         .isNumeric()
         .custom(maxPrice => maxPrice >= 0)
-        .withMessage('maxPrice cannot be less than than 0'),
+        .withMessage('maxPrice must be greater than or equal to 0'),
     handleValidationErrors
 ]
 
