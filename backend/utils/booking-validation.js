@@ -185,6 +185,15 @@ const validateUpdateTimeFrame = async (req, res, next) => {
     }
 }
 
+const validation = [
+    validBookingData,
+    bookingEndDate,
+    bookingExist,
+    bookingValid,
+    extSpotId,
+    validateUpdateTimeFrame
+]
+
 module.exports = {
     validBookingData,
     bookingEndDate,
@@ -192,5 +201,6 @@ module.exports = {
     extSpotId,
     bookingExist,
     bookingValid,
-    validateUpdateTimeFrame
+    validateUpdateTimeFrame,
+    validation
 }

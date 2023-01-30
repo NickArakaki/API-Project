@@ -1,25 +1,15 @@
 const router = require('express').Router();
-const { Op } = require('sequelize');
 
 /************************ Models **********************/
-const { Booking, User, Spot, SpotImage } = require('../../db/models');
+const { Booking, Spot, SpotImage } = require('../../db/models');
 
 /************************ Errors **********************/
-const { notFound , authorizationError } = require('../../utils/errors');
+const { authorizationError } = require('../../utils/errors');
 
 /************************ Validators ******************/
-const { validBookingData, bookingEndDate, validateUpdateTimeFrame, extSpotId, bookingExist, bookingValid } = require('../../utils/booking-validation');
+const { validation } = require('../../utils/booking-validation');
 const { requireAuth } = require('../../utils/auth');
 
-
-const validation = [
-    validBookingData,
-    bookingEndDate,
-    bookingExist,
-    bookingValid,
-    extSpotId,
-    validateUpdateTimeFrame
-]
 
 // GET all of Current User's Bookings
 router.get('/current', requireAuth, async (req, res, next) => {
