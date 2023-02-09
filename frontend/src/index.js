@@ -15,11 +15,11 @@ if (process.env.NODE_ENV !== 'production') {
 
 function Root() {
   return (
-    <Provider store={store}>
+    <ReduxProvder store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </Provider>
+    </ReduxProvder>
   );
 }
 
