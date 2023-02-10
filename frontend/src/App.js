@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import LoginFormPage from './components/LoginFormPage';
 import SignupFormPage from './components/SignupFormPage';
+import Navigation from './components/Navigation';
 import { restoreUser } from './store/session';
 
 
@@ -17,6 +18,7 @@ function App() {
 
   return isLoaded && (
     <>
+      <Navigation isLoaded={isLoaded} />
       <h1>Hello from App</h1>
       <Switch>
         <Route path="/login">
