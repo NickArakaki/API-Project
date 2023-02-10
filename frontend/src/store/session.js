@@ -1,8 +1,8 @@
 import { csrfFetch } from "./csrf";
 
 // CONSTS TO PREVENT TYPOS
-const ADD_SESSION_USER = 'user/ADD_SESSION_USER';
-const REMOVE_SESSION_USER = 'user/REMOVE_SESSION_USER';
+const ADD_SESSION_USER = 'session/ADD_SESSION_USER';
+const REMOVE_SESSION_USER = 'session/REMOVE_SESSION_USER';
 
 // OBJECT ACTION CREATORS
 const addUser = (user) => {
