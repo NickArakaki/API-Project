@@ -20,24 +20,16 @@ export default function SignupFormPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         if (password === confirmPassword) {
-            setErrors([]);
-
-            return dispatch(signup({
-                username,
-                firstName,
-                lastName,
-                email,
-                password
-            })).catch(async (res) => {
-                const data = await res.json();
-                console.log(data);
-            })
+          setErrors([]);
+          return dispatch(signup({ email, username, firstName, lastName, password }))
+            .catch(async (res) => {
+              const data = await res.json();
+              if (data && data.errors) setErrors(Object.values(data.errors));
+            });
         }
-
-        return setErrors(['Confirm Password field must be the same as the Password field'])
-    }
+        return setErrors(['Confirm Password field must be the same as the Password field']);
+      };
 
     return (
         <form onSubmit={handleSubmit}>

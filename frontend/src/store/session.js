@@ -32,12 +32,9 @@ export const login = (userCredentials) => async (dispatch) => {
         */
     });
 
-    // do we still need this conditional if we're using csrfFetch?
-    if (response.ok) {
-        const user = await response.json();
-        dispatch(addUser(user));
-        return user;
-    }
+    const user = await response.json();
+    dispatch(addUser(user));
+    return user;
 }
 
 export const restoreUser = () => async (dispatch) => {
