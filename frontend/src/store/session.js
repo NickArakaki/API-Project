@@ -19,7 +19,7 @@ const removeUser = () => {
 }
 
 // THUNK ACTION CREATORS
-export const addSessionUserThunk = (userCredentials) => async (dispatch) => {
+export const login = (userCredentials) => async (dispatch) => {
     const response = await csrfFetch('/api/session', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
