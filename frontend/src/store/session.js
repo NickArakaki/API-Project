@@ -40,17 +40,28 @@ export const addSessionUserThunk = (userCredentials) => async (dispatch) => {
     }
 }
 
+// is it necessary to make a req to logout user? or can we just remove them from the state?
+// export const logout = () => async (dispatch) => {
+//     const response = await csrfFetch('/api/session', {
+//         method: 'DELETE'
+//     });
+
+//     dispatch(removeUser())
+//     return response;
+// }
+
 const initialState = { user: null }
 
 // REDUCER
 export default function sessionReducer(state=initialState, action) {
+    Object.freeze(state); // prevent accidental manipulation of state obj
+
     switch (action.type) {
         case ADD_SESSION_USER: {
-            return { user: action.user }
+            return { ...state ,user: action.user }
         }
         case REMOVE_SESSION_USER: {
-            console.log('REMOVE_SESSION_USER reducer fired')
-            return state
+            return { ...initialState }
         }
         default:
             return state
