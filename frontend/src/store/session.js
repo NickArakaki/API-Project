@@ -32,9 +32,9 @@ export const login = (userCredentials) => async (dispatch) => {
         */
     });
 
-    const user = await response.json();
-    dispatch(addUser(user));
-    return user;
+    const data = await response.json();
+    dispatch(addUser(data.user));
+    return response;
 }
 
 export const restoreUser = () => async (dispatch) => {
@@ -66,7 +66,6 @@ export const logout = () => async (dispatch) => {
     const response = await csrfFetch('/api/session', {
         method: "DELETE"
     });
-    // const data = await response.json();
     dispatch(removeUser());
     return response;
 }
@@ -89,7 +88,7 @@ export default function sessionReducer(state=initialState, action) {
 
     switch (action.type) {
         case ADD_SESSION_USER: {
-            return { ...state ,user: action.user }
+            return { ...state , user: action.user }
         }
         case REMOVE_SESSION_USER: {
             return { ...initialState }
