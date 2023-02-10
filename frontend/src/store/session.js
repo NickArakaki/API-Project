@@ -24,12 +24,6 @@ export const login = (userCredentials) => async (dispatch) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userCredentials)
-        /*
-            expecting an obj = {
-                credential: "valid username or email",
-                password: "valid password"
-            }
-        */
     });
 
     const data = await response.json();
