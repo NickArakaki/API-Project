@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider as ReduxProvder } from 'react-redux';
+import { Provider as ReduxProvider } from 'react-redux';
 
 import './index.css';
 import App from './App';
 import configureStore from './store';
 import { restoreCSRF, csrfFetch } from './store/csrf';
+import { ModalProvider, Modal } from './context/Modal';
 
 import * as sessionActions from './store/session';
 
@@ -22,11 +23,14 @@ if (process.env.NODE_ENV !== 'production') {
 
 function Root() {
   return (
-    <ReduxProvder store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ReduxProvder>
+    <ModalProvider>
+      <ReduxProvider store={store}>
+        <BrowserRouter>
+          <App />
+          <Modal />
+        </BrowserRouter>
+      </ReduxProvider>
+    </ModalProvider>
   );
 }
 
