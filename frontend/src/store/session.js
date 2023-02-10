@@ -40,6 +40,13 @@ export const login = (userCredentials) => async (dispatch) => {
     }
 }
 
+export const restoreUser = () => async (dispatch) => {
+    const response = await csrfFetch('/api/session');
+    const data = await response.json();
+    dispatch(addUser(data.user));
+    return response;
+}
+
 // is it necessary to make a req to logout user? or can we just remove them from the state?
 // export const logout = () => async (dispatch) => {
 //     const response = await csrfFetch('/api/session', {
