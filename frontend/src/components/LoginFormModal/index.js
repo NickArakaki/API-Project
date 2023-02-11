@@ -1,25 +1,23 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { useModal } from "../../context/Modal";
 
 import { login } from '../../store/session'
-import './LoginForm.css';
+import './LoginFormModal.css';
 
-export default function LoginFormPage() {
+export default function LoginFormModal() {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user)
     const [credential, setCredential] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
-
-    if (sessionUser) {
-        return <Redirect to="/" />
-    }
+    const { closeModal } = useModal();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setErrors([]);
         return dispatch(login({ credential, password }))
+            .then(closeModal)
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.message) setErrors([data.message]);
