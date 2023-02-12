@@ -3,15 +3,7 @@
     display: flex;
     list-style: none;
     width: 100%;
-    justify-content: space-between;
-}
-
-.home_link {
-    justify-self: flex-start;
-}
-
-.session_links {
-    justify-self: flex-end;
+    justify-content: space-around;
 }
 
 .hidden {
