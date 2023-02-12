@@ -1,0 +1,11 @@
+/* TODO: Add styling for Navigation component */
+.nav_links_list {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.hidden {
+    display: none
+}

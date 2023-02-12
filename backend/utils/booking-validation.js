@@ -96,7 +96,6 @@ const validateTimeFrame = async (req, res, next) => {
 const extSpotId = async (req, res, next) => {
     const booking = await Booking.findByPk(req.params.bookingId);
     req.spotId = booking.spotId;
-    console.log(req.spotId);
     next();
 }
 

@@ -1,0 +1,29 @@
+/* TODO: add styling for LoginForm */
+.login_modal {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+.form_title {
+    align-self: center;
+}
+
+.login_modal div {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.login_modal button {
+    width: 50%;
+    align-self: center;
+    margin-top: 5px;
+}
+
+.error {
+    color: red;
+}

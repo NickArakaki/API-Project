@@ -1,0 +1,16 @@
+/* TODO: Add styling for Signup Form */
+.signup_modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.signup_modal div {
+    align-self: flex-start;
+    padding: 5px
+}
+
+.error {
+    color: red;
+}
