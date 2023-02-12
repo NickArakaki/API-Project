@@ -256,7 +256,6 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
       userId: req.user.id
     }
   });
-  console.log(previousReviews);
   if (!spot) {
     next(notFound('Spot'));
   } else if (previousReviews.length) {
