@@ -14,17 +14,19 @@ export default function Navigation({ isLoaded }) {
     if (sessionUser) {
         sessionLinks = (
             <li>
-                <ProfileButton user={sessionUser} />
+                <ProfileButton className="session_links" user={sessionUser} />
             </li>
         )
     } else {
         sessionLinks = (
             <li>
                 <OpenModalButton
+                    className="session_links"
                     buttonText="Log In"
                     modalComponent={<LoginFormModal />}
                 />
                 <OpenModalButton
+                    className="session_links"
                     buttonText="Sign Up"
                     modalComponent={<SignupFormModal />}
                 />
@@ -33,9 +35,9 @@ export default function Navigation({ isLoaded }) {
     }
 
     return (
-        <ul>
+        <ul className="nav_links_list">
             <li>
-                <NavLink exact to="/">Home</NavLink>
+                <NavLink className="home_link" exact to="/">Home</NavLink>
             </li>
             {isLoaded && sessionLinks}
         </ul>

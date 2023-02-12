@@ -1,4 +1,19 @@
 /* TODO: Add styling for Navigation component */
+.nav_links_list {
+    display: flex;
+    list-style: none;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.home_link {
+    justify-self: flex-start;
+}
+
+.session_links {
+    justify-self: flex-end;
+}
+
 .hidden {
     display: none
 }

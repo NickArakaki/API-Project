@@ -37,7 +37,7 @@ export default function SignupFormModal() {
       };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="signup_modal" onSubmit={handleSubmit}>
             <label>Sign Up</label>
             <ul>
                 {errors.map((error, index) => <li key={index} className="error">{error}</li>)}
@@ -70,7 +70,7 @@ export default function SignupFormModal() {
                 />
             </div>
             <div>
-                Email
+                Email:
                 <input
                     required
                     type="email"
