@@ -12,7 +12,7 @@ export default function Navigation({ isLoaded }) {
         <ul className="nav_links_list">
             <li>
                 <NavLink className="home_link" exact to="/">
-                    <i className="fa-solid fa-couch" />
+                    <i className="fa-solid fa-couch fa-xl" />
                 </NavLink>
             </li>
             <li className="header_title">
