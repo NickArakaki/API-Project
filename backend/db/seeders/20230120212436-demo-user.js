@@ -13,7 +13,7 @@ options.tableName = 'Users';
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const users = seedUsers(100);
+    const users = seedUsers(10);
     return await queryInterface.bulkInsert(options, users, {});
   },
 

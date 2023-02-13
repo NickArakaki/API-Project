@@ -16,15 +16,16 @@ const seedUsers = num => {
         };
     }
 
-    users.push({
+    // DEMO USER
+    const allUsers = users.concat([{
         firstName: "Demo",
         lastName: "User",
         username: "DemoUser",
         hashedPassword: bcrypt.hashSync('password'),
         email: "demo@user.com"
-    })
+    }])
 
-    return users;
+    return allUsers;
 }
 
 const seedSpots = num => {
