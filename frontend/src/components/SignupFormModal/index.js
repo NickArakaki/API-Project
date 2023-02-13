@@ -24,10 +24,15 @@ export default function SignupFormModal() {
     useEffect(() => {
         if (!firstName || !lastName || !email || !username|| !password || !confirmPassword ) {
             setDisableSubmit(true);
+        } else if (username.length < 4) {
+            setDisableSubmit(true);
+        } else if (password.length < 6) {
+            setDisableSubmit(true)
+        } else if (password !== confirmPassword) {
+            setDisableSubmit(true)
         } else {
             setDisableSubmit(false);
         }
-
     }, [firstName, lastName, email, username, password, confirmPassword])
 
     if (sessionUser) return <Redirect to="/" />
@@ -108,7 +113,7 @@ export default function SignupFormModal() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 />
             </div>
-            <button className={`submit_button ${subButtonClass}`} type="submit">Sign Up</button>
+            <button disabled={disableSubmit} className={`submit_button ${subButtonClass}`} type="submit">Sign Up</button>
         </form>
     )
 }

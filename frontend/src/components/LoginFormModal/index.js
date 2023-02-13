@@ -20,7 +20,7 @@ export default function LoginFormModal() {
             .then(closeModal)
             .catch(async (res) => {
                 const data = await res.json();
-                if (data && data.message) setErrors(["The provide credentials were invalid"]);
+                if (data && data.message) setErrors(["The provided credentials were invalid"]);
             });
     }
 
