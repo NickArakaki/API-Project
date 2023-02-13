@@ -1,24 +1,25 @@
 import { useState } from "react";
 import { useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
+import "./AddSpotForm.css"
 
 export default function AddSpotForm() {
     const history = useHistory();
-    const sessionUser = useSelector(state => state.session.user)
-    const [country, setCountry] = useState('')
-    const [streetAddress, setStreetAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState('')
-    const [latitude, setLatitude] = useState('')
-    const [longitude, setLongitude] = useState('')
-    const [description, setDescription] = useState('')
-    const [title, setTitle] = useState('')
-    const [price, setPrice] = useState(0)
-    const [previewImage, setPreviewImage] = useState('')
-    const [image1, setImage1] = useState('')
-    const [image2, setImage2] = useState('')
-    const [image3, setImage3] = useState('')
-    const [image4, setImage4] = useState('')
+    const sessionUser = useSelector(state => state.session.user);
+    const [country, setCountry] = useState('');
+    const [streetAddress, setStreetAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+    const [description, setDescription] = useState('');
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState();
+    const [previewImage, setPreviewImage] = useState('');
+    const [image1, setImage1] = useState('');
+    const [image2, setImage2] = useState('');
+    const [image3, setImage3] = useState('');
+    const [image4, setImage4] = useState('');
 
     if (!sessionUser) history.push('/');
 
@@ -58,7 +59,7 @@ export default function AddSpotForm() {
                     placeholder="City"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                /> ,
+                />,
             </div>
             <div>
                 State:

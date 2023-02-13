@@ -1,0 +1,9 @@
+/* TODO: Add styling for Add Spot Form*/
+
+.add_spot_form {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+}
