@@ -25,7 +25,27 @@
     border-radius: 5px;
 }
 
+.submit_button {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding: 5%;
+    font-size: 14pt;
+}
 
+.submit_button.enabled {
+    background-color: #FF5A5F;
+    color: #FFFFFF;
+    border: 2px solid #000000;
+    box-shadow: 3px 3px black;
+}
+
+.submit_button.disabled {
+    background-color: #CCCCCC;
+    color: #999999;
+    border: 2px solid #999999;
+    box-shadow: 3px 3px #999999;
+}
 
 .error {
     color: red;

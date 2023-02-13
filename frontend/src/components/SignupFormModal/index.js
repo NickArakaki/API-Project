@@ -11,21 +11,28 @@ import './SignupForm.css';
 export default function SignupFormModal() {
     const dispatch = useDispatch();
     const sessionUser = useSelector((state) => state.session.user);
-    const [username, setUsername] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState([]);
     const [disableSubmit, setDisableSubmit] = useState(true);
     const { closeModal } = useModal();
 
+    useEffect(() => {
+        if (!firstName || !lastName || !email || !username|| !password || !confirmPassword ) {
+            setDisableSubmit(true);
+        } else {
+            setDisableSubmit(false);
+        }
+
+    }, [firstName, lastName, email, username, password, confirmPassword])
+
     if (sessionUser) return <Redirect to="/" />
 
-    useEffect(() => {
-
-    }, [username, firstName, lastName, email, password, confirmPassword])
+    const subButtonClass = disableSubmit ? " disabled" : " enabled";
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -101,7 +108,7 @@ export default function SignupFormModal() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 />
             </div>
-            <button className={`submitButton ${subButtonClass}`} type="submit">Sign Up</button>
+            <button className={`submit_button ${subButtonClass}`} type="submit">Sign Up</button>
         </form>
     )
 }

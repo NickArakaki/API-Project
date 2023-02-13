@@ -56,9 +56,9 @@ export default function LoginFormModal() {
                 <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
             <button className={`submit_button ${subButtonClass}`} disabled={submitDisabled} type="submit">Log In</button>
-            <div className="demo_user_login" onClick={logInDemo}>
+            <button className="demo_user_login" onClick={logInDemo}>
                 Demo User
-            </div>
+            </button>
         </form>
     )
 }
