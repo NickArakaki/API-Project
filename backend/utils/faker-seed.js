@@ -16,6 +16,14 @@ const seedUsers = num => {
         };
     }
 
+    users.push({
+        firstName: "Demo",
+        lastName: "User",
+        username: "DemoUser",
+        hashedPassword: bcrypt.hashSync('password'),
+        email: "demo@user.com"
+    })
+
     return users;
 }
 

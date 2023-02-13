@@ -1,9 +1,67 @@
-/* TODO: Add styling for Navigation component */
+/* TODO: Add styling for Navigation component
+    * Google Fonts
+*/
 .nav_links_list {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     list-style: none;
-    width: 100%;
-    justify-content: space-around;
+    height: 70px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0 auto;
+    border-bottom: 2px solid #CCC;
+}
+
+.header_title {
+    color: #FF5A5F;
+    font-size: 24pt;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.home_link {
+    color: #FF5A5F;
+    text-decoration: none;
+    display: flex;
+}
+
+.profile_menu_button {
+    color: #FF5A5F;
+    border: none;
+    background-color: white;
+    height: 50px;
+    width: 50px;
+}
+
+.profile-dropdown {
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 70px;
+    right: 50px;
+    z-index: 1;
+    background-color: white;
+    border: 1px solid #999999;
+    box-shadow: 2px 2px 2px #999999;
+    border-radius: 5px;
+    width: 10%;
+    padding: 5px;
+}
+
+.profile-dropdown li {
+    margin: 5px 0px;
+}
+
+.logout_button_wrapper {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.modal_button_wrapper {
+    margin: 5px;
 }
 
 .hidden {

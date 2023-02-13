@@ -33,9 +33,12 @@ router.post(
         // iterate over users and check if username or email matches the req.body
         users.forEach(user => {
           if (user.email === email) {
-            error.errors = { 'email': "User with that email already exists" };
-          } else if (user.username === username) {
-            error.errors = { 'username': 'User with that username already exists' };
+            // error.errors = { 'email': "User with that email already exists" };
+            error.errors.email = "User with that email already exists";
+          }
+          if (user.username === username) {
+            // error.errors = { 'username': 'User with that username already exists' };
+            error.errors.username = "User with that username already exists"
           }
         })
         next(error);
