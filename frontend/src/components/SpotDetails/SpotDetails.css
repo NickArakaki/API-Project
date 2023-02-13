@@ -1,0 +1,13 @@
+/*
+    TODO: ADD STYLING FOR SPOT DETAILS
+        * use grid to get general layout
+        * use flex within grid components
+*/
+
+.spot_details_callout_info_box {
+    width: 25%;
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+
+}
