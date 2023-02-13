@@ -6,6 +6,7 @@ import Navigation from './components/Navigation';
 import SpotTiles from './components/SpotTile';
 import SpotDetails from './components/SpotDetails';
 import * as sessionActions from './store/session';
+import AddSpotForm from './components/AddSpotForm';
 
 
 function App() {
@@ -23,6 +24,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <SpotTiles />
+          </Route>
+          <Route path="/spots/add">
+            <AddSpotForm />
           </Route>
           <Route path="/spots/:spotId">
             <SpotDetails />

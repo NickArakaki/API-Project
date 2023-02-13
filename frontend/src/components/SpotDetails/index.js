@@ -13,7 +13,7 @@ export default function SpotDetails() {
 
     useEffect(() => {
         dispatch(spotActions.getSingleSpotThunk(spotId));
-    }, [dispatch])
+    }, [dispatch, spotId])
 
     if (!Object.values(spot).length) return <h2>Unable to retrieve details. Please try again shortly.</h2>;
 
