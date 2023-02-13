@@ -14,6 +14,17 @@
     font-weight: bold;
 }
 
+.login_errors_list {
+    display: flex;
+    align-self: flex-start;
+    list-style: none;
+}
+
+.error {
+    color: #FF5A5F;
+    /* list-style: none; */
+}
+
 .login_modal div {
     width: 100%;
     margin-top: 5px;
@@ -66,8 +77,4 @@
     color: #00525E;
     font-size: 14pt;
     font-weight: normal;
-}
-
-.error {
-    color: red;
 }
