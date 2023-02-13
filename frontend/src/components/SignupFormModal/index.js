@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -18,9 +18,14 @@ export default function SignupFormModal() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState([]);
+    const [disableSubmit, setDisableSubmit] = useState(true);
     const { closeModal } = useModal();
 
     if (sessionUser) return <Redirect to="/" />
+
+    useEffect(() => {
+
+    }, [username, firstName, lastName, email, password, confirmPassword])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -39,18 +44,9 @@ export default function SignupFormModal() {
     return (
         <form className="signup_modal" onSubmit={handleSubmit}>
             <label>Sign Up</label>
-            <ul>
+            {errors.length > 0 && (<ul>
                 {errors.map((error, index) => <li key={index} className="error">{error}</li>)}
-            </ul>
-            <div>
-                Username:
-                <input
-                    required
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                 />
-            </div>
+            </ul>)}
             <div>
                 First Name:
                 <input
@@ -79,6 +75,15 @@ export default function SignupFormModal() {
                 />
             </div>
             <div>
+                Username:
+                <input
+                    required
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                 />
+            </div>
+            <div>
                 Password:
                 <input
                     required
@@ -96,7 +101,7 @@ export default function SignupFormModal() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 />
             </div>
-            <button type="submit">Sign Up</button>
+            <button className={`submitButton ${subButtonClass}`} type="submit">Sign Up</button>
         </form>
     )
 }
