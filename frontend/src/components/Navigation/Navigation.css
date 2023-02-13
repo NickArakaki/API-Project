@@ -55,9 +55,16 @@
 }
 
 .logout_button_wrapper {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 50%;
     margin: 0 auto;
+}
+
+.logout_button {
+    width: 100%;
+    padding: 5px;
 }
 
 .modal_button_wrapper {
