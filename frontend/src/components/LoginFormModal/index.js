@@ -39,7 +39,7 @@ export default function LoginFormModal() {
         }
     }, [credential, password])
 
-    const subButtonClass = submitDisabled ? " disabled" : " enabled";
+    const subButtonClass = "submit_button" + (submitDisabled ? " disabled" : " enabled");
 
     return (
         <form className="login_modal" onSubmit={handleSubmit}>
@@ -55,8 +55,8 @@ export default function LoginFormModal() {
                 <label className="login_form_input_heading">Password:</label>
                 <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
             </div>
-            <button className={`submit_button ${subButtonClass}`} disabled={submitDisabled} type="submit">Log In</button>
-            <button className="demo_user_login" onClick={logInDemo}>
+            <button className={subButtonClass} disabled={submitDisabled} type="submit">Log In</button>
+            <button className="demo_user_login_button" onClick={logInDemo}>
                 Demo User
             </button>
         </form>
