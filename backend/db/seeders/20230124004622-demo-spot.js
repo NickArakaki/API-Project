@@ -12,7 +12,7 @@ options.tableName = 'Spots';
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const spots = seedSpots(12);
+    const spots = seedSpots(100);
     return await queryInterface.bulkInsert(options, spots)
   },
 
