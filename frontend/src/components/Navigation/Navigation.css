@@ -50,6 +50,16 @@
     padding: 5px;
 }
 
+.profile-dropdown li {
+    margin: 5px 0px;
+}
+
+.logout_button_wrapper {
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+}
+
 .modal_button_wrapper {
     margin: 5px;
 }
