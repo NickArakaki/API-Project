@@ -24,7 +24,6 @@ const initialState = { allSpots: {}, singleSpot: {} }
 // REDUCER
 export default function spotsReducer(state=initialState, action) {
     Object.freeze(state);
-    // const newState = { ...state };
 
     switch (action.type) {
         case GET_ALL_SPOTS: {

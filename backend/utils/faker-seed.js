@@ -86,7 +86,7 @@ const seedSpotImages = num => {
         spotImages[i] = {
             spotId: randomNum(100),
             url: faker.image.cats(),
-            preview: faker.datatype.boolean()
+            preview: true
         }
     }
 
