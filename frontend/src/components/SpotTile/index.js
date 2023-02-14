@@ -7,13 +7,13 @@ import "./SpotTile.css"
 
 export default function SpotTiles() {
     const dispatch = useDispatch();
-    const allSpots = useSelector((state) => state.spots.allSpots);
+    const allSpots = useSelector((state) => state.spots.allSpots)
 
     useEffect(() => {
         dispatch(spotActions.getAllSpotsThunk())
     }, [dispatch])
 
-    if (!allSpots) return <h2>Unable to retrieve spots. Please try again shortly</h2>;
+    if (!Object.values(allSpots).length) return <h2>Unable to retrieve spots. Please try again shortly</h2>;
 
     return (
         <>
