@@ -33,7 +33,7 @@ const seedSpots = num => {
 
     for (const i in spots) {
         spots[i] = {
-            ownerId: randomNum(100),
+            ownerId: [Number(i) + 1],
             address: faker.address.streetAddress(),
             city: faker.address.city(),
             state: faker.address.state(),
@@ -80,13 +80,13 @@ const seedReviews = num => {
 }
 
 const seedSpotImages = num => {
-    const spotImages = new Array(num).fill('');
+    const spotImages = new Array(num * 5).fill('');
 
     for (const i in spotImages) {
         spotImages[i] = {
-            spotId: randomNum(100),
+            spotId: [Math.floor(Number(i) / 5) + 1],
             url: faker.image.cats(),
-            preview: true
+            preview: Number(i) % 5 === 0 ? true : false
         }
     }
 
