@@ -13,6 +13,7 @@
 }
 .spot_tile_img {
     border-radius: 10%;
+    object-fit: contain;
 }
 
 .spot_tile_details_div {
