@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import * as spotActions from '../../store/spots';
 
@@ -10,12 +10,22 @@ export default function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot);
-    console.log(spot);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [haveFetchedSpot, setHaveFetchedSpot] = useState(false);
+
     useEffect(() => {
-        dispatch(spotActions.getSingleSpotThunk(spotId));
+        dispatch(spotActions.getSingleSpotThunk(spotId))
+            .then(() => {
+                setHaveFetchedSpot(true)
+                setIsLoaded(true)
+            })
+            .catch(() => {
+                setHaveFetchedSpot(false)
+                setIsLoaded(true)
+            });
     }, [dispatch, spotId])
 
-    if (!Object.values(spot).length) return <h2>Unable to retrieve details. Please try again shortly.</h2>;
+    if (!haveFetchedSpot && isLoaded) return <h2>Unable to retrieve details. Please try again shortly.</h2>;
 
     return (
         <>

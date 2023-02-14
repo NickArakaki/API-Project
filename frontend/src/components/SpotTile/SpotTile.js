@@ -7,7 +7,7 @@ export default function SpotTile({ spot }) {
                     <h3 className="spot_tile_spot_location">{spot.city}, {spot.state}</h3>
                     <div className="spot_tile_price">${spot.price} night</div>
                 </div>
-                <div className="spot_tile_avg_stars"><i className="fa-solid fa-star" /> {spot.avgRating}</div>
+                <div className="spot_tile_avg_stars"><i className="fa-solid fa-star" /> {spot.avgRating ? spot.avgRating : "new"}</div>
             </div>
         </div>
     )

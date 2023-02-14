@@ -9,15 +9,22 @@ import "./SpotTile.css"
 export default function SpotTiles() {
     const dispatch = useDispatch();
     const allSpots = useSelector((state) => state.spots.allSpots)
+    const [haveFetchedSpots, setHaveFetchedSpots] = useState(false)
+    const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
         dispatch(spotActions.getAllSpotsThunk())
+            .then(() => {
+                setHaveFetchedSpots(true)
+                setIsLoaded(true)
+            })
             .catch(() => {
-                return <h2>Unable to retrieve spots. Please try again shortly.</h2>
+                setHaveFetchedSpots(false)
+                setIsLoaded(true)
             })
     }, [dispatch])
 
-    if (!Object.values(allSpots)) return <h2>Unable to retrieve spots. Please try again shortly</h2>;
+    if (!haveFetchedSpots && isLoaded) return <h2>Unable to retrieve spots. Please try again shortly</h2>;
 
     return (
         <>
