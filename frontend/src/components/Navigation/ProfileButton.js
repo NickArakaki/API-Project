@@ -4,7 +4,7 @@ import * as sessionActions from "../../store/session";
 import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-import AddSpotButton from './AddSpotButton';
+import { Link } from 'react-router-dom';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -42,18 +42,28 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      {user && <AddSpotButton />}
+      {user && (
+        <Link to="/spots/add">
+          <i className="fa-solid fa-plus fa-xl add_spot_button" />
+        </Link>
+        )}
       <button className='profile_menu_button' onClick={openMenu}>
         <i className="fa-solid fa-bars fa-xl"></i>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>Hello, {user.username}</li>
-            <li>{user.email}</li>
-            <hr />
+            <div className='profile_menu_greeting_div'>
+              <li>Hello, {user.username}</li>
+              <li>{user.email}</li>
+            </div>
+            <div className='profile_menu_management_div'>
+              <Link to="/myspots">
+                <button onClick={closeMenu} className='manage_spots_button'>Manage Spots</button>
+              </Link>
+            </div>
             <div className='logout_button_wrapper' >
-              <button className="logout_button" onClick={logout}>Log Out</button>
+                <button className="logout_button" onClick={logout}>Log Out</button>
             </div>
           </>
         ) : (

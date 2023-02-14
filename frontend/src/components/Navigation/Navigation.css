@@ -56,6 +56,16 @@
     padding: 5px;
 }
 
+.profile_menu_greeting_div {
+    margin: 5px auto;
+    border-bottom: 1px solid #999999;
+}
+
+.profile_menu_management_div {
+    margin: 5px auto;
+    border-bottom: 1px solid #999999;
+}
+
 .profile-dropdown li {
     margin: 5px 0px;
 }
@@ -66,6 +76,11 @@
     align-items: center;
     width: 50%;
     margin: 0 auto;
+}
+
+.manage_spots_button {
+    border: none;
+    background-color: white;
 }
 
 .logout_button {
