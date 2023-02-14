@@ -1,14 +1,6 @@
-import { useHistory } from "react-router-dom";
-
 export default function SpotTile({ spot }) {
-    const history = useHistory();
-
-    const handleClick = () => {
-        history.push(`/spots/${spot.id}`);
-    }
-
     return (
-        <div onClick={handleClick} className="spot_tile">
+        <div className="spot_tile">
             <img className="spot_tile_img" src={spot.previewImage} alt={`${spot.name} preview image`}/>
             <div className="spot_tile_details_div">
                 <div className="spot_tile_location_and_price_div">

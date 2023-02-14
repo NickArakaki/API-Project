@@ -1,0 +1,12 @@
+/* TODO: ADD STYLING FOR MANAGE SPOTS PAGE */
+
+.manage_spots_title {
+    font-family: sans-serif;
+}
+
+.button {
+    border: 2px solid black;
+    background-color: #FF5A5F;
+    box-shadow: 3px 3px black;
+    color: #FFFFFF;
+}

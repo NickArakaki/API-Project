@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 
+import * as sessionActions from './store/session';
 import Navigation from './components/Navigation';
 import SpotTiles from './components/SpotTile';
 import SpotDetails from './components/SpotDetails';
-import * as sessionActions from './store/session';
 import AddSpotForm from './components/AddSpotForm';
+import UserSpots from './components/UserSpots';
 
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <SpotTiles />
+          </Route>
+          <Route path="/myspots">
+            <UserSpots />
           </Route>
           <Route path="/spots/add">
             <AddSpotForm />

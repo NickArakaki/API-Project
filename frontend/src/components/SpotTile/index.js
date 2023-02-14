@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
+import { Link } from "react-router-dom";
 import * as spotActions from "../../store/spots";
 import SpotTile from "./SpotTile";
 
@@ -20,7 +21,9 @@ export default function SpotTiles() {
             <h2>All Spots</h2>
             <div className="spot_tile_wrapper">
                 {Object.values(allSpots).map(spot => (
-                    <SpotTile key={spot.id} spot={spot} />
+                    <Link key={spot.id} to={`/spots/${spot.id}`} >
+                        <SpotTile spot={spot} />
+                    </Link>
                     ))}
             </div>
         </>
