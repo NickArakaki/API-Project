@@ -14,7 +14,7 @@ export default function UserSpotTiles({ user }) {
     if (!Object.values(userSpots)) return <h1>There are no spots</h1>
 
     return (
-        <div className="user_spot_tile">
+        <>
             {Object.values(userSpots).map(userSpot => (
                 <div key={userSpot.id} className="user_spot_tile">
                     <img src={userSpot.previewImage} alt={`${userSpot.name} preview image`} />
@@ -39,6 +39,6 @@ export default function UserSpotTiles({ user }) {
                     </div>
                 </div>
             ))}
-        </div>
+        </>
     )
 }

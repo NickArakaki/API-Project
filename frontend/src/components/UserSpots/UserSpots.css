@@ -10,3 +10,13 @@
     box-shadow: 3px 3px black;
     color: #FFFFFF;
 }
+
+.button:hover {
+    background-color: #fd7b7f;
+}
+
+.manage_spots_spot_tiles_div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
