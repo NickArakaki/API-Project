@@ -25,6 +25,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
     const [image3, setImage3] = useState('');
     const [image4, setImage4] = useState('');
     const [validationErrors, setValidationErrors] = useState([]);
+    const [serverErrors, setServerErrors] = useState([]);
 
     if (!sessionUser) history.push('/');
 
@@ -61,38 +62,42 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                 price
             };
 
-            // const spotImages = [
-            //     {
-            //         url: previewImage,
-            //         preview: true
-            //     }
-            // ]
+            const spotImages = [
+                {
+                    url: previewImage,
+                    preview: true
+                }
+            ]
 
-            // if (image1) spotImages.push({
-            //     url: image1,
-            //     preview: false
-            // })
-            // if (image2) spotImages.push({
-            //     url: image2,
-            //     preview: false
-            // })
-            // if (image3) spotImages.push({
-            //     url: image3,
-            //     preview: false
-            // })
-            // if (image4) spotImages.push({
-            //     url: image4,
-            //     preview: false
-            // })
+            if (image1) spotImages.push({
+                url: image1,
+                preview: false
+            })
+            if (image2) spotImages.push({
+                url: image2,
+                preview: false
+            })
+            if (image3) spotImages.push({
+                url: image3,
+                preview: false
+            })
+            if (image4) spotImages.push({
+                url: image4,
+                preview: false
+            })
 
             dispatch(spotActions.addSpotThunk(spotData))
-                .then(spot => {
-                    history.push(`/spots/${spot.id}`)
+                .then((spot) => {
+                    // iterate over spotImages and add to spotId
+                    spotImages.forEach(spotImage => {
+                        dispatch(spotActions.addSpotImageThunk(spot.id, spotImage))
+                    })
+                    history.push(`/spots/${spot.id}`);
                 })
                 .catch(async (res) => {
                     const data = await res.json();
                     if (data && Object.values(data.errors).length > 0) {
-                        setValidationErrors(Object.values(data.errors));
+                        setServerErrors(Object.values(data.errors));
                     }
                 })
 
@@ -106,6 +111,13 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
     return (
         <form className="add_spot_form" onSubmit={handleSubmit}>
             <h2 className="add_spot_form_title">Create a New Spot</h2>
+            {serverErrors.length > 0 && (
+                <>
+                    {serverErrors.map(error => (
+                        <li key={error}>{error}</li>
+                    ))}
+                </>
+            )}
             <div className="add_spot_form_location_wrapper">
                 <h3>Where's your place located?</h3>
                 <p>Guests will only get your exact address once they have booked a reservation.</p>

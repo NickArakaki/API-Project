@@ -3,7 +3,6 @@ import { csrfFetch } from "./csrf";
 // CONSTS TO PREVENT TYPOS
 const GET_ALL_SPOTS = 'spots/GET_ALL_SPOTS';
 const GET_SINGLE_SPOT = '/spots/GET_SINGLE_SPOT';
-const ADD_SPOT = '/spots/ADD_SPOT';
 
 // OBJECT ACTION CREATORS
 const getAllSpots = (allSpots) => {
@@ -41,22 +40,20 @@ export const addSpotThunk = (spotData) => async (dispatch) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(spotData)
     });
-    // wait for successful response before sending spotImage POST request
     const spot = await response.json();
-
-    // use the id assigned to spot to add spotImages
-    // iterate over spotImages input array
-    // spotImages.forEach(async spotImage => {
-    //     const spotImageResponse = await csrfFetch(`api/spots/${spot.id}/images`, {
-    //         method: "POST",
-    //         headers: { "Content-Type": "application/json" },
-    //         body: JSON.stringify(spotImage)
-    //     })
-    // })
-
-    // after success of both dispatch state change for single spot
     dispatch(getSingleSpotThunk(spot.id));
     return spot;
+}
+
+export const addSpotImageThunk = (spotId, spotImage) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(spotImage)
+    });
+    const image = await response.json();
+    dispatch(getSingleSpotThunk(spotId));
+    return image;
 }
 
 const initialState = { allSpots: {}, singleSpot: {} }
