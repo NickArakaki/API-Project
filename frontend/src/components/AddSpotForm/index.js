@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
+import * as spotActions from '../../store/spots';
 import validateAddSpotForm from "../../utils/validation";
 import "./AddSpotForm.css"
 
-export default function AddSpotForm() {
+export default function AddSpotForm() { // Refactoring idea: maybe use the rest operator for image1...image4
     const history = useHistory();
+    const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
 
     const [country, setCountry] = useState('');
@@ -46,10 +48,57 @@ export default function AddSpotForm() {
 
         if (!Object.values(errors).length) {
             // make post request
-            console.log("We're making progress")
+            setValidationErrors([]);
+            const spotData = {
+                address: streetAddress,
+                city,
+                state,
+                country,
+                lat: 37.7645358,
+                lng: -122.4730327,
+                name: title,
+                description,
+                price
+            };
+
+            // const spotImages = [
+            //     {
+            //         url: previewImage,
+            //         preview: true
+            //     }
+            // ]
+
+            // if (image1) spotImages.push({
+            //     url: image1,
+            //     preview: false
+            // })
+            // if (image2) spotImages.push({
+            //     url: image2,
+            //     preview: false
+            // })
+            // if (image3) spotImages.push({
+            //     url: image3,
+            //     preview: false
+            // })
+            // if (image4) spotImages.push({
+            //     url: image4,
+            //     preview: false
+            // })
+
+            dispatch(spotActions.addSpotThunk(spotData))
+                .then(spot => {
+                    history.push(`/spots/${spot.id}`)
+                })
+                .catch(async (res) => {
+                    const data = await res.json();
+                    if (data && Object.values(data.errors).length > 0) {
+                        setValidationErrors(Object.values(data.errors));
+                    }
+                })
 
         } else {
             // else set the errors
+            console.log("there are errors")
             setValidationErrors(errors);
         }
     }

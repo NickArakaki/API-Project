@@ -35,27 +35,28 @@ export const getSingleSpotThunk = (spotId) => async (dispatch) => {
     return singleSpot;
 }
 
-export const addSpotThunk = (spotData, spotImages) => async (dispatch) => {
-    const spotResponse = await csrfFetch(`/api/spots`, {
+export const addSpotThunk = (spotData) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(spotData)
     });
     // wait for successful response before sending spotImage POST request
-    const spotData = await spotResponse.json();
+    const spot = await response.json();
 
     // use the id assigned to spot to add spotImages
     // iterate over spotImages input array
-    spotImages.forEach(spotImage => {
-        const spotImageResponse = await csrfFetch(`api/spots/${}/images`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(spotImage)
-        })
-    })
+    // spotImages.forEach(async spotImage => {
+    //     const spotImageResponse = await csrfFetch(`api/spots/${spot.id}/images`, {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify(spotImage)
+    //     })
+    // })
 
     // after success of both dispatch state change for single spot
-    dispatch(getSingleSpot(/*spot id returned from response*/))
+    dispatch(getSingleSpotThunk(spot.id));
+    return spot;
 }
 
 const initialState = { allSpots: {}, singleSpot: {} }
