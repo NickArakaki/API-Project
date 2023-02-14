@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 
+import OpenModalButton from "../OpenModalButton";
 import * as spotActions from '../../store/spots';
 
 export default function UserSpotTiles({ user }) {
@@ -33,7 +34,10 @@ export default function UserSpotTiles({ user }) {
                             </div>
                             <div className="user_spot_tile_management_div">
                                 <button className="user_spot_tile_update_button button">Update</button>
-                                <button className="user_spot_tile_delete_button button">Delete</button>
+                                <OpenModalButton
+                                    modalComponent={<h2>Delete form coming soon</h2>}
+                                    buttonText="Delete"
+                                />
                             </div>
                         </div>
                     </div>

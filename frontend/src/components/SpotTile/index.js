@@ -9,33 +9,37 @@ import "./SpotTile.css"
 export default function SpotTiles() {
     const dispatch = useDispatch();
     const allSpots = useSelector((state) => state.spots.allSpots)
-    const [haveFetchedSpots, setHaveFetchedSpots] = useState(false)
+    const [successfulFetch, setSuccessfulFetch] = useState(false)
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
         dispatch(spotActions.getAllSpotsThunk())
             .then(() => {
-                setHaveFetchedSpots(true)
+                setSuccessfulFetch(true)
                 setIsLoaded(true)
             })
             .catch(() => {
-                setHaveFetchedSpots(false)
+                setSuccessfulFetch(false)
                 setIsLoaded(true)
             })
     }, [dispatch])
 
-    if (!haveFetchedSpots && isLoaded) return <h2>Unable to retrieve spots. Please try again shortly</h2>;
+    if (!successfulFetch && isLoaded) return <h2>Unable to retrieve spots. Please try again shortly</h2>;
 
     return (
         <>
-            <h2>All Spots</h2>
-            <div className="spot_tile_wrapper">
-                {Object.values(allSpots).map(spot => (
-                    <Link key={spot.id} to={`/spots/${spot.id}`} >
-                        <SpotTile spot={spot} />
-                    </Link>
+        {isLoaded && (
+            <>
+                <h2>All Spots</h2>
+                <div className="spot_tile_wrapper">
+                    {Object.values(allSpots).map(spot => (
+                        <Link key={spot.id} to={`/spots/${spot.id}`} >
+                            <SpotTile spot={spot} />
+                        </Link>
                     ))}
-            </div>
+                </div>
+            </>
+        )}
         </>
     )
 }
