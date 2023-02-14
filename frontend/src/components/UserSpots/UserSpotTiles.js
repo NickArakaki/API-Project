@@ -36,7 +36,7 @@ export default function UserSpotTiles({ user }) {
                             <div className="user_spot_tile_management_div">
                                 <button className="user_spot_tile_update_button button">Update</button>
                                 <OpenModalButton
-                                    modalComponent={<DeleteSpotModal />}
+                                    modalComponent={<DeleteSpotModal spot={userSpot} />}
                                     buttonText="Delete"
                                 />
                             </div>
