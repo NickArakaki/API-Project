@@ -1,0 +1,17 @@
+/*TODO: ADD STYLING FOR SPOT TILES*/
+.spot_tile_wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.spot_tile {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.spot_tile_img {
+    border-radius: 10%;
+}
