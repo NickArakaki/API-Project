@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import validateAddSpotForm from "./validation";
+import validateAddSpotForm from "../../utils/validation";
 import "./AddSpotForm.css"
 
 export default function AddSpotForm() {

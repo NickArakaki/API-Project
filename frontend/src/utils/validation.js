@@ -11,7 +11,6 @@ export default function validateAddSpotForm(
     image2,
     image3,
     image4,
-
 ) {
     const validationErrors = {};
 
