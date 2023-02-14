@@ -4,6 +4,7 @@ import * as sessionActions from "../../store/session";
 import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import AddSpotButton from './AddSpotButton';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
+      {user && <AddSpotButton />}
       <button className='profile_menu_button' onClick={openMenu}>
         <i className="fa-solid fa-bars fa-xl"></i>
       </button>

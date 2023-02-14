@@ -26,6 +26,12 @@
     display: flex;
 }
 
+.add_spot_button {
+    border: none;
+    background: white;
+    color: #FF5A5F;
+}
+
 .profile_menu_button {
     color: #FF5A5F;
     border: none;
