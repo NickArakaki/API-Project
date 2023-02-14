@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom";
 import * as spotActions from "../../store/spots";
@@ -12,9 +12,12 @@ export default function SpotTiles() {
 
     useEffect(() => {
         dispatch(spotActions.getAllSpotsThunk())
+            .catch(() => {
+                return <h2>Unable to retrieve spots. Please try again shortly.</h2>
+            })
     }, [dispatch])
 
-    if (!Object.values(allSpots).length) return <h2>Unable to retrieve spots. Please try again shortly</h2>;
+    if (!Object.values(allSpots)) return <h2>Unable to retrieve spots. Please try again shortly</h2>;
 
     return (
         <>
