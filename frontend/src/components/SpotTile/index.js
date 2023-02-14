@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 import * as spotActions from "../../store/spots";
 import SpotTile from "./SpotTile";
 
+import "./SpotTile.css"
+
 export default function SpotTiles() {
     const dispatch = useDispatch();
     const allSpots = useSelector((state) => state.spots.allSpots);
@@ -16,9 +18,11 @@ export default function SpotTiles() {
     return (
         <>
             <h2>All Spots</h2>
-            {Object.values(allSpots).map(spot => (
-                <SpotTile key={spot.id} spot={spot} />
-            ))}
+            <div className="spot_tile_wrapper">
+                {Object.values(allSpots).map(spot => (
+                    <SpotTile key={spot.id} spot={spot} />
+                    ))}
+            </div>
         </>
     )
 }
