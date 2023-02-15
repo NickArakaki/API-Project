@@ -1,39 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import * as spotActions from '../../store/spots';
-import validateAddSpotForm from "../../utils/validation";
+import validateSpotForm from "../../utils/validation";
 import "./AddSpotForm.css"
 
-export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring idea: maybe use the rest operator for image1...image4
+export default function AddSpotForm() { // Refactoring idea: maybe use the rest operator for image1...image4
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
-    const spot = useSelector(state => state.spots.singleSpot);
 
-    const [country, setCountry] = useState(isUpdateForm ? spot.country : '');
-    const [streetAddress, setStreetAddress] = useState(isUpdateForm ? spot.address : '');
-    const [city, setCity] = useState(isUpdateForm ? spot.city : '');
-    const [state, setState] = useState(isUpdateForm ? spot.state : '');
-    const [latitude, setLatitude] = useState(isUpdateForm ? spot.lat : '');
-    const [longitude, setLongitude] = useState(isUpdateForm ? spot.lng : '');
-    const [description, setDescription] = useState(isUpdateForm ? spot.description : '');
-    const [title, setTitle] = useState(isUpdateForm ? spot.name : '');
-    const [price, setPrice] = useState(isUpdateForm ? spot.price : '');
+    const [country, setCountry] = useState('');
+    const [streetAddress, setStreetAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+    const [description, setDescription] = useState('');
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState("");
     const [previewImage, setPreviewImage] = useState('');
     const [image1, setImage1] = useState('');
     const [image2, setImage2] = useState('');
     const [image3, setImage3] = useState('');
     const [image4, setImage4] = useState('');
-    const [validationErrors, setValidationErrors] = useState([]);
+    const [spotImages, setSpotImages] = useState([]);
+    const [validationErrors, setValidationErrors] = useState({});
     const [serverErrors, setServerErrors] = useState([]);
 
-    if (!sessionUser || sessionUser.id !== spot.ownerId) history.push('/');
+    useEffect(() => {
+        const imageList = [];
+        if (image1) imageList.push(image1);
+        if (image2) imageList.push(image2);
+        if (image3) imageList.push(image3);
+        if (image4) imageList.push(image4);
+
+        setSpotImages(imageList);
+
+    }, [image1, image2, image3, image4])
+
+
+    if (!sessionUser) history.push('/');
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const errors = validateAddSpotForm(
+        const errors = validateSpotForm(
             country,
             streetAddress,
             city,
@@ -42,10 +54,7 @@ export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring i
             title,
             price,
             previewImage,
-            image1,
-            image2,
-            image3,
-            image4
+            spotImages
         )
 
         if (!Object.values(errors).length) {
@@ -56,41 +65,31 @@ export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring i
                 city,
                 state,
                 country,
-                lat: 37.7645358,
-                lng: -122.4730327,
+                lat: Number(latitude) || 37.7645358,
+                lng: Number(longitude) || -122.4730327,
                 name: title,
                 description,
                 price
             };
 
-            const spotImages = [
+            const images = [
                 {
                     url: previewImage,
                     preview: true
                 }
             ]
 
-            if (image1) spotImages.push({
-                url: image1,
-                preview: false
-            })
-            if (image2) spotImages.push({
-                url: image2,
-                preview: false
-            })
-            if (image3) spotImages.push({
-                url: image3,
-                preview: false
-            })
-            if (image4) spotImages.push({
-                url: image4,
-                preview: false
+            spotImages.forEach(spotImage => {
+                images.push({
+                    url: spotImage,
+                    preview: false
+                })
             })
 
             dispatch(spotActions.addSpotThunk(spotData))
                 .then((spot) => {
                     // iterate over spotImages and add to spotId
-                    spotImages.forEach(spotImage => {
+                    images.forEach(spotImage => {
                         dispatch(spotActions.addSpotImageThunk(spot.id, spotImage))
                     })
                     history.push(`/spots/${spot.id}`);
@@ -104,18 +103,17 @@ export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring i
 
         } else {
             // else set the errors
-            console.log("there are errors")
             setValidationErrors(errors);
         }
     }
 
     return (
         <form className="add_spot_form" onSubmit={handleSubmit}>
-            <h2 className="add_spot_form_title">{isUpdateForm ? "Update Your Spot" : "Create a New Spot"}</h2>
+            <h2 className="add_spot_form_title">Create a New Spot</h2>
             {serverErrors.length > 0 && (
                 <>
                     {serverErrors.map(error => (
-                        <li key={error}>{error}</li>
+                        <li key={error} className="error">{error}</li>
                     ))}
                 </>
             )}
@@ -132,7 +130,7 @@ export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring i
                     />
                 </div>
                 <div>
-                    Street Address: {validationErrors.streetAddress && <span className="error">{validationErrors.streetAddress}</span>}
+                    Street Address: {validationErrors.address && <span className="error">{validationErrors.address}</span>}
                     <input
                         type="text"
                         placeholder="Address"
@@ -231,7 +229,7 @@ export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring i
                     value={image1}
                     onChange={(e) => setImage1(e.target.value)}
                 />
-                {validationErrors.image1Type && <span className="error">{validationErrors.image1Type}</span>}
+                {validationErrors.spotImagesType0 && <span className="error">{validationErrors.spotImagesType0}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -239,7 +237,7 @@ export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring i
                     value={image2}
                     onChange={(e) => setImage2(e.target.value)}
                 />
-                {validationErrors.image2Type && <span className="error">{validationErrors.image2Type}</span>}
+                {validationErrors.spotImagesType1 && <span className="error">{validationErrors.spotImagesType1}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -247,7 +245,7 @@ export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring i
                     value={image3}
                     onChange={(e) => setImage3(e.target.value)}
                 />
-                {validationErrors.image3Type && <span className="error">{validationErrors.image3Type}</span>}
+                {validationErrors.spotImagesType2 && <span className="error">{validationErrors.spotImagesType2}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -255,9 +253,10 @@ export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring i
                     value={image4}
                     onChange={(e) => setImage4(e.target.value)}
                 />
-                {validationErrors.image3Type && <span className="error">{validationErrors.image3Type}</span>}
+                {validationErrors.spotImagesType3 && <span className="error">{validationErrors.spotImagesType3}</span>}
             </div>
-            <button className="add_spot_form_submit_button" type="submit">{isUpdateForm ? "Update Spot" : "Create Spot"}</button>
+            <hr />
+            <button className="add_spot_form_submit_button" type="submit">Create Spot</button>
         </form>
     )
 }
