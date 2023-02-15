@@ -14,7 +14,7 @@ export default function UserSpotTiles({ user }) {
         dispatch(spotActions.getUserSpotsThunk(user.id))
     }, [dispatch])
 
-    if (!Object.values(userSpots)) return <h1>There are no spots</h1>
+    if (!Object.values(userSpots)) return <h1>You have no spots</h1>
 
     return (
         <>
