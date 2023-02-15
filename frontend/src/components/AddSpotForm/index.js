@@ -5,12 +5,11 @@ import spotsReducer, * as spotActions from '../../store/spots';
 import validateAddSpotForm from "../../utils/validation";
 import "./AddSpotForm.css"
 
-export default function AddSpotForm({ spotId }) { // Refactoring idea: maybe use the rest operator for image1...image4
+export default function AddSpotForm({ updateForm = false }) { // Refactoring idea: maybe use the rest operator for image1...image4
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
     const spot = useSelector(state => state.spots.singleSpot);
-    const updateForm = sessionUser.id === spot.ownerId;
 
     const [country, setCountry] = useState(updateForm ? spot.country : '');
     const [streetAddress, setStreetAddress] = useState(updateForm ? spot.address : '');

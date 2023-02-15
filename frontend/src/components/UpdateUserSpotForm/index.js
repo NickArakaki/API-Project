@@ -19,6 +19,6 @@ export default function UpdateUserSpotForm() {
     if (!isLoaded) return <h2>Loading</h2>
 
     return (
-        <AddSpotForm spotId={spotId} />
+        <AddSpotForm spotId={spotId} updateForm={true} />
     )
 }
