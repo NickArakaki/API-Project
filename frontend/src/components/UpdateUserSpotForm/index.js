@@ -8,6 +8,7 @@ import * as spotActions from "../../store/spots";
 import "./UpdateUserSpotForm.css"
 
 export default function UpdateUserSpotForm() {
+    const history = useHistory();
     const { spotId } = useParams();
     const sessionUser = useSelector(state => state.session.user);
     const dispatch = useDispatch();
@@ -76,7 +77,12 @@ export default function UpdateUserSpotForm() {
         if (!Object.values(errors).length) {
             // if there are no validation errors dispatch update thunk
             // redirect to updated spots detail page
-            console.log("Will dispatch update spot thunk")
+            dispatch(spotActions.updateUserSpotThunk(spotId, updatedSpot))
+                .then(() => history.push(`/spots/${spotId}`))
+                .catch((errors) => {
+                    console.log(errors);
+                })
+
         } else {
             // else set validation errors
             setValidationErrors(errors)

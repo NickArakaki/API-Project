@@ -5,6 +5,7 @@ const GET_ALL_SPOTS = 'spots/GET_ALL_SPOTS';
 const GET_USER_SPOTS = 'spots/GET_USER_SPOTS';
 const GET_SINGLE_SPOT = '/spots/GET_SINGLE_SPOT';
 const ADD_SPOT_IMAGE = 'spots/ADD_SPOT_IMAGE';
+const UPDATE_USER_SPOT = '/spots/UPDATE_USER_SPOT';
 const DELETE_USER_SPOT = 'spots/DELETE_USER_SPOT';
 
 /*********************************OBJECT ACTION CREATORS **************************/
@@ -33,6 +34,13 @@ const addSpotImage = (spotImage) => {
     return {
         type: ADD_SPOT_IMAGE,
         spotImage
+    }
+}
+
+const updateUserSpot = (spot) => {
+    return {
+        type: UPDATE_USER_SPOT,
+        spot
     }
 }
 
@@ -96,6 +104,18 @@ export const getSingleSpotThunk = (spotId) => async (dispatch) => {
     return singleSpot;
 }
 
+// UPDATE
+export const updateUserSpotThunk = (spotId, updatedSpot) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedSpot)
+    });
+    const spot = await response.json();
+    dispatch(updateUserSpot(spot));
+    return spot;
+}
+
 // DELETE
 export const deleteUserSpotThunk = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`, {
@@ -133,6 +153,12 @@ export default function spotsReducer(state=initialState, action) {
         }
         case GET_SINGLE_SPOT: {
             return { ...state, singleSpot: action.spot}
+        }
+        case UPDATE_USER_SPOT: {
+            return { ...state,
+                        singleSpot: action.spot,
+                        userSpots: { ...state.userSpots, [action.spot.id]: action.spot}
+                    }
         }
         case DELETE_USER_SPOT: {
             // go through state find spot in all spots, find spot in userSpots and remove them
