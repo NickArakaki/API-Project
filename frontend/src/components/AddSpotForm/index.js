@@ -120,7 +120,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
             <div className="add_spot_form_location_div form_block">
                 <h3>Where's your place located?</h3>
                 <p>Guests will only get your exact address once they have booked a reservation.</p>
-                <div>
+                <div className="add_spot_form_location_input">
                     Country: {validationErrors.country && <span className="error">{validationErrors.country}</span>}
                     <input
                         type="text"
@@ -129,7 +129,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                         onChange={(e) => setCountry(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className="add_spot_form_location_input">
                     Street Address: {validationErrors.address && <span className="error">{validationErrors.address}</span>}
                     <input
                         type="text"
@@ -138,58 +138,66 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                         onChange={(e) => setStreetAddress(e.target.value)}
                     />
                 </div>
-                <div>
-                    City: {validationErrors.city && <span className="error">{validationErrors.city}</span>}
-                    <input
-                        type="text"
-                        placeholder="City"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                    />,
-                </div>
-                <div>
-                    State: {validationErrors.state && <span className="error">{validationErrors.state}</span>}
-                    <input
-                        type="text"
-                        placeholder="STATE"
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
-                    />
-                </div>
-                <div>
-                    Latitude:
-                    <input
-                        type="text"
-                        placeholder="Latitude"
-                        value={latitude}
-                        onChange={(e) => setLatitude(e.target.value)}
-                    />
-                </div>
-                <div>
-                    Longitude
-                    <input
-                        type="text"
-                        placeholder="Longitude"
-                        value={longitude}
-                        onChange={(e) => setLongitude(e.target.value)}
-                    />
+                <div className="add_spot_form_location_input">
+                    <div className="add_spot_form_city_state_div">
+                        <div className="add_spot_form_city_div">
+                            <div>
+                                City: {validationErrors.city && <span className="error">{validationErrors.city}</span>}
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="City"
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                                />,
+                        </div>
+                        <div className="add_spot_form_city_div">
+                            <div>
+                                State: {validationErrors.state && <span className="error">{validationErrors.state}</span>}
+                            </div>
+                            <input
+                                type="text"
+                                placeholder="STATE"
+                                value={state}
+                                onChange={(e) => setState(e.target.value)}
+                                />
+                        </div>
+                    </div>
+                </div >
+                <div className="add_spot_form_location_input">
+                    <div className="add_spot_form_lat_lng">
+                        Latitude:
+                        <input
+                            type="text"
+                            placeholder="Latitude"
+                            value={latitude}
+                            onChange={(e) => setLatitude(e.target.value)}
+                            />
+                        Longitude:
+                        <input
+                            type="text"
+                            placeholder="Longitude"
+                            value={longitude}
+                            onChange={(e) => setLongitude(e.target.value)}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="add_spot_form_description_div form_block">
                 <h3>Describe your place to guests</h3>
                 <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
+                {validationErrors.description && <span className="error">{validationErrors.description}</span>}
                 <textarea
                     className="add_spot_form_description_textarea"
                     placeholder="Please write at least 30 characters"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                {validationErrors.description && <span className="error">{validationErrors.description}</span>}
             </div>
-            <hr />
             <div className="add_spot_form_title_wrapper form_block">
                 <h3>Create a tile for your spot</h3>
                 <p>Catch guests' attention with a spot title that highlights what makes your place special</p>
+                {validationErrors.title && <span className="error">{validationErrors.title}</span>}
                 <input
                     type="text"
                     placeholder="Name of your spot"
@@ -197,18 +205,18 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     onChange={(e) => setTitle(e.target.value)}
                 />
             </div>
-            {validationErrors.title && <span className="error">{validationErrors.title}</span>}
-            <hr />
             <div className="add_spot_form_price_wrapper form_block">
                 <h3>Set a base price for your spot</h3>
                 <p>Competitive pricing can help your listing stand out and rank higher ins search results</p>
-                $ <input
-                    type="number"
-                    placeholder="Price per night (USD)"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                />
                 {validationErrors.price && <span className="error">{validationErrors.price}</span>}
+                <div className="add_spot_form_input_wrapper">
+                    $ <input
+                        type="number"
+                        placeholder="Price per night (USD)"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        />
+                </div>
             </div>
             <div className="add_spot_form_photo_wrapper form_block">
                 <h3>Liven up your spot with photos</h3>
@@ -255,7 +263,6 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                 />
                 {validationErrors.spotImagesType3 && <span className="error">{validationErrors.spotImagesType3}</span>}
             </div>
-            <hr />
             <button className="add_spot_form_submit_button" type="submit">Create Spot</button>
         </form>
     )
