@@ -1,60 +1,68 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory } from "react-router-dom"
-import * as spotActions from '../../store/spots';
-import validateSpotForm from "../../utils/validation"
+import { useHistory, useParams } from "react-router-dom"
+
+import { validateSpot } from "../../utils/validation";
+import * as spotActions from "../../store/spots";
 
 import "./UpdateUserSpotForm.css"
 
 export default function UpdateUserSpotForm() {
     const history = useHistory();
     const dispatch = useDispatch();
+    const { spotId } = useParams();
     const sessionUser = useSelector(state => state.session.user);
+    const spot = useSelector(state => state.spots.singleSpot);
 
     const [country, setCountry] = useState('');
-    const [streetAddress, setStreetAddress] = useState('');
+    const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
     const [latitude, setLatitude] = useState('');
     const [longitude, setLongitude] = useState('');
     const [description, setDescription] = useState('');
-    const [title, setTitle] = useState('');
+    const [name, setName] = useState('');
     const [price, setPrice] = useState("");
-    const [previewImage, setPreviewImage] = useState('');
-    const [image1, setImage1] = useState('');
-    const [image2, setImage2] = useState('');
-    const [image3, setImage3] = useState('');
-    const [image4, setImage4] = useState('');
-    const [spotImages, setSpotImages] = useState([]);
     const [validationErrors, setValidationErrors] = useState({});
     const [serverErrors, setServerErrors] = useState([]);
 
-    useEffect(() => {
-        const imageList = [];
-        if (image1) imageList.push(image1);
-        if (image2) imageList.push(image2);
-        if (image3) imageList.push(image3);
-        if (image4) imageList.push(image4);
-
-        setSpotImages(imageList);
-
-    }, [image1, image2, image3, image4])
-
-    if (!sessionUser) history.push('/');
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // validate inputs
+        const updatedSpot = {
+            country,
+            address,
+            city,
+            state,
+            lat: Number(latitude),
+            lng: Number(longitude),
+            description,
+            name,
+            price
+        }
+
+        const errors = validateSpot(updatedSpot);
+
+        if (!Object.values(errors).length) {
+            // if there are no validation errors dispatch update thunk
+            // redirect to updated spots detail page
+            console.log("Will dispatch update spot thunk")
+        } else {
+            // else set validation errors
+            setValidationErrors(errors)
+        }
     }
 
     return (
         <form className="update_spot_form" onSubmit={handleSubmit}>
             <h2 className="update_spot_form_title">Update Your Spot</h2>
             {serverErrors.length > 0 && (
-                <>
+                <ul className="update_spot_server_errors_list">
                     {serverErrors.map(error => (
                         <li key={error} className="error">{error}</li>
                     ))}
-                </>
+                </ul>
             )}
             <div className="update_spot_form_location_div form_block">
                 <h3>Where's your place located?</h3>
@@ -73,8 +81,8 @@ export default function UpdateUserSpotForm() {
                     <input
                         type="text"
                         placeholder="Address"
-                        value={streetAddress}
-                        onChange={(e) => setStreetAddress(e.target.value)}
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                     />
                 </div>
                 <div>
@@ -131,8 +139,8 @@ export default function UpdateUserSpotForm() {
                 <input
                     type="text"
                     placeholder="Name of your spot"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                 />
             </div>
             {validationErrors.title && <span className="error">{validationErrors.title}</span>}
@@ -147,52 +155,7 @@ export default function UpdateUserSpotForm() {
                 />
                 {validationErrors.price && <span className="error">{validationErrors.price}</span>}
             </div>
-            <div className="update_spot_form_photo_wrapper form_block">
-                <h3>Liven up your spot with photos</h3>
-                <p>Submit a link to at least one photo to publish your spot</p>
-                <input
-                    className="update_spot_form_preview_image"
-                    type="text"
-                    placeholder="Preview Image URL"
-                    value={previewImage}
-                    onChange={(e) => setPreviewImage(e.target.value)}
-                />
-                {validationErrors.previewImage && <span className="error">{validationErrors.previewImage}</span>}
-                {validationErrors.previewImageType && <span className="error">{validationErrors.previewImageType}</span>}
-                <input
-                    className="update_spot_form_image"
-                    type="text"
-                    placeholder="Image URL"
-                    value={image1}
-                    onChange={(e) => setImage1(e.target.value)}
-                />
-                {validationErrors.spotImagesType0 && <span className="error">{validationErrors.spotImagesType0}</span>}
-                <input
-                    className="update_spot_form_image"
-                    type="text"
-                    placeholder="Image URL"
-                    value={image2}
-                    onChange={(e) => setImage2(e.target.value)}
-                />
-                {validationErrors.spotImagesType1 && <span className="error">{validationErrors.spotImagesType1}</span>}
-                <input
-                    className="update_spot_form_image"
-                    type="text"
-                    placeholder="Image URL"
-                    value={image3}
-                    onChange={(e) => setImage3(e.target.value)}
-                />
-                {validationErrors.spotImagesType2 && <span className="error">{validationErrors.spotImagesType2}</span>}
-                <input
-                    className="update_spot_form_image"
-                    type="text"
-                    placeholder="Image URL"
-                    value={image4}
-                    onChange={(e) => setImage4(e.target.value)}
-                />
-                {validationErrors.spotImagesType3 && <span className="error">{validationErrors.spotImagesType3}</span>}
-            </div>
-            <button className="update_spot_form_submit_button" type="submit">Update Spot</button>
+            <button className="update_spot_form_submit_button button" type="submit">Update Spot</button>
         </form>
     )
 }

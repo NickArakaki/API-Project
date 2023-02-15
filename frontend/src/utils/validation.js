@@ -26,7 +26,21 @@ export default function validateSpotForm(
         const spotImageKey = "spotImagesType".concat(Number(index).toString())
         if (!validFile(spotImage)) validationErrors[spotImageKey] = "URL must in in .png, .jpg, or .jpeg"
     })
-    console.log("form validation error structure", validationErrors)
+
+    return validationErrors;
+}
+
+// validate spot
+export const validateSpot = ({country, address, city, state, description, name, price}) => {
+    const validationErrors = {};
+
+    if (!country) validationErrors.country = "Country is required";
+    if (!address) validationErrors.address = "Address is required";
+    if (!city) validationErrors.city = "City is required";
+    if (!state) validationErrors.state = "State is required";
+    if (description.length < 30) validationErrors.description = "Description needs a minimum of 30 characters";
+    if (!name) validationErrors.title = "Name is required";
+    if (price <= 0) validationErrors.price = "Price is required";
 
     return validationErrors;
 }
