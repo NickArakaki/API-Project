@@ -1,24 +1,26 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-import * as spotActions from '../../store/spots';
+import spotsReducer, * as spotActions from '../../store/spots';
 import validateAddSpotForm from "../../utils/validation";
 import "./AddSpotForm.css"
 
-export default function AddSpotForm() { // Refactoring idea: maybe use the rest operator for image1...image4
+export default function AddSpotForm({ spotId }) { // Refactoring idea: maybe use the rest operator for image1...image4
     const history = useHistory();
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user);
+    const spot = useSelector(state => state.spots.singleSpot);
+    const updateForm = sessionUser.id === spot.ownerId;
 
-    const [country, setCountry] = useState('');
-    const [streetAddress, setStreetAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-    const [description, setDescription] = useState('');
-    const [title, setTitle] = useState('');
-    const [price, setPrice] = useState();
+    const [country, setCountry] = useState(updateForm ? spot.country : '');
+    const [streetAddress, setStreetAddress] = useState(updateForm ? spot.address : '');
+    const [city, setCity] = useState(updateForm ? spot.city : '');
+    const [state, setState] = useState(updateForm ? spot.state : '');
+    const [latitude, setLatitude] = useState(updateForm ? spot.lat : '');
+    const [longitude, setLongitude] = useState(updateForm ? spot.lng : '');
+    const [description, setDescription] = useState(updateForm ? spot.description : '');
+    const [title, setTitle] = useState(updateForm ? spot.name : '');
+    const [price, setPrice] = useState(updateForm ? spot.price : '');
     const [previewImage, setPreviewImage] = useState('');
     const [image1, setImage1] = useState('');
     const [image2, setImage2] = useState('');
@@ -110,7 +112,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
 
     return (
         <form className="add_spot_form" onSubmit={handleSubmit}>
-            <h2 className="add_spot_form_title">Create a New Spot</h2>
+            <h2 className="add_spot_form_title">{updateForm ? "Update Your Spot" : "Create a New Spot"}</h2>
             {serverErrors.length > 0 && (
                 <>
                     {serverErrors.map(error => (
@@ -256,8 +258,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                 />
                 {validationErrors.image3Type && <span className="error">{validationErrors.image3Type}</span>}
             </div>
-            <hr />
-            <button className="add_spot_form_submit_button" type="submit">Create Spot</button>
+            <button className="add_spot_form_submit_button" type="submit">{updateForm ? "Update Spot" : "Create Spot"}</button>
         </form>
     )
 }

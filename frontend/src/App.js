@@ -8,6 +8,7 @@ import SpotTiles from './components/SpotTile';
 import SpotDetails from './components/SpotDetails';
 import AddSpotForm from './components/AddSpotForm';
 import UserSpots from './components/UserSpots';
+import UpdateUserSpotForm from './components/UpdateUserSpotForm';
 
 
 function App() {
@@ -26,6 +27,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <SpotTiles />
+          </Route>
+          <Route path="/myspots/:spotId/edit">
+            <UpdateUserSpotForm />
           </Route>
           <Route path="/myspots">
             <UserSpots />
