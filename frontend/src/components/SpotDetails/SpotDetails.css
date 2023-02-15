@@ -40,16 +40,14 @@
 .spot_details_spot_info_div {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
-
-
 .spot_details_callout_info_box {
-    width: 25%;
+    width: 33%;
     border: 3px solid black;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     padding: 10px;
-    flex-basis: 33%;
 }
