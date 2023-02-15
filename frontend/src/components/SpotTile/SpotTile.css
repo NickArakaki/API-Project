@@ -1,35 +1,46 @@
 /*TODO: ADD STYLING FOR SPOT TILES*/
+.spot_tile_wrapper * {
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
 .spot_tile_wrapper {
+    padding-top: 10px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-around;
+    gap: 2%;
 }
 
 .spot_tile {
-    margin: 5px;
     display: flex;
+    max-width: 270px;
     flex-direction: column;
 }
+
 .spot_tile_img {
     border-radius: 10%;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .spot_tile_details_div {
+    margin: 10px 0px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    font-family: sans-serif;
+}
+
+.spot_tile_spot_location_and_price_div {
+    display: flex;
+    flex-direction: column;
+}
+
+.spot_tile_spot_location {
+    align-self: flex-start;
+    margin-bottom: 10px;
 }
 
 .spot_tile_avg_stars {
-    align-self: center;
+    align-self: flex-start;
 }
-
-/* .spot_tile_avg_start {
-    margin: 0px 5px;
-}
-
-.spot_tile_price {
-    margin: 0px 5px;
-} */
