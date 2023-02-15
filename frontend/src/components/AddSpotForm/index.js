@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import * as spotActions from '../../store/spots';
-import validateAddSpotForm from "../../utils/validation";
+import validateSpotForm from "../../utils/validation";
 import "./AddSpotForm.css"
 
 export default function AddSpotForm() { // Refactoring idea: maybe use the rest operator for image1...image4
@@ -18,21 +18,34 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
     const [longitude, setLongitude] = useState('');
     const [description, setDescription] = useState('');
     const [title, setTitle] = useState('');
-    const [price, setPrice] = useState();
+    const [price, setPrice] = useState("");
     const [previewImage, setPreviewImage] = useState('');
     const [image1, setImage1] = useState('');
     const [image2, setImage2] = useState('');
     const [image3, setImage3] = useState('');
     const [image4, setImage4] = useState('');
-    const [validationErrors, setValidationErrors] = useState([]);
+    const [spotImages, setSpotImages] = useState([]);
+    const [validationErrors, setValidationErrors] = useState({});
     const [serverErrors, setServerErrors] = useState([]);
+
+    useEffect(() => {
+        const imageList = [];
+        if (image1) imageList.push(image1);
+        if (image2) imageList.push(image2);
+        if (image3) imageList.push(image3);
+        if (image4) imageList.push(image4);
+
+        setSpotImages(imageList);
+
+    }, [image1, image2, image3, image4])
+
 
     if (!sessionUser) history.push('/');
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const errors = validateAddSpotForm(
+        const errors = validateSpotForm(
             country,
             streetAddress,
             city,
@@ -41,10 +54,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
             title,
             price,
             previewImage,
-            image1,
-            image2,
-            image3,
-            image4
+            spotImages
         )
 
         if (!Object.values(errors).length) {
@@ -55,41 +65,31 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                 city,
                 state,
                 country,
-                lat: 37.7645358,
-                lng: -122.4730327,
+                lat: Number(latitude) || 37.7645358,
+                lng: Number(longitude) || -122.4730327,
                 name: title,
                 description,
                 price
             };
 
-            const spotImages = [
+            const images = [
                 {
                     url: previewImage,
                     preview: true
                 }
             ]
 
-            if (image1) spotImages.push({
-                url: image1,
-                preview: false
-            })
-            if (image2) spotImages.push({
-                url: image2,
-                preview: false
-            })
-            if (image3) spotImages.push({
-                url: image3,
-                preview: false
-            })
-            if (image4) spotImages.push({
-                url: image4,
-                preview: false
+            spotImages.forEach(spotImage => {
+                images.push({
+                    url: spotImage,
+                    preview: false
+                })
             })
 
             dispatch(spotActions.addSpotThunk(spotData))
                 .then((spot) => {
                     // iterate over spotImages and add to spotId
-                    spotImages.forEach(spotImage => {
+                    images.forEach(spotImage => {
                         dispatch(spotActions.addSpotImageThunk(spot.id, spotImage))
                     })
                     history.push(`/spots/${spot.id}`);
@@ -103,7 +103,6 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
 
         } else {
             // else set the errors
-            console.log("there are errors")
             setValidationErrors(errors);
         }
     }
@@ -114,7 +113,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
             {serverErrors.length > 0 && (
                 <>
                     {serverErrors.map(error => (
-                        <li key={error}>{error}</li>
+                        <li key={error} className="error">{error}</li>
                     ))}
                 </>
             )}
@@ -131,7 +130,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     />
                 </div>
                 <div>
-                    Street Address: {validationErrors.streetAddress && <span className="error">{validationErrors.streetAddress}</span>}
+                    Street Address: {validationErrors.address && <span className="error">{validationErrors.address}</span>}
                     <input
                         type="text"
                         placeholder="Address"
@@ -230,7 +229,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     value={image1}
                     onChange={(e) => setImage1(e.target.value)}
                 />
-                {validationErrors.image1Type && <span className="error">{validationErrors.image1Type}</span>}
+                {validationErrors.spotImagesType0 && <span className="error">{validationErrors.spotImagesType0}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -238,7 +237,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     value={image2}
                     onChange={(e) => setImage2(e.target.value)}
                 />
-                {validationErrors.image2Type && <span className="error">{validationErrors.image2Type}</span>}
+                {validationErrors.spotImagesType1 && <span className="error">{validationErrors.spotImagesType1}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -246,7 +245,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     value={image3}
                     onChange={(e) => setImage3(e.target.value)}
                 />
-                {validationErrors.image3Type && <span className="error">{validationErrors.image3Type}</span>}
+                {validationErrors.spotImagesType2 && <span className="error">{validationErrors.spotImagesType2}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -254,7 +253,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     value={image4}
                     onChange={(e) => setImage4(e.target.value)}
                 />
-                {validationErrors.image3Type && <span className="error">{validationErrors.image3Type}</span>}
+                {validationErrors.spotImagesType3 && <span className="error">{validationErrors.spotImagesType3}</span>}
             </div>
             <hr />
             <button className="add_spot_form_submit_button" type="submit">Create Spot</button>

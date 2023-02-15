@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
+import { Link } from "react-router-dom";
 
 import OpenModalButton from "../OpenModalButton";
 import DeleteSpotModal from "../DeleteSpotModal";
@@ -13,7 +14,7 @@ export default function UserSpotTiles({ user }) {
         dispatch(spotActions.getUserSpotsThunk(user.id))
     }, [dispatch])
 
-    if (!Object.values(userSpots)) return <h1>There are no spots</h1>
+    if (!Object.values(userSpots)) return <h1>You have no spots</h1>
 
     return (
         <>
@@ -34,7 +35,9 @@ export default function UserSpotTiles({ user }) {
                                 <i className="fa-solid fa-star" /> {userSpot.avgRating || "new"}
                             </div>
                             <div className="user_spot_tile_management_div">
-                                <button className="user_spot_tile_update_button button">Update</button>
+                                <Link to={`/myspots/${userSpot.id}/edit`}>
+                                    <button className="user_spot_tile_update_button button">Update</button>
+                                </Link>
                                 <OpenModalButton
                                     modalComponent={<DeleteSpotModal spot={userSpot} />}
                                     buttonText="Delete"

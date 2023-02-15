@@ -27,6 +27,9 @@ function App() {
           <Route exact path="/">
             <SpotTiles />
           </Route>
+          <Route path="/myspots/:spotId/edit">
+            <h2>Update Spot Form Coming Soon</h2>
+          </Route>
           <Route path="/myspots">
             <UserSpots />
           </Route>
