@@ -28,7 +28,7 @@ export default function AddSpotForm({ isUpdateForm = false }) { // Refactoring i
     const [validationErrors, setValidationErrors] = useState([]);
     const [serverErrors, setServerErrors] = useState([]);
 
-    if (!sessionUser) history.push('/');
+    if (!sessionUser || sessionUser.id !== spot.ownerId) history.push('/');
 
     const handleSubmit = (e) => {
         e.preventDefault();
