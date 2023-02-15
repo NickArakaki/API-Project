@@ -132,7 +132,7 @@ export default function spotsReducer(state=initialState, action) {
             return { ...state, userSpots: normalizedSpots }
         }
         case GET_SINGLE_SPOT: {
-            return { ...state, singleSpot: action.spot };
+            return { ...state, singleSpot: action.spot}
         }
         case DELETE_USER_SPOT: {
             // go through state find spot in all spots, find spot in userSpots and remove them

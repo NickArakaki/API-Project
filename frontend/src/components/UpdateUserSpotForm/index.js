@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory, useParams } from "react-router-dom"
+import { Redirect, useHistory, useParams } from "react-router-dom"
 
 import { validateSpot } from "../../utils/validation";
 import * as spotActions from "../../store/spots";
@@ -8,23 +8,52 @@ import * as spotActions from "../../store/spots";
 import "./UpdateUserSpotForm.css"
 
 export default function UpdateUserSpotForm() {
-    const history = useHistory();
-    const dispatch = useDispatch();
     const { spotId } = useParams();
     const sessionUser = useSelector(state => state.session.user);
-    const spot = useSelector(state => state.spots.singleSpot);
+    const dispatch = useDispatch();
 
-    const [country, setCountry] = useState('');
-    const [address, setAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [state, setState] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-    const [description, setDescription] = useState('');
-    const [name, setName] = useState('');
+    const [country, setCountry] = useState("");
+    const [address, setAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState("");
+    const [latitude, setLatitude] = useState("");
+    const [longitude, setLongitude] = useState("");
+    const [description, setDescription] = useState("");
+    const [name, setName] = useState("");
     const [price, setPrice] = useState("");
+    const [spotOwner, setSpotOwner] = useState(true); // initally set to true to prevent early redirect
+    const [isLoaded, setIsLoaded] = useState(false);
     const [validationErrors, setValidationErrors] = useState({});
     const [serverErrors, setServerErrors] = useState([]);
+
+    // Populate the form with spot data
+    useEffect(() => {
+        dispatch(spotActions.getSingleSpotThunk(spotId))
+            .then(spot => {
+                // validate the session user is the spot owner
+                if (sessionUser.id !== spot.ownerId) {
+                    // set spot owner to false to redirect to landing page
+                    setSpotOwner(false);
+                } else {
+                    // else popoulate the form with data
+                    setCountry(spot.country);
+                    setAddress(spot.address);
+                    setCity(spot.city);
+                    setState(spot.state);
+                    setLatitude(spot.lat);
+                    setLongitude(spot.lng);
+                    setDescription(spot.description);
+                    setName(spot.name);
+                    setPrice(spot.price);
+                    setIsLoaded(true)
+                }
+            })
+    }, [dispatch])
+
+    // redirect to landing page if not logged in or not spot owner
+    if (!sessionUser || !spotOwner) return <Redirect to="/" />
+
+    if (!isLoaded) return <h2>Loading...</h2>
 
 
     const handleSubmit = (e) => {
