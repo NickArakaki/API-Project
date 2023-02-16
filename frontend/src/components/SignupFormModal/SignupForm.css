@@ -17,12 +17,13 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 5px 0px;
+    margin: 10px 0px;
 }
 
 .signup_modal div input {
     border: 2px solid black;
     border-radius: 5px;
+    margin-top: 5px;
 }
 
 .submit_button {
@@ -38,6 +39,7 @@
     color: #FFFFFF;
     border: 2px solid #000000;
     box-shadow: 3px 3px black;
+    margin: 15px 0;
 }
 
 .submit_button.disabled {
@@ -47,6 +49,6 @@
     box-shadow: 3px 3px #999999;
 }
 
-.error {
+.signup_error {
     color: red;
 }
