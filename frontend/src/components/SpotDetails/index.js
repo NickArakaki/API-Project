@@ -5,11 +5,13 @@ import { useEffect, useState } from "react";
 import * as spotActions from '../../store/spots';
 import * as reviewActions from '../../store/reviews';
 
+import OpenModalButton from "../OpenModalButton";
+import ReviewModal from "../ReviewModal";
 import CalloutBox from "./CalloutBox";
-
-import "./SpotDetails.css";
 import ReviewsSummary from "./ReviewsSummary";
 import Review from "./Review";
+
+import "./SpotDetails.css";
 
 export default function SpotDetails() {
     const dispatch = useDispatch();
@@ -87,7 +89,10 @@ export default function SpotDetails() {
                 <div className="spot_details_reviews_div">
                     <ReviewsSummary spot={spot} />
                     {sessionUser && sessionUser.id !== spot.Owner.id && !userHasReview && (
-                        <button onClick={() => alert("Open modal for adding a review coming soon")} className="spot_details_post_review_button button">Post Your Review</button>
+                        <OpenModalButton
+                            modalComponent={<ReviewModal />}
+                            buttonText="Post Your Review"
+                        />
                     )}
                     {reviews.length < 1 && sessionUser && sessionUser.id !== spot.Owner.id && (
                         <div className="spot_details_no_reviews_text">Be the first to post a review!</div>

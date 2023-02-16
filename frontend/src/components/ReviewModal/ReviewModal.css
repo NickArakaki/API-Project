@@ -1,0 +1,36 @@
+.add_review_modal {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+    padding-top: 0px;
+    font-family: sans-serif;
+    align-items: center;
+}
+
+.add_review_modal_title {
+    font-size: 18pt;
+}
+
+.add_review_modal_review_input {
+    width: 15vw;
+    height: 10vh;
+}
+
+.add_review_modal_star_rating_div {
+    margin: 15px;
+}
+
+.add_review_modal_star_radio_input {
+    display: none;
+}
+
+.filled {
+    color: #FF5A5F;
+}
+
+.not-filled {
+    color: #CCC;
+}
