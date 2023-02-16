@@ -31,10 +31,12 @@ export default function SpotTiles() {
             {isLoaded && (
                 <>
                     {Object.values(allSpots).map(spot => (
-                        <Link key={spot.id} to={`/spots/${spot.id}`} >
-                            <SpotTile spot={spot} />
-                        </Link>
-                    ))}
+                        <div className="spot_tile">
+                            <Link to={`/spots/${spot.id}`} >
+                                <SpotTile spot={spot} />
+                            </Link>
+                        </div>
+                        ))}
                 </>
             )}
         </div>

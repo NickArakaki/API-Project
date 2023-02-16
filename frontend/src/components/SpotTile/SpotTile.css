@@ -1,29 +1,26 @@
 /*TODO: ADD STYLING FOR SPOT TILES*/
-.spot_tile_wrapper * {
-    box-sizing: border-box;
-    text-decoration: none;
-}
 
 .spot_tile_wrapper {
-    padding-top: 10px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 2%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    font-family: sans-serif;
 }
 
 .spot_tile {
-    display: flex;
-    max-width: 270px;
-    flex-direction: column;
+    margin: 5px;
+    width: 100%;
 }
 
 .spot_tile_img {
-    border-radius: 10%;
-    object-fit: cover;
+    width: 100%;
+    display: block;
+    border-radius: 15px;
+    object-fit: contain;
 }
 
-.spot_tile_details_div {
+/* .spot_tile_details_div {
     margin: 10px 0px;
     display: flex;
     flex-direction: row;
@@ -43,4 +40,4 @@
 
 .spot_tile_avg_stars {
     align-self: flex-start;
-}
+}  */
