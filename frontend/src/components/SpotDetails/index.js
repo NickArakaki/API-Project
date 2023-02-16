@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -14,16 +14,23 @@ import Review from "./Review";
 export default function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
+
     const spot = useSelector((state) => state.spots.singleSpot);
-    const reviews = useSelector((state) => state.reviews.orderedSpotReviews)
-    // const reviews = useSelector(state => state.reviews.spotReviews);
+    const reviews = useSelector((state) => state.reviews.orderedSpotReviews);
+    const sessionUser = useSelector(state => state.session.user);
+    const userReviews = useSelector(state => state.reviews.userReviews);
+
     const [isLoaded, setIsLoaded] = useState(false);
     const [successfulFetch, setSuccessfulFetch] = useState(false);
+    const [userHasReview, setUserHasReview] = useState(null);
 
     useEffect(() => {
         dispatch(spotActions.getSingleSpotThunk(spotId))
             .then(() => dispatch(reviewActions.getSpotReviewsThunk(spotId)))
+            .then(() => dispatch(reviewActions.getUserReviewsThunk(spotId)))
             .then(() => {
+                // check if user has review for this spot using userId and postId
+                setUserHasReview(!!userReviews[spotId]);
                 setSuccessfulFetch(true)
                 setIsLoaded(true)
             })
@@ -49,10 +56,10 @@ export default function SpotDetails() {
     }
 
     return (
-        <>
+        <div className="spot_details_div">
         {isLoaded && (
             <>
-                <div className="spot_details_div">
+                <div className="spot_details_info_div">
                     <h2 className="spot_details_name">{spot.name}</h2>
                     <div className="spot_details_location">{spot.city}, {spot.state}, {spot.country}</div>
                     <div className="spot_details_images_div">
@@ -81,6 +88,9 @@ export default function SpotDetails() {
                     <div className="spot_details_review_summary_div">
                         <ReviewsSummary spot={spot} />
                     </div>
+                    {sessionUser && sessionUser.id !== spot.Owner.id && !userHasReview && (
+                        <button onClick={() => alert("Open modal for adding a review coming soon")} className="spot_details_post_review_button button">Open Modal Button to Post Review</button>
+                    )}
                     {reviews.map(review => {
                         return (
                             <Review key={review.id} review={review} />
@@ -89,6 +99,6 @@ export default function SpotDetails() {
                 </div>
             </>
         )}
-        </>
+        </div>
     )
 }

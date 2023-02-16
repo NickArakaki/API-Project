@@ -12,6 +12,11 @@
     margin: 0 auto;
 }
 
+.spot_details_info_div {
+    display: flex;
+    flex-direction: column;
+}
+
 .spot_details_images_div {
     display: flex;
     flex-direction: row;

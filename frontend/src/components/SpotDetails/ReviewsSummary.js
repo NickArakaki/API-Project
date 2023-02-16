@@ -11,10 +11,8 @@ export default function ReviewsSummary({ spot }) {
     }
 
     return (
-        <>
             <div className="callout_box_star_reviews">
                 <i className="fa-sharp fa-solid fa-star fa-sm" />{spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "New"}{numReviews}
             </div>
-        </>
     )
 }
