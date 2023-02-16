@@ -3,11 +3,51 @@
         * use grid to get general layout
         * use flex within grid components
 */
-
-.spot_details_callout_info_box {
-    width: 25%;
-    border: 1px solid red;
+.spot_details_div {
     display: flex;
     flex-direction: column;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    width: 90%;
+    margin: 0 auto;
+}
 
+.spot_details_images_div {
+    display: flex;
+    flex-direction: row;
+}
+
+.spot_details_images_previewImage {
+    width: 50%;
+    height: 412px;
+    object-fit: contain;
+}
+
+.spot_details_images_spotImages_div {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+.spot_details_images_spotImage {
+    width: 50%;
+    height: 205px;
+    object-fit: contain;
+}
+
+.spot_details_spot_info_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.spot_details_callout_info_box {
+    width: 33%;
+    border: 3px solid black;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 }

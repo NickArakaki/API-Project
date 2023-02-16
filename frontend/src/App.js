@@ -8,7 +8,7 @@ import SpotTiles from './components/SpotTile';
 import SpotDetails from './components/SpotDetails';
 import AddSpotForm from './components/AddSpotForm';
 import UserSpots from './components/UserSpots';
-
+import UpdateUserSpotForm from './components/UpdateUserSpotForm';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ function App() {
             <SpotTiles />
           </Route>
           <Route path="/myspots/:spotId/edit">
-            <h2>Update Spot Form Coming Soon</h2>
+            <UpdateUserSpotForm />
           </Route>
           <Route path="/myspots">
             <UserSpots />

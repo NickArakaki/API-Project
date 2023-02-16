@@ -56,9 +56,11 @@ export default function SignupFormModal() {
     return (
         <form className="signup_modal" onSubmit={handleSubmit}>
             <label>Sign Up</label>
-            {errors.length > 0 && (<ul>
-                {errors.map((error, index) => <li key={index} className="error">{error}</li>)}
-            </ul>)}
+            {errors.length > 0 && (
+                <ul className="signup_errors">
+                    {errors.map((error, index) => <li key={index} className="signup_error">{error}</li>)}
+                </ul>
+            )}
             <div>
                 First Name:
                 <input

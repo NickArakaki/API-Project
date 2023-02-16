@@ -27,19 +27,18 @@ export default function SpotTiles() {
     if (!successfulFetch && isLoaded) return <h2>Unable to retrieve spots. Please try again shortly</h2>;
 
     return (
-        <>
-        {isLoaded && (
-            <>
-                <h2>All Spots</h2>
-                <div className="spot_tile_wrapper">
+        <div className="spot_tile_wrapper">
+            {isLoaded && (
+                <>
                     {Object.values(allSpots).map(spot => (
-                        <Link key={spot.id} to={`/spots/${spot.id}`} >
-                            <SpotTile spot={spot} />
-                        </Link>
-                    ))}
-                </div>
-            </>
-        )}
-        </>
+                        <div className="spot_tile">
+                            <Link to={`/spots/${spot.id}`} >
+                                <SpotTile spot={spot} />
+                            </Link>
+                        </div>
+                        ))}
+                </>
+            )}
+        </div>
     )
 }

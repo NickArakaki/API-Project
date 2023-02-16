@@ -27,24 +27,50 @@ export default function SpotDetails() {
 
     if (!successfulFetch && isLoaded) return <h2>Unable to retrieve details. Please try again shortly.</h2>;
 
+    // iterate over SpotImages: assign previewImage the image where preview === true, if not === true add to other spot images
+    let previewImage;
+    const spotImages = [];
+    if (isLoaded) {
+        spot.SpotImages.forEach(spotImage => {
+            if (spotImage.preview === true) {
+                previewImage = spotImage
+            } else {
+                spotImages.push(spotImage)
+            }
+        })
+    }
+
     return (
         <>
         {isLoaded && (
             <>
-                <h2>{spot.name}</h2>
-                <div>{spot.city}, {spot.state}, {spot.country}</div>
-                {spot.SpotImages.map(spotImage => (
-                    <img key={spotImage.id} src={spotImage.url} />
-                    ))}
-                    <div>
-                    Hosted by: {spot.Owner.firstName} {spot.Owner.lastName}
+                <div className="spot_details_div">
+                    <h2 className="spot_details_name">{spot.name}</h2>
+                    <div className="spot_details_location">{spot.city}, {spot.state}, {spot.country}</div>
+                    <div className="spot_details_images_div">
+                        <img className="spot_details_images_previewImage" src={previewImage.url} alt={`${spot.name} preview image`} />
+                        <div className="spot_details_images_spotImages_div">
+                            {spotImages.map(spotImage => (
+                                    <img key={spotImage.id} className="spot_details_images_spotImage" src={spotImage.url} />
+                                    ))}
+                        </div>
+                    </div>
+                    <div className="spot_details_spot_info_div">
+                        <div className="spot_details_spot_info_host_description_div">
+                            <div className="spot_details_host_details">
+                                Hosted by: {spot.Owner.firstName} {spot.Owner.lastName}
+                            </div>
+                            <p>
+                                {spot.description}
+                            </p>
+                        </div>
+                        <div className="spot_details_callout_info_box">
+                            <div className="spot_details_callout_info_box_price">${spot.price} night</div>
+                            <button onClick={() => alert("Feature coming soon")} className="spot_details_callout_info_box_register_button">Reserve</button>
+                        </div>
+                    </div>
                 </div>
-                <p>
-                    {spot.description}
-                </p>
-                <div className="spot_details_callout_info_box">
-                    <div className="spot_details_callout_info_box_price">${spot.price} night</div>
-                    <button className="spot_details_callout_info_box_register_button">Register</button>
+                <div className="spot_details_reviews_div">
                 </div>
             </>
         )}
