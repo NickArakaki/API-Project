@@ -85,11 +85,12 @@ export default function SpotDetails() {
                     </div>
                 </div>
                 <div className="spot_details_reviews_div">
-                    <div className="spot_details_review_summary_div">
-                        <ReviewsSummary spot={spot} />
-                    </div>
+                    <ReviewsSummary spot={spot} />
                     {sessionUser && sessionUser.id !== spot.Owner.id && !userHasReview && (
-                        <button onClick={() => alert("Open modal for adding a review coming soon")} className="spot_details_post_review_button button">Open Modal Button to Post Review</button>
+                        <button onClick={() => alert("Open modal for adding a review coming soon")} className="spot_details_post_review_button button">Post Your Review</button>
+                    )}
+                    {reviews.length < 1 && sessionUser && sessionUser.id !== spot.Owner.id && (
+                        <div className="spot_details_no_reviews_text">Be the first to post a review!</div>
                     )}
                     {reviews.map(review => {
                         return (
