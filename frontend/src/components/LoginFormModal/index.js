@@ -44,9 +44,11 @@ export default function LoginFormModal() {
     return (
         <form className="login_modal" onSubmit={handleSubmit}>
             <label className="form_title">Log In</label>
-            {errors.length > 0 && (<ul className="login_errors_list">
-                {errors.map((error, index) => <li className="error" key={index}>{error}</li>)}
-            </ul>)}
+            {errors.length > 0 && (
+                <ul className="login_errors_list">
+                    {errors.map((error, index) => <li className="error" key={index}>{error}</li>)}
+                </ul>
+            )}
             <div>
                 <label className="login_form_input_heading">Username or Email:</label>
                 <input required type="text" value={credential} onChange={(e) => setCredential(e.target.value)} />
