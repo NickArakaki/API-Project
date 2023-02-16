@@ -1,11 +1,15 @@
 /*TODO: ADD STYLING FOR SPOT TILES*/
 
 .spot_tile_wrapper {
-    margin: 0 auto;
+    margin: 15px auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     font-family: sans-serif;
+}
+
+.spot_tile_wrapper * {
+    text-decoration: none;
 }
 
 .spot_tile {
@@ -20,7 +24,7 @@
     object-fit: contain;
 }
 
-/* .spot_tile_details_div {
+.spot_tile_details_div {
     margin: 10px 0px;
     display: flex;
     flex-direction: row;
@@ -40,4 +44,4 @@
 
 .spot_tile_avg_stars {
     align-self: flex-start;
-}  */
+}
