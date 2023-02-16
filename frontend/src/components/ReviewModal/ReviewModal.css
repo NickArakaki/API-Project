@@ -15,11 +15,14 @@
 }
 
 .add_review_modal_review_input {
-    width: 15vw;
+    width: 100%;
     height: 10vh;
 }
 
 .add_review_modal_star_rating_div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     margin: 15px;
 }
 
@@ -33,4 +36,9 @@
 
 .not-filled {
     color: #CCC;
+}
+
+.post_review_button {
+    width: 100%;
+    padding: 15px;
 }

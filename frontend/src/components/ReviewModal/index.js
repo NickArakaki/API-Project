@@ -28,31 +28,32 @@ export default function ReviewModal() {
             />
 
             <div className="add_review_modal_star_rating_div">
+                <div className="add_review_modal_star__div">
+                    {inputValues.map((inputValue, index) => {
+                        const starFilled = inputValue <= (hover || starRating) ? "filled" : "not-filled";
 
-                {inputValues.map((inputValue, index) => {
-                    const starFilled = inputValue <= (hover || starRating) ? "filled" : "not-filled";
-
-                    return (
-                        <label key={index}>
-                            <input
-                                className="add_review_modal_star_radio_input"
-                                type="radio"
-                                name="star_rating"
-                                value={inputValue}
-                                onClick={() => setStarRating(inputValue)}
+                        return (
+                            <label key={index}>
+                                <input
+                                    className="add_review_modal_star_radio_input"
+                                    type="radio"
+                                    name="star_rating"
+                                    value={inputValue}
+                                    onClick={() => setStarRating(inputValue)}
+                                    />
+                                <i
+                                    className={`fa-solid fa-star star_icon ${starFilled}`}
+                                    onMouseEnter={() => setHover(inputValue)}
+                                    onMouseLeave={() => setHover(0)}
                                 />
-                            <i
-                                className={`fa-solid fa-star star_icon ${starFilled}`}
-                                onMouseEnter={() => setHover(inputValue)}
-                                onMouseLeave={() => setHover(0)}
-                            />
-                        </label>
-                    )
-                })}
-
+                            </label>
+                        )
+                    })}
+                </div>
+                <div className="add_review_modal_star_rating_label">Stars</div>
             </div>
 
-            <button type="submit" className="post_review_button button">Post Review</button>
+            <button type="submit" className={`post_review_button button`}>Post Review</button>
 
         </form>
     )
