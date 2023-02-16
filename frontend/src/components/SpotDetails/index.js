@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import * as spotActions from '../../store/spots';
+import * as reviewActions from '../../store/reviews';
+
+import CalloutBox from "./CalloutBox";
 
 import "./SpotDetails.css";
 
@@ -10,11 +13,13 @@ export default function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot);
+    const reviews = useSelector(state => state.reviews.spotReviews);
     const [isLoaded, setIsLoaded] = useState(false);
     const [successfulFetch, setSuccessfulFetch] = useState(false);
 
     useEffect(() => {
         dispatch(spotActions.getSingleSpotThunk(spotId))
+            .then(() => dispatch(reviewActions.getSpotReviewsThunk(spotId)))
             .then(() => {
                 setSuccessfulFetch(true)
                 setIsLoaded(true)
@@ -65,12 +70,12 @@ export default function SpotDetails() {
                             </p>
                         </div>
                         <div className="spot_details_callout_info_box">
-                            <div className="spot_details_callout_info_box_price">${spot.price} night</div>
-                            <button onClick={() => alert("Feature coming soon")} className="spot_details_callout_info_box_register_button">Reserve</button>
+                            <CalloutBox spot={spot} />
                         </div>
                     </div>
                 </div>
                 <div className="spot_details_reviews_div">
+                    <h2>REVIEWS GO HERE</h2>
                 </div>
             </>
         )}
