@@ -11,6 +11,7 @@
 
 .spot_tile_wrapper * {
     text-decoration: none;
+    color: black;
 }
 
 .spot_tile {
