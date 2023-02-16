@@ -8,12 +8,15 @@ import * as reviewActions from '../../store/reviews';
 import CalloutBox from "./CalloutBox";
 
 import "./SpotDetails.css";
+import ReviewsSummary from "./ReviewsSummary";
+import Review from "./Review";
 
 export default function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
     const spot = useSelector((state) => state.spots.singleSpot);
-    const reviews = useSelector(state => state.reviews.spotReviews);
+    const reviews = useSelector((state) => state.reviews.orderedSpotReviews)
+    // const reviews = useSelector(state => state.reviews.spotReviews);
     const [isLoaded, setIsLoaded] = useState(false);
     const [successfulFetch, setSuccessfulFetch] = useState(false);
 
@@ -75,7 +78,14 @@ export default function SpotDetails() {
                     </div>
                 </div>
                 <div className="spot_details_reviews_div">
-                    <h2>REVIEWS GO HERE</h2>
+                    <div className="spot_details_review_summary_div">
+                        <ReviewsSummary spot={spot} />
+                    </div>
+                    {reviews.map(review => {
+                        return (
+                            <Review key={review.id} review={review} />
+                        )
+                    })}
                 </div>
             </>
         )}

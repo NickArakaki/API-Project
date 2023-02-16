@@ -20,14 +20,22 @@ export const getSpotReviewsThunk = (spotId) => async (dispatch) => {
 }
 
 /************************************** REDUCER ***********************************/
-const initialState = { spotReviews: {}, userReviews: {} }
+const initialState = { spotReviews: {}, userReviews: {}, orderedSpotReviews: [] }
 
 export default function reviewsReducer(state=initialState, action) {
     switch(action.type) {
         case GET_SPOT_REVIEWS: {
+            // normalize spot reviews
             const normalizedSpotReviews = {};
             action.reviews.forEach(review => normalizedSpotReviews[review.id] = review)
-            return { ...state, spotReviews: normalizedSpotReviews }
+
+            // sort the reviews by updatedAt
+            const orderedReviews = action.reviews;
+            orderedReviews.sort((a, b) => {
+                return Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
+            })
+
+            return { ...state, spotReviews: normalizedSpotReviews, orderedSpotReviews: orderedReviews }
         }
         default:
             return state
