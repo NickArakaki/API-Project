@@ -15,6 +15,8 @@ export default function ReviewModal() {
         // if no errors dispatch and close modal
     }
 
+    const buttonEnabled = (starRating > 0 && review.length > 10) ? true : false;
+
     return (
         <form className="add_review_modal" onSubmit={onSubmit}>
 
@@ -53,7 +55,7 @@ export default function ReviewModal() {
                 <div className="add_review_modal_star_rating_label">Stars</div>
             </div>
 
-            <button type="submit" className={`post_review_button button`}>Post Review</button>
+            <button type="submit" disabled={buttonEnabled} className={`post_review_button ${buttonEnabled ? "enabled" : "disabled"}`}>Post Review</button>
 
         </form>
     )

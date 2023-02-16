@@ -42,3 +42,24 @@
     width: 100%;
     padding: 15px;
 }
+
+.post_review_button.enabled {
+    border: 2px solid black;
+    background-color: #FF5A5F;
+    box-shadow: 3px 3px black;
+    color: #FFFFFF;
+}
+
+.post_review_button.enabled:hover {
+    border: 2px solid black;
+    background-color: #ff8488;
+    box-shadow: 3px 3px black;
+    color: #FFFFFF;
+}
+
+.post_review_button.disabled {
+    border: 2px solid #999999;
+    background-color: #FFFFFF;
+    box-shadow: 3px 3px #999999;
+    color: #999999;
+}
