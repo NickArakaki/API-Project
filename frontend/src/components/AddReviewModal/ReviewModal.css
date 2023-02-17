@@ -50,7 +50,7 @@
 
 .post_review_button.enabled {
     border: 2px solid black;
-    background-color: #FF5A5F;
+    background-color: rgb(255, 90, 95);
     box-shadow: 3px 3px black;
     color: #FFFFFF;
 }
