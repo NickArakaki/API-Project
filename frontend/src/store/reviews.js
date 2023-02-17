@@ -52,7 +52,6 @@ export const addSpotReviewThunk = (spotId, review, user) => async (dispatch) => 
     return postedReview;
 }
 
-
 // READ
 export const getSpotReviewsThunk = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
@@ -123,8 +122,9 @@ export default function reviewsReducer(state=initialState, action) {
             return { ...state, userReviews: normalizedUserReviews };
         }
         case DELETE_USER_REVIEW: {
-            const newState = {...state};
-            delete newState[action.re]
+            const newState = {...state,
+                userReviews: {...state.userReviews}};
+            delete newState.userReviews[action.reviewId]
             return newState;
         }
         default:
