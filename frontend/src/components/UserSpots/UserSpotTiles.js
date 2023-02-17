@@ -22,14 +22,11 @@ export default function UserSpotTiles({ user }) {
     if (!Object.values(userSpots)) return <h1>You have no spots</h1>
 
     return (
-        <>
+        <div className="user_spot_tile_wrapper">
             {Object.values(userSpots).map(userSpot => (
-                <div key={userSpot.id} className="user_spot_tile_wrapper">
+                <div key={userSpot.id} className="user_spot_tile">
                         <SpotTile spot={userSpot} />
                         <div className="user_spot_tile_reviews_management_div">
-                            <div className="user_spot_tile_reviews_div">
-                                <i className="fa-solid fa-star" /> {userSpot.avgRating || "new"}
-                            </div>
                             <div className="user_spot_tile_management_div">
                                 <Link to={`/myspots/${userSpot.id}/edit`}>
                                     <button className="user_spot_tile_update_button button">Update</button>
@@ -42,6 +39,6 @@ export default function UserSpotTiles({ user }) {
                         </div>
                 </div>
             ))}
-        </>
+        </div>
     )
 }
