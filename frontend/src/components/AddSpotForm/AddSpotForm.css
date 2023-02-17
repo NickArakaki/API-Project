@@ -1,9 +1,6 @@
 /* TODO: Add styling for Add Spot Form*/
-* {
-    box-sizing: border-box;
-}
 .add_spot_form {
-    width: 25%;
+    width: 33%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -17,6 +14,11 @@
     border-bottom: 2px solid #999;
     padding-bottom: 5px;
     width: 100%;
+}
+
+.add_spot_location_div {
+    display: flex;
+    flex-direction: column;
 }
 
 .add_spot_form_location_input {
@@ -33,6 +35,21 @@
     flex-direction: column;
 }
 
+.add_spot_form_lat_lng {
+    display: flex;
+}
+
+
+.form_prompt_title {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.form_prompt {
+    font-size: 12pt;
+    line-height: 1.5rem;;
+}
 
 .add_spot_form_description_div {
     border-bottom: 2px solid #999;
@@ -40,6 +57,8 @@
 
 .add_spot_form_description_textarea {
     width: 100%;
+    height: 15vh;
+    font-family: sans-serif;
 }
 
 .add_spot_form_submit_button {
@@ -51,4 +70,10 @@
     background-color: #FF5A5F;
     box-shadow: 3px 3px black;
     color: #FFFFFF;
+}
+
+.error {
+    color: #FF5A5F;
+    font-size: 10pt;
+    font-weight: bold;
 }

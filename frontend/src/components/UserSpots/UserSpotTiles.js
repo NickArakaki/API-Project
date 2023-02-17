@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, Redirect } from "react-router-dom";
 
 import OpenModalButton from "../OpenModalButton";
+import SpotTile from "../SpotTile/SpotTile";
 import DeleteSpotModal from "../DeleteSpotModal";
 import * as spotActions from '../../store/spots';
 
@@ -23,17 +24,8 @@ export default function UserSpotTiles({ user }) {
     return (
         <>
             {Object.values(userSpots).map(userSpot => (
-                <div key={userSpot.id} className="user_spot_tile">
-                    <img src={userSpot.previewImage} alt={`${userSpot.name} preview`} />
-                    <div className="user_spot_tile_details_div">
-                        <div className="user_spot_tile_details_location_price_div">
-                            <div className="user_spot_tile_location_div">
-                                {userSpot.city}, {userSpot.state}
-                            </div>
-                            <div className="user_spot_tile_price_div">
-                                ${userSpot.price} night
-                            </div>
-                        </div>
+                <div key={userSpot.id} className="user_spot_tile_wrapper">
+                        <SpotTile spot={userSpot} />
                         <div className="user_spot_tile_reviews_management_div">
                             <div className="user_spot_tile_reviews_div">
                                 <i className="fa-solid fa-star" /> {userSpot.avgRating || "new"}
@@ -48,7 +40,6 @@ export default function UserSpotTiles({ user }) {
                                 />
                             </div>
                         </div>
-                    </div>
                 </div>
             ))}
         </>
