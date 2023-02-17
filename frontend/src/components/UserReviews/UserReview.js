@@ -1,5 +1,5 @@
 import OpenModalButton from "../OpenModalButton";
-import DeleteReviewModal from "./DeleteReviewModal";
+import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 
 export default function UserReview({ review }) {
     const date = new Date(review.updatedAt);
@@ -9,16 +9,15 @@ export default function UserReview({ review }) {
 
     return (
         <div className="user_review_div">
-            <h2 className="user_review_spot_name">{review.Spot.name}</h2>
-            <h3 className="user_review_date">{year}-{month}-{day}</h3>
+            <div className="user_review_spot_name">{review.Spot.name}</div>
+            <div className="user_review_date">{year}-{month}-{day}</div>
             <p className="user_review_review">{review.review}</p>
             <div className="user_review_management_buttons_div">
-                <button onClick={() => alert("update review feature coming soon")}>Update</button>
+                <button className="user_review_update_review_button" onClick={() => alert("update review feature coming soon")}>Update</button>
                 <OpenModalButton
                     modalComponent={<DeleteReviewModal reviewId={review.id} />}
                     buttonText="Delete"
                 />
-
             </div>
         </div>
     )

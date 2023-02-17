@@ -1,0 +1,42 @@
+.manage_reviews_div {
+    font-family: sans-serif;
+    padding: 0 5%;
+}
+
+.manage_reviews_title {
+    font-size: 24pt;
+    font-weight: bold;
+}
+
+.user_review_div {
+    margin: 25px 0;
+}
+
+.user_review_spot_name {
+    font-size: 14pt;
+    font-weight: bold;
+    padding: 10px 0;
+}
+
+.user_review_date {
+    font-size: 12pt;
+    color: #999;
+}
+
+.user_review_review {
+    line-height: 1.5rem;
+}
+
+.user_review_update_review_button {
+    cursor: pointer;
+    text-align: center;
+    border: 2px solid black;
+    background-color: #FF5A5F;
+    box-shadow: 2px 2px #999;
+    color: #FFFFFF;
+    margin-right: 10px;
+}
+
+.user_review_update_review_button:hover {
+    background-color: #fe8589;
+}

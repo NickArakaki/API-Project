@@ -4,16 +4,16 @@
     font-family: sans-serif;
 }
 
-.button {
+/* .button {
     border: 2px solid black;
     background-color: #FF5A5F;
     box-shadow: 3px 3px black;
     color: #FFFFFF;
-}
+} */
 
-.button:hover {
+/* .button:hover {
     background-color: #fd7b7f;
-}
+} */
 
 .manage_spots_spot_tiles_div {
     display: flex;
