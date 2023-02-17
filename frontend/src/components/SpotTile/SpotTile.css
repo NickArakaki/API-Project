@@ -17,6 +17,7 @@
 .spot_tile {
     margin: 15px 0;
     width: 100%;
+    border-radius: 25px;
 }
 
 .spot_tile_img {
@@ -28,7 +29,7 @@
 }
 
 .spot_tile_details_div {
-    margin: 10px 0px;
+    margin: 10px 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
