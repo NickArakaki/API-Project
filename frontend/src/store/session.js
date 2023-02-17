@@ -64,16 +64,6 @@ export const logout = () => async (dispatch) => {
     return response;
 }
 
-// is it necessary to make a req to logout user? or can we just remove them from the state?
-// export const logout = () => async (dispatch) => {
-//     const response = await csrfFetch('/api/session', {
-//         method: 'DELETE'
-//     });
-
-//     dispatch(removeUser())
-//     return response;
-// }
-
 const initialState = { user: null }
 
 // REDUCER
