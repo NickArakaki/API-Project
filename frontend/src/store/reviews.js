@@ -1,11 +1,21 @@
 import { csrfFetch } from './csrf';
 
 /******************************** CONSTS TO PREVENT TYPOS *************************/
+const ADD_SPOT_REVIEW = 'reviews/ADD_SPOT_REVIEW'
 const GET_SPOT_REVIEWS = 'reviews/GET_SPOT_REVIEWS';
 const GET_USER_REVIEWS = 'reviews/GET_USER_REVIEWS';
 const DELETE_USER_REVIEW = 'reviews/DELETE_USER_REVIEW';
 
 /*********************************OBJECT ACTION CREATORS **************************/
+const addSpotReview = (spotReview, spotInfo, userInfo) => {
+    return {
+        type: ADD_SPOT_REVIEW,
+        review: spotReview,
+        spot: spotInfo,
+        user: userInfo
+    }
+}
+
 const getSpotReviews = spotReviews => {
     return {
         type: GET_SPOT_REVIEWS,
@@ -29,14 +39,17 @@ const deleteUserReview = (reviewId) => {
 
 /********************************** THUNK ACTION CREATORS *************************/
 // CREATE
-export const addSpotReviewThunk = (spotId, review) => async (dispatch) => {
+export const addSpotReviewThunk = (spotId, review) => async (dispatch, getState) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(review)
     });
     const postedReview = await response.json();
-    dispatch(getSpotReviewsThunk(spotId))
+    // get spotInfo from slice of state
+    const spotInfo = getState(state => state.spots.singleSpot);
+    const userInfo = getState(state => state.session.user);
+    dispatch(addSpotReview(postedReview, spotInfo, userInfo));
     return postedReview;
 }
 
@@ -72,6 +85,50 @@ export default function reviewsReducer(state=initialState, action) {
     Object.freeze(state);
 
     switch(action.type) {
+        case ADD_SPOT_REVIEW: {
+            const previewImage = action.spot.SpotImages.find(spotImage => spotImage.preview === true);
+            const newSpotReview = {
+                ...action.review,
+                User: {
+                    id: action.user.id,
+                    firstName: action.user.firstName,
+                    lastName: action.user.lastName
+                },
+                ReviewImages: []
+            };
+
+            const newUserReview = {
+                ...action.review,
+                spotId: action.spot.id,
+                User: {
+                    id: action.user.id,
+                    firstName: action.user.firstName,
+                    lastName: action.user.lastName
+                },
+                Spot: {
+                    id: action.spot.id,
+                    ownerId: action.spot.ownerId,
+                    city: action.spot.city,
+                    state: action.spot.state,
+                    country: action.spot.country,
+                    lat: action.spot.lat,
+                    lng: action.spot.lng,
+                    name: action.spot.name,
+                    price: action.spot.price,
+                    previewImage: previewImage.url
+                }
+            }
+
+            const newState = { ...state,
+                                    spotReviews: { ...state.spotReviews },
+                                    userReviews: { ...state.userReviews},
+                                    orderedSpotReviews: [ ...state.orderedSpotReviews, newSpotReview ]
+            }
+
+            newState.spotReviews[action.review.id] = newSpotReview;
+            newState.userReviews[action.review.id] = newUserReview;
+            return newState
+        }
         case GET_SPOT_REVIEWS: {
             // normalize spot reviews
             const normalizedSpotReviews = {};
@@ -91,8 +148,8 @@ export default function reviewsReducer(state=initialState, action) {
             return { ...state, userReviews: normalizedUserReviews };
         }
         case DELETE_USER_REVIEW: {
-            const newState = {...state, userReviews: { ...state.userReviews }};
-            delete newState.userReviews[action.reviewId]
+            const newState = {...state};
+            delete newState[action.re]
             return newState;
         }
         default:

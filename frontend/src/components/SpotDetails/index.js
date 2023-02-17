@@ -7,10 +7,9 @@ import * as reviewActions from '../../store/reviews';
 
 import SpotReviews from "./SpotReviews/SpotReviews";
 import OpenModalButton from "../OpenModalButton";
-import ReviewModal from "../ReviewModal";
+import ReviewModal from "../AddReviewModal";
 import CalloutBox from "./CalloutBox";
 import ReviewsSummary from "./ReviewsSummary";
-import Review from "./Review";
 
 import "./SpotDetails.css";
 
