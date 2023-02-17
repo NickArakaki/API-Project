@@ -25,16 +25,22 @@ export default function UserSpotTiles({ user }) {
         <div className="user_spot_tile_wrapper">
             {Object.values(userSpots).map(userSpot => (
                 <div key={userSpot.id} className="user_spot_tile">
-                        <SpotTile spot={userSpot} />
+                        <Link className="user_spot_tile_link" to={`/spots/${userSpot.id}`} >
+                            <SpotTile spot={userSpot} />
+                        </Link>
                         <div className="user_spot_tile_reviews_management_div">
                             <div className="user_spot_tile_management_div">
-                                <Link to={`/myspots/${userSpot.id}/edit`}>
-                                    <button className="user_spot_tile_update_button button">Update</button>
-                                </Link>
-                                <OpenModalButton
-                                    modalComponent={<DeleteSpotModal spot={userSpot} />}
-                                    buttonText="Delete"
-                                />
+                                <div className="manage_user_spot_button_container">
+                                    <Link to={`/myspots/${userSpot.id}/edit`}>
+                                        <button className="user_spot_tile_update_button">Update</button>
+                                    </Link>
+                                </div>
+                                <div className="manage_user_spot_button_container">
+                                    <OpenModalButton
+                                        modalComponent={<DeleteSpotModal spot={userSpot} />}
+                                        buttonText="Delete"
+                                        />
+                                </div>
                             </div>
                         </div>
                 </div>
