@@ -120,7 +120,7 @@ const seedSpotImages = num => {
 
     for (const i in spotImages) {
         spotImages[i] = {
-            spotId: [Math.floor(Number(i) / 5) + 1],
+            spotId: (Math.floor(Number(i) / 5) + 1),
             url: imageURLs[randomNum(imageURLs.length - 2)],
             preview: Number(i) % 5 === 0 ? true : false
         }
