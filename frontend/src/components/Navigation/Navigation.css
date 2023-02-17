@@ -30,9 +30,13 @@
     border: none;
     background: white;
     color: #FF5A5F;
+    font-weight: bold;
+    font-size: 12pt;
+    cursor: pointer;
 }
 
 .profile_menu_button {
+    cursor: pointer;
     color: #FF5A5F;
     border: none;
     background-color: white;

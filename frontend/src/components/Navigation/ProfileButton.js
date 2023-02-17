@@ -44,7 +44,7 @@ function ProfileButton({ user }) {
     <>
       {user && (
         <Link to="/spots/add">
-          <i className="fa-solid fa-plus fa-xl add_spot_button" />
+          <button className="add_spot_button">Create a New Spot</button>
         </Link>
         )}
       <button className='profile_menu_button' onClick={openMenu}>

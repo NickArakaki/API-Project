@@ -24,7 +24,7 @@
     height: 250px;
     display: block;
     border-radius: 25px;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .spot_tile_details_div {
@@ -49,5 +49,9 @@
 }
 
 .spot_tile_info {
-    font-size: small;
+    font-size: 12pt;
+}
+
+.spot_tile_spot_name {
+    font-weight: bold;
 }

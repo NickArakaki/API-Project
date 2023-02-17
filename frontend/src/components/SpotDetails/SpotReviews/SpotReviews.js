@@ -8,7 +8,7 @@ import SpotReview from "./SpotReview";
 import "./SpotReviews.css";
 
 export default function SpotReviews({ spotId }) {
-    const spotReviews = useSelector(state => state.reviews.spotReviews);
+    const spotReviews = useSelector(state => state.reviews.orderedSpotReviews);
     const dispatch = useDispatch();
 
     const [isLoaded, setIsLoaded] = useState(false);
@@ -22,7 +22,7 @@ export default function SpotReviews({ spotId }) {
         <div className="spot_reviews_div">
             {isLoaded && (
                 <>
-                    {Object.values(spotReviews).map(spotReview => {
+                    {spotReviews.map(spotReview => {
                         return (
                             <SpotReview key={spotReview.id} review={spotReview} />
                         )

@@ -98,7 +98,7 @@ export default function reviewsReducer(state=initialState, action) {
 
             const newState = { ...state,
                                     spotReviews: { ...state.spotReviews },
-                                    orderedSpotReviews: [ ...state.orderedSpotReviews, newSpotReview ]
+                                    orderedSpotReviews: [  newSpotReview, ...state.orderedSpotReviews ]
             }
 
             newState.spotReviews[action.review.id] = newSpotReview;
