@@ -6,13 +6,16 @@ export default function ReviewsSummary({ spot }) {
         numReviews = "";
     } else if (spot.numReviews === 1) {
         numReviews = " • 1 Review"
-    } else if (spot.numReviews > 1) {
+    } else {
         numReviews = ` • ${spot.numReviews} Reviews`
     }
 
     return (
-            <div className="callout_box_star_reviews">
-                <i className="fa-sharp fa-solid fa-star fa-sm" />{spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "New"}{numReviews}
+            <div className="review_summary">
+                <i className="fa-sharp fa-solid fa-star fa-sm" />
+                <div className="review_summary_rating_and_number">
+                {spot.avgStarRating ? spot.avgStarRating.toFixed(1) : "New"}{numReviews}
+                </div>
             </div>
     )
 }

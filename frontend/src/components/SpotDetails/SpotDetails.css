@@ -57,6 +57,15 @@
     padding: 10px;
 }
 
-.spot_details_review {
-    margin: 15px 0;
+.review_summary {
+    display: flex;
+    align-items: center;
+}
+
+.review_summary > .review_summary_rating_and_number {
+    margin: 0 5px;
+}
+
+.spot_details_reviews_div > .review_summary {
+    font-size: 24pt;
 }
