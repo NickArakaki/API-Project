@@ -17,3 +17,7 @@
     font-size: 12pt;
     line-height: 1.5rem;
 }
+
+.user_review_delete_modal_button_container {
+    width: 15%;
+}
