@@ -8,7 +8,7 @@ import { formatDate } from "../../../utils/formatting";
 export default function SpotReview({ review }) {
     const sessionUser = useSelector(state => state.session.user);
 
-    const displayButton = sessionUser.id === review.userId;
+    const displayButton = sessionUser?.id === review.userId;
 
     const date = new Date(review.updatedAt);
     const year = date.getFullYear();
