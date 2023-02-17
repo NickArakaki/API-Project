@@ -33,7 +33,7 @@ const seedSpots = num => {
 
     for (const i in spots) {
         spots[i] = {
-            ownerId: [Number(i) + 1],
+            ownerId: Number(i) + 1,
             address: faker.address.streetAddress(),
             city: faker.address.city(),
             state: faker.address.state(),
