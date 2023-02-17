@@ -68,12 +68,13 @@ export const getUserReviewsThunk = () => async (dispatch) => {
 }
 
 // DELETE
-export const deleteUserReviewThunk = (reviewId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+export const deleteUserReviewThunk = (review) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${review.id}`, {
         method: "DELETE"
     });
     const confirmation = await response.json();
-    dispatch(deleteUserReview(reviewId));
+    dispatch(getSingleSpotThunk(review.spotId));
+    dispatch(deleteUserReview(review.id));
     return confirmation;
 }
 

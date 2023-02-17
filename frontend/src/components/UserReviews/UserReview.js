@@ -17,7 +17,7 @@ export default function UserReview({ review }) {
             <div className="user_review_management_buttons_div">
                 <button className="user_review_update_review_button" onClick={() => alert("update review feature coming soon")}>Update</button>
                 <OpenModalButton
-                    modalComponent={<DeleteReviewModal reviewId={review.id} />}
+                    modalComponent={<DeleteReviewModal review={review} />}
                     buttonText="Delete"
                 />
             </div>
