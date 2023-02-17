@@ -60,14 +60,14 @@ function ProfileButton({ user }) {
             </div>
             <div className='profile_menu_management_div'>
               <Link to="/myspots">
-                <button onClick={closeMenu} className='manage_spots_button'>Manage Spots</button>
+                <button onClick={closeMenu} className='manage_button'>Manage Spots</button>
               </Link>
               <Link to="/myreviews">
-                <button onClick={closeMenu} className="manage_reviews_button">Manage Reviews</button>
+                <button onClick={closeMenu} className="manage_button">Manage Reviews</button>
               </Link>
             </div>
             <div className='logout_button_wrapper' >
-                <button className="logout_button button" onClick={logout}>Log Out</button>
+                <button className="logout_button manage_button" onClick={logout}>Log Out</button>
             </div>
           </>
         ) : (

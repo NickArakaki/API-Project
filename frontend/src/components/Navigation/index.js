@@ -19,7 +19,7 @@ export default function Navigation({ isLoaded }) {
                 </NavLink>
             </li>
             {isLoaded && (
-                <li>
+                <li className="profile_button_div">
                     <ProfileButton className="profile_button" user={sessionUser} />
                 </li>
             )}
