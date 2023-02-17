@@ -17,6 +17,7 @@
 .add_review_modal_review_input {
     width: 100%;
     height: 10vh;
+    font-family: sans-serif;
 }
 
 .add_review_modal_star_rating_div {
@@ -24,6 +25,10 @@
     flex-direction: row;
     align-items: center;
     margin: 15px;
+}
+
+.add_review_modal_star_rating_label {
+    margin: 0 5px;
 }
 
 .add_review_modal_star_radio_input {

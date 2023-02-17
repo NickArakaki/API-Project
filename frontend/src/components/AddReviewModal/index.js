@@ -49,7 +49,7 @@ export default function ReviewModal({ spotId }) {
     return (
         <form className="add_review_modal" onSubmit={onSubmit}>
 
-            <h2 className="add_review_modal_title">How was your stay</h2>
+            <h2 className="add_review_modal_title">How was your stay?</h2>
             {formErrors.map(error => {
                 return (
                     <li key={error}>{error}</li>
@@ -63,6 +63,7 @@ export default function ReviewModal({ spotId }) {
             />
 
             <div className="add_review_modal_star_rating_div">
+                <div className="add_review_modal_star_rating_label">Stars</div>
                 <div className="add_review_modal_star__div">
                     {inputValues.map((inputValue, index) => {
                         const starFilled = inputValue <= (hover || starRating) ? "filled" : "not-filled";
@@ -85,10 +86,10 @@ export default function ReviewModal({ spotId }) {
                         )
                     })}
                 </div>
-                <div className="add_review_modal_star_rating_label">Stars</div>
+
             </div>
 
-            <button type="submit" disabled={!buttonEnabled} className={`post_review_button ${buttonEnabled ? "enabled" : "disabled"}`}>Post Review</button>
+            <button type="submit" disabled={!buttonEnabled} className={`post_review_button ${buttonEnabled ? "enabled" : "disabled"}`}>Submit Your Review</button>
 
         </form>
     )

@@ -190,7 +190,7 @@ export default function UpdateUserSpotForm() {
                 />
                 {validationErrors.price && <span className="error">{validationErrors.price}</span>}
             </div>
-            <button className="update_spot_form_submit_button button" type="submit">Update Spot</button>
+            <button className="update_spot_form_submit_button button" type="submit">Update Your Spot</button>
         </form>
     )
 }
