@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import OpenModalButton from "../OpenModalButton";
 import DeleteSpotModal from "../DeleteSpotModal";
@@ -14,6 +14,7 @@ export default function UserSpotTiles({ user }) {
         dispatch(spotActions.getUserSpotsThunk(user.id))
     }, [dispatch])
 
+    if (!user) return <Redirect to="/" />
     if (!Object.values(userSpots)) return <h1>You have no spots</h1>
 
     return (
