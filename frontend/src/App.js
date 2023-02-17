@@ -8,6 +8,7 @@ import SpotTiles from './components/SpotTile';
 import SpotDetails from './components/SpotDetails';
 import AddSpotForm from './components/AddSpotForm';
 import UserSpots from './components/UserSpots';
+import UserReviews from './components/UserReviews';
 import UpdateUserSpotForm from './components/UpdateUserSpotForm';
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
           </Route>
           <Route path="/myspots">
             <UserSpots />
+          </Route>
+          <Route path="/myreviews">
+            <UserReviews />
           </Route>
           <Route path="/spots/add">
             <AddSpotForm />

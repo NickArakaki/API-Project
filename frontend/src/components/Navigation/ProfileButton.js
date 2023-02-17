@@ -61,6 +61,9 @@ function ProfileButton({ user }) {
               <Link to="/myspots">
                 <button onClick={closeMenu} className='manage_spots_button'>Manage Spots</button>
               </Link>
+              <Link to="/myreviews">
+                <button onClick={closeMenu} className="manage_reviews_button">Manage Reviews</button>
+              </Link>
             </div>
             <div className='logout_button_wrapper' >
                 <button className="logout_button button" onClick={logout}>Log Out</button>

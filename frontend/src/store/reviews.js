@@ -3,6 +3,7 @@ import { csrfFetch } from './csrf';
 /******************************** CONSTS TO PREVENT TYPOS *************************/
 const GET_SPOT_REVIEWS = 'reviews/GET_SPOT_REVIEWS';
 const GET_USER_REVIEWS = 'reviews/GET_USER_REVIEWS';
+const DELETE_USER_REVIEW = 'reviews/DELETE_USER_REVIEW';
 
 /*********************************OBJECT ACTION CREATORS **************************/
 const getSpotReviews = spotReviews => {
@@ -16,6 +17,13 @@ const getUserReviews = userReviews => {
     return {
         type: GET_USER_REVIEWS,
         userReviews
+    }
+}
+
+const deleteUserReview = (reviewId) => {
+    return {
+        type: DELETE_USER_REVIEW,
+        reviewId
     }
 }
 
@@ -47,6 +55,15 @@ export const getUserReviewsThunk = () => async (dispatch) => {
     return data;
 }
 
+// DELETE
+export const deleteUserReviewThunk = (reviewId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: "DELETE"
+    });
+    const confirmation = await response.json();
+    dispatch(deleteUserReview(reviewId));
+    return confirmation;
+}
 
 /************************************** REDUCER ***********************************/
 const initialState = { spotReviews: {}, userReviews: {}, orderedSpotReviews: [] }
@@ -72,6 +89,10 @@ export default function reviewsReducer(state=initialState, action) {
             const normalizedUserReviews = {};
             action.userReviews.forEach(review => normalizedUserReviews[review.spotId] = review)
             return { ...state, userReviews: normalizedUserReviews };
+        }
+        case DELETE_USER_REVIEW: {
+            const newState = {...state};
+            return newState;
         }
         default:
             return state
