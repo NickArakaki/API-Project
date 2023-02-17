@@ -11,8 +11,11 @@ export default function UserSpotTiles({ user }) {
     const userSpots = useSelector(state => state.spots.userSpots);
 
     useEffect(() => {
-        dispatch(spotActions.getUserSpotsThunk(user.id))
-    }, [dispatch])
+        // why does this throw an error? I thought that on mount the JS would run before the useEffect
+        if (user) {
+            dispatch(spotActions.getUserSpotsThunk(user.id))
+        }
+    }, [dispatch, user])
 
     if (!user) return <Redirect to="/" />
     if (!Object.values(userSpots)) return <h1>You have no spots</h1>
@@ -21,7 +24,7 @@ export default function UserSpotTiles({ user }) {
         <>
             {Object.values(userSpots).map(userSpot => (
                 <div key={userSpot.id} className="user_spot_tile">
-                    <img src={userSpot.previewImage} alt={`${userSpot.name} preview image`} />
+                    <img src={userSpot.previewImage} alt={`${userSpot.name} preview`} />
                     <div className="user_spot_tile_details_div">
                         <div className="user_spot_tile_details_location_price_div">
                             <div className="user_spot_tile_location_div">
