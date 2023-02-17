@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import * as spotActions from '../../store/spots';
 import * as reviewActions from '../../store/reviews';
 
+import SpotReviews from "./SpotReviews/SpotReviews";
 import OpenModalButton from "../OpenModalButton";
 import ReviewModal from "../ReviewModal";
 import CalloutBox from "./CalloutBox";
@@ -103,11 +104,7 @@ export default function SpotDetails() {
                     {reviews.length < 1 && sessionUser && sessionUser.id !== spot.Owner.id && (
                         <div className="spot_details_no_reviews_text">Be the first to post a review!</div>
                     )}
-                    {reviews.map(review => {
-                        return (
-                            <Review key={review.id} review={review} />
-                        )
-                    })}
+                    <SpotReviews spotId={spotId} />
                 </div>
             </>
         )}
