@@ -14,7 +14,7 @@ export default function UserSpots() {
         <div className="manage_spots_title">
             <h1>Manage Spots</h1>
             <Link to="/spots/add" >
-                <button className='manage_spots_create_new_spot_button button'>Create a New Spot</button>
+                <button className='manage_spots_create_new_spot_button'>Create a New Spot</button>
             </Link>
             <div className='manage_spots_spot_tiles_div'>
                 <UserSpotTiles user={sessionUser} />

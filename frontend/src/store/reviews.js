@@ -130,6 +130,8 @@ export default function reviewsReducer(state=initialState, action) {
             };
             delete newState.spotReviews[action.reviewId]
             delete newState.userReviews[action.reviewId]
+            const reviewIndex = newState.orderedSpotReviews.findIndex(review => review.id === action.reviewId);
+            newState.orderedSpotReviews.splice(reviewIndex, 1);
             // remove from orderedSpotReviews
             return newState;
         }

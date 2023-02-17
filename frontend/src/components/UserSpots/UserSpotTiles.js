@@ -22,26 +22,29 @@ export default function UserSpotTiles({ user }) {
     if (!Object.values(userSpots)) return <h1>You have no spots</h1>
 
     return (
-        <>
+        <div className="user_spot_tile_wrapper">
             {Object.values(userSpots).map(userSpot => (
-                <div key={userSpot.id} className="user_spot_tile_wrapper">
-                        <SpotTile spot={userSpot} />
+                <div key={userSpot.id} className="user_spot_tile">
+                        <Link className="user_spot_tile_link" to={`/spots/${userSpot.id}`} >
+                            <SpotTile spot={userSpot} />
+                        </Link>
                         <div className="user_spot_tile_reviews_management_div">
-                            <div className="user_spot_tile_reviews_div">
-                                <i className="fa-solid fa-star" /> {userSpot.avgRating || "new"}
-                            </div>
                             <div className="user_spot_tile_management_div">
-                                <Link to={`/myspots/${userSpot.id}/edit`}>
-                                    <button className="user_spot_tile_update_button button">Update</button>
-                                </Link>
-                                <OpenModalButton
-                                    modalComponent={<DeleteSpotModal spot={userSpot} />}
-                                    buttonText="Delete"
-                                />
+                                <div className="manage_user_spot_button_container">
+                                    <Link to={`/myspots/${userSpot.id}/edit`}>
+                                        <button className="user_spot_tile_update_button">Update</button>
+                                    </Link>
+                                </div>
+                                <div className="manage_user_spot_button_container">
+                                    <OpenModalButton
+                                        modalComponent={<DeleteSpotModal spot={userSpot} />}
+                                        buttonText="Delete"
+                                        />
+                                </div>
                             </div>
                         </div>
                 </div>
             ))}
-        </>
+        </div>
     )
 }
