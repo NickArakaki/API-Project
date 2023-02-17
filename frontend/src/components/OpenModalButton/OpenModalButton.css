@@ -2,9 +2,12 @@
     cursor: pointer;
     text-align: center;
     border: 2px solid black;
+    border-radius: 10px;
     background-color: #FF5A5F;
     box-shadow: 2px 2px #999;
     color: #FFFFFF;
+    width: 100%;
+    padding: 5px;
 }
 
 .open_modal_button:hover {

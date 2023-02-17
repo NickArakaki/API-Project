@@ -46,7 +46,7 @@ export default function LoginFormModal() {
             <label className="form_title">Log In</label>
             {errors.length > 0 && (
                 <ul className="login_errors_list">
-                    {errors.map((error, index) => <li className="error" key={index}>{error}</li>)}
+                    {errors.map((error, index) => <li className="login_error" key={index}>{error}</li>)}
                 </ul>
             )}
             <div>

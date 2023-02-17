@@ -14,16 +14,18 @@
 }
 
 .header_title {
-    color: #FF5A5F;
-    font-size: 24pt;
+    font-size: 18pt;
     font-weight: bold;
     font-family: sans-serif;
+    margin-left: 5px;
 }
 
 .home_link {
     color: #FF5A5F;
     text-decoration: none;
     display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .home_link:hover {

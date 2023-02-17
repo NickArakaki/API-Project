@@ -13,10 +13,10 @@ export default function Navigation({ isLoaded }) {
             <li>
                 <NavLink className="home_link" exact to="/">
                     <i className="fa-solid fa-couch fa-xl" />
+                    <div className="header_title">
+                        Couch Crashers
+                    </div>
                 </NavLink>
-            </li>
-            <li className="header_title">
-                Couch Crashers
             </li>
             {isLoaded && (
                 <li>

@@ -55,7 +55,7 @@ function ProfileButton({ user }) {
         {user ? (
           <>
             <div className='profile_menu_greeting_div'>
-              <li>Hello, {user.username}</li>
+              <li>Hello, {user.firstName}</li>
               <li>{user.email}</li>
             </div>
             <div className='profile_menu_management_div'>
