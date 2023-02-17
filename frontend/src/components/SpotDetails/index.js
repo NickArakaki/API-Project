@@ -83,7 +83,7 @@ export default function SpotDetails() {
                             <div className="spot_details_host_details">
                                 Hosted by: {spot.Owner.firstName} {spot.Owner.lastName}
                             </div>
-                            <p>
+                            <p className="spot_details_description">
                                 {spot.description}
                             </p>
                         </div>
@@ -95,10 +95,12 @@ export default function SpotDetails() {
                 <div className="spot_details_reviews_div">
                     <ReviewsSummary spot={spot} />
                     {sessionUser && sessionUser.id !== spot.Owner.id && !userHasReview && (
-                        <OpenModalButton
-                            modalComponent={<ReviewModal spotId={spotId} />}
-                            buttonText="Post Your Review"
-                        />
+                        <div className="spot_details_post_review_button_div">
+                            <OpenModalButton
+                                modalComponent={<ReviewModal spotId={spotId} />}
+                                buttonText="Post Your Review"
+                            />
+                        </div>
                     )}
                     {reviews.length < 1 && sessionUser && sessionUser.id !== spot.Owner.id && (
                         <div className="spot_details_no_reviews_text">Be the first to post a review!</div>

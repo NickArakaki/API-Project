@@ -15,6 +15,7 @@
 .spot_details_images_div {
     display: flex;
     flex-direction: row;
+    margin: 15px 0;
 }
 
 .spot_details_images_previewImage {
@@ -84,9 +85,25 @@
     background-color: #ff8488;
 }
 
+.spot_details_host_details {
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+.spot_details_description {
+    font-size: 14pt;
+    font-weight: normal;
+    line-height: 1.5em;
+}
+
 .review_summary {
     display: flex;
     align-items: center;
+    margin: 15px 0;
+}
+
+.spot_details_post_review_button_div {
+    width: 15%;
 }
 
 .review_summary > .review_summary_rating_and_number {
