@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 
 import * as reviewActions from "../../store/reviews";
 
+import "./DeleteReviewModal.css"
+
 export default function DeleteReviewModal({ reviewId }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
