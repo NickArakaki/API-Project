@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
+import { Redirect } from 'react-router-dom';
+
 import * as reviewActions from '../../store/reviews';
 import "./ReviewModal.css";
 
 export default function ReviewModal({ spotId }) {
+    const sessionUser = useSelector(state => state.session.user);
     const { closeModal } = useModal();
     const dispatch = useDispatch();
     const inputValues = [1,2,3,4,5]
@@ -12,6 +15,8 @@ export default function ReviewModal({ spotId }) {
     const [starRating, setStarRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [formErrors, setFormErrors] = useState([]);
+
+    if (!sessionUser) return <Redirect to="/" />
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +33,7 @@ export default function ReviewModal({ spotId }) {
                 stars: starRating
             }
 
-            dispatch(reviewActions.addSpotReviewThunk(spotId, userReview))
+            dispatch(reviewActions.addSpotReviewThunk(spotId, userReview, sessionUser))
                 .then(closeModal)
                 .catch(async res => {
                     const data = await res.json();
@@ -37,10 +42,6 @@ export default function ReviewModal({ spotId }) {
                     }
                 })
         }
-
-
-
-        // if no errors dispatch and close modal
     }
 
     const buttonEnabled = (starRating > 0 && review.length > 10) ? true : false;
@@ -49,7 +50,11 @@ export default function ReviewModal({ spotId }) {
         <form className="add_review_modal" onSubmit={onSubmit}>
 
             <h2 className="add_review_modal_title">How was your stay</h2>
-
+            {formErrors.map(error => {
+                return (
+                    <li key={error}>{error}</li>
+                )
+            })}
             <textarea
                 className="add_review_modal_review_input"
                 placeholder="Leave your review here"
