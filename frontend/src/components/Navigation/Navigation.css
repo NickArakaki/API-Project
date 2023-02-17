@@ -26,6 +26,10 @@
     display: flex;
 }
 
+.home_link:hover {
+    color:  #ff8488;
+}
+
 .add_spot_button {
     border: none;
     background: white;
@@ -35,13 +39,30 @@
     cursor: pointer;
 }
 
+.add_spot_button:hover {
+    color:  #ff8488;
+}
+
 .profile_menu_button {
+    box-sizing: border-box;
     cursor: pointer;
     color: #FF5A5F;
     border: none;
     background-color: white;
-    height: 50px;
-    width: 50px;
+    display: inline;
+    width: fit-content;
+    border: 1px solid #FF5A5F;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.profile_menu_button:hover {
+    color: #ff8488;
+}
+
+.profile_icon {
+    margin-left: 5px;
+    font-size: 15pt;
 }
 
 .profile-dropdown {
