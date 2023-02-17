@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useModal } from "../../context/Modal";
+import * as reviewActions from '../../store/reviews';
 import "./ReviewModal.css";
 
-export default function ReviewModal() {
+export default function ReviewModal({ spotId }) {
+    const { closeModal } = useModal();
+    const dispatch = useDispatch();
     const inputValues = [1,2,3,4,5]
     const [review, setReview] = useState("");
     const [starRating, setStarRating] = useState(0);
@@ -11,6 +16,29 @@ export default function ReviewModal() {
     const onSubmit = (e) => {
         e.preventDefault();
         // validate inputs
+        const errors = [];
+        if (starRating <= 0 || starRating > 5) errors.push("Please provide 1 to 5 stars")
+        if (review.length < 10) errors.push("Please provide a review at least 10 characters long")
+
+        if (errors.length) {
+            setFormErrors(errors)
+        } else {
+            const userReview = {
+                review,
+                stars: starRating
+            }
+
+            dispatch(reviewActions.addSpotReviewThunk(spotId, userReview))
+                .then(closeModal)
+                .catch(async res => {
+                    const data = await res.json();
+                    if (data && data.errors) {
+                        setFormErrors(Object.values(data.errors));
+                    }
+                })
+        }
+
+
 
         // if no errors dispatch and close modal
     }
@@ -55,7 +83,7 @@ export default function ReviewModal() {
                 <div className="add_review_modal_star_rating_label">Stars</div>
             </div>
 
-            <button type="submit" disabled={buttonEnabled} className={`post_review_button ${buttonEnabled ? "enabled" : "disabled"}`}>Post Review</button>
+            <button type="submit" disabled={!buttonEnabled} className={`post_review_button ${buttonEnabled ? "enabled" : "disabled"}`}>Post Review</button>
 
         </form>
     )

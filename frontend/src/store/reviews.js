@@ -1,8 +1,8 @@
 import { csrfFetch } from './csrf';
 
 /******************************** CONSTS TO PREVENT TYPOS *************************/
-const GET_SPOT_REVIEWS = '/reviews/GET_SPOT_REVIEWS';
-const GET_USER_REVIEWS = '/reviews/GET_USER_REVIEWS';
+const GET_SPOT_REVIEWS = 'reviews/GET_SPOT_REVIEWS';
+const GET_USER_REVIEWS = 'reviews/GET_USER_REVIEWS';
 
 /*********************************OBJECT ACTION CREATORS **************************/
 const getSpotReviews = spotReviews => {
@@ -20,6 +20,19 @@ const getUserReviews = userReviews => {
 }
 
 /********************************** THUNK ACTION CREATORS *************************/
+// CREATE
+export const addSpotReviewThunk = (spotId, review) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(review)
+    });
+    const postedReview = await response.json();
+    dispatch(getSpotReviewsThunk(spotId))
+    return postedReview;
+}
+
+// READ
 export const getSpotReviewsThunk = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
     const data = await response.json();
@@ -33,6 +46,7 @@ export const getUserReviewsThunk = () => async (dispatch) => {
     dispatch(getUserReviews(data.Reviews));
     return data;
 }
+
 
 /************************************** REDUCER ***********************************/
 const initialState = { spotReviews: {}, userReviews: {}, orderedSpotReviews: [] }

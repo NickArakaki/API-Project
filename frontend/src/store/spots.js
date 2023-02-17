@@ -3,9 +3,9 @@ import { csrfFetch } from "./csrf";
 /******************************** CONSTS TO PREVENT TYPOS *************************/
 const GET_ALL_SPOTS = 'spots/GET_ALL_SPOTS';
 const GET_USER_SPOTS = 'spots/GET_USER_SPOTS';
-const GET_SINGLE_SPOT = '/spots/GET_SINGLE_SPOT';
+const GET_SINGLE_SPOT = 'spots/GET_SINGLE_SPOT';
 const ADD_SPOT_IMAGE = 'spots/ADD_SPOT_IMAGE';
-const UPDATE_USER_SPOT = '/spots/UPDATE_USER_SPOT';
+const UPDATE_USER_SPOT = 'spots/UPDATE_USER_SPOT';
 const DELETE_USER_SPOT = 'spots/DELETE_USER_SPOT';
 
 /*********************************OBJECT ACTION CREATORS **************************/

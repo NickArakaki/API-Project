@@ -18,9 +18,8 @@ export default function SpotDetails() {
     const { spotId } = useParams();
 
     const spot = useSelector((state) => state.spots.singleSpot);
-    const reviews = useSelector((state) => state.reviews.orderedSpotReviews);
     const sessionUser = useSelector(state => state.session.user);
-    const userReviews = useSelector(state => state.reviews.userReviews);
+    const reviews = useSelector((state) => state.reviews.orderedSpotReviews);
 
     const [isLoaded, setIsLoaded] = useState(false);
     const [successfulFetch, setSuccessfulFetch] = useState(false);
@@ -29,10 +28,7 @@ export default function SpotDetails() {
     useEffect(() => {
         dispatch(spotActions.getSingleSpotThunk(spotId))
             .then(() => dispatch(reviewActions.getSpotReviewsThunk(spotId)))
-            .then(() => dispatch(reviewActions.getUserReviewsThunk(spotId)))
             .then(() => {
-                // check if user has review for this spot using userId and postId
-                setUserHasReview(!!userReviews[spotId]);
                 setSuccessfulFetch(true)
                 setIsLoaded(true)
             })
@@ -42,7 +38,17 @@ export default function SpotDetails() {
             });
     }, [dispatch, spotId])
 
-    if (!successfulFetch && isLoaded) return <h2>Unable to retrieve details. Please try again shortly.</h2>;
+    // iterate over reviews to see if any of the reviews have a userId === session userId
+    useEffect(() => {
+        const userReview = reviews.find(review => review.userId === sessionUser.id)
+        if (userReview) {
+            setUserHasReview(true)
+        } else {
+            setUserHasReview(false)
+        }
+    }, [reviews])
+
+    if (isLoaded && !successfulFetch) return <h2>Unable to retrieve details. Please try again shortly.</h2>;
 
     // iterate over SpotImages: assign previewImage the image where preview === true, if not === true add to other spot images
     let previewImage;
@@ -90,7 +96,7 @@ export default function SpotDetails() {
                     <ReviewsSummary spot={spot} />
                     {sessionUser && sessionUser.id !== spot.Owner.id && !userHasReview && (
                         <OpenModalButton
-                            modalComponent={<ReviewModal />}
+                            modalComponent={<ReviewModal spotId={spotId} />}
                             buttonText="Post Your Review"
                         />
                     )}
