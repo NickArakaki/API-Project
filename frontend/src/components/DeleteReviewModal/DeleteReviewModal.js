@@ -5,12 +5,12 @@ import * as reviewActions from "../../store/reviews";
 
 import "./DeleteReviewModal.css"
 
-export default function DeleteReviewModal({ reviewId }) {
+export default function DeleteReviewModal({ review }) {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
     const handleDeleteConfirmation = () => {
-        dispatch(reviewActions.deleteUserReviewThunk(reviewId))
+        dispatch(reviewActions.deleteUserReviewThunk(review))
             .then(closeModal)
     };
 
