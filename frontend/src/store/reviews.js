@@ -86,8 +86,6 @@ export default function reviewsReducer(state=initialState, action) {
 
     switch(action.type) {
         case ADD_SPOT_REVIEW: {
-            // const previewImage = action.spot.SpotImages.find(spotImage => spotImage.preview === true);
-
             const newSpotReview = {
                 ...action.review,
                 User: {
@@ -98,36 +96,12 @@ export default function reviewsReducer(state=initialState, action) {
                 ReviewImages: []
             };
 
-            // const newUserReview = {
-            //     ...action.review,
-            //     spotId: action.spot.id,
-            //     User: {
-            //         id: action.user.id,
-            //         firstName: action.user.firstName,
-            //         lastName: action.user.lastName
-            //     },
-            //     Spot: {
-            //         id: action.spot.id,
-            //         ownerId: action.spot.ownerId,
-            //         city: action.spot.city,
-            //         state: action.spot.state,
-            //         country: action.spot.country,
-            //         lat: action.spot.lat,
-            //         lng: action.spot.lng,
-            //         name: action.spot.name,
-            //         price: action.spot.price,
-            //         previewImage: previewImage.url
-            //     }
-            // }
-
             const newState = { ...state,
                                     spotReviews: { ...state.spotReviews },
-                                    userReviews: { ...state.userReviews},
                                     orderedSpotReviews: [ ...state.orderedSpotReviews, newSpotReview ]
             }
 
             newState.spotReviews[action.review.id] = newSpotReview;
-            // newState.userReviews[action.review.id] = newUserReview;
             return newState
         }
         case GET_SPOT_REVIEWS: {
