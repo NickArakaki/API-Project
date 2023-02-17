@@ -229,6 +229,8 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
             <div className="add_spot_form_photo_wrapper form_block">
                 <div className="form_prompt_title">Liven up your spot with photos</div>
                 <p className="form_prompt">Submit a link to at least one photo to publish your spot</p>
+                {validationErrors.previewImage && <span className="error">{validationErrors.previewImage}</span>}
+                {validationErrors.previewImageType && <span className="error">{validationErrors.previewImageType}</span>}
                 <input
                     className="add_spot_form_preview_image"
                     type="text"
@@ -236,8 +238,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     value={previewImage}
                     onChange={(e) => setPreviewImage(e.target.value)}
                 />
-                {validationErrors.previewImage && <span className="error">{validationErrors.previewImage}</span>}
-                {validationErrors.previewImageType && <span className="error">{validationErrors.previewImageType}</span>}
+                {validationErrors.spotImagesType0 && <span className="error">{validationErrors.spotImagesType0}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -245,7 +246,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     value={image1}
                     onChange={(e) => setImage1(e.target.value)}
                 />
-                {validationErrors.spotImagesType0 && <span className="error">{validationErrors.spotImagesType0}</span>}
+                {validationErrors.spotImagesType1 && <span className="error">{validationErrors.spotImagesType1}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -253,7 +254,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     value={image2}
                     onChange={(e) => setImage2(e.target.value)}
                 />
-                {validationErrors.spotImagesType1 && <span className="error">{validationErrors.spotImagesType1}</span>}
+                {validationErrors.spotImagesType2 && <span className="error">{validationErrors.spotImagesType2}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -261,7 +262,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     value={image3}
                     onChange={(e) => setImage3(e.target.value)}
                 />
-                {validationErrors.spotImagesType2 && <span className="error">{validationErrors.spotImagesType2}</span>}
+                {validationErrors.spotImagesType3 && <span className="error">{validationErrors.spotImagesType3}</span>}
                 <input
                     className="add_spot_form_image"
                     type="text"
@@ -269,7 +270,6 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     value={image4}
                     onChange={(e) => setImage4(e.target.value)}
                 />
-                {validationErrors.spotImagesType3 && <span className="error">{validationErrors.spotImagesType3}</span>}
             </div>
             <button className="add_spot_form_submit_button" type="submit">Create Spot</button>
         </form>
