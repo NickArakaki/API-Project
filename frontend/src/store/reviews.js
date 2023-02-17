@@ -123,8 +123,13 @@ export default function reviewsReducer(state=initialState, action) {
         }
         case DELETE_USER_REVIEW: {
             const newState = {...state,
-                userReviews: {...state.userReviews}};
+                spotReviews: {...state.spotReviews},
+                userReviews: {...state.userReviews},
+                orderedSpotReviews: [...state.orderedSpotReviews]
+            };
+            delete newState.spotReviews[action.reviewId]
             delete newState.userReviews[action.reviewId]
+            // remove from orderedSpotReviews
             return newState;
         }
         default:
