@@ -60,8 +60,9 @@
     display: inline;
     width: fit-content;
     border: 1px solid #FF5A5F;
-    border-radius: 15px;
-    padding: 5px;
+    border-radius: 20px;
+    margin: 0 5px;
+    padding: 5px 10px;
 }
 
 .profile_menu_button:hover {

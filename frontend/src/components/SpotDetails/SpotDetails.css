@@ -25,7 +25,7 @@
 .spot_details_images_previewImage {
     width: 50%;
     height: 412px;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .spot_details_images_spotImages_div {
@@ -39,7 +39,7 @@
 .spot_details_images_spotImage {
     width: 50%;
     height: 205px;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .spot_details_spot_info_div {
