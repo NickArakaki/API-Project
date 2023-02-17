@@ -22,7 +22,7 @@ export default function SpotReview({ review }) {
             <div className="user_review_date">{formattedDate}</div>
             <p className="user_review_review">{review.review}</p>
             {displayButton && (
-                <div className="user_review_delete_modal_container">
+                <div className="user_review_delete_modal_button_container">
                     <OpenModalButton
                         modalComponent={<DeleteReviewModal review={review} />}
                         buttonText="Delete"

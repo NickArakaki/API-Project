@@ -81,12 +81,11 @@
     position: absolute;
     top: 70px;
     right: 50px;
-    z-index: 1;
     background-color: white;
     border: 1px solid #999999;
     box-shadow: 2px 2px 2px #999999;
     border-radius: 5px;
-    width: fit-content;
+    width: 10%;
     padding: 15px;
 }
 
@@ -95,30 +94,27 @@
     border-bottom: 1px solid #999999;
 }
 
-.profile_menu_management_div {
+.profile_menu_management_div,
+.logout_button_wrapper
+ {
     margin: 5px auto;
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid #999999;
     padding: 5px;
+}
+
+.profile_menu_management_div {
+    border-bottom: 1px solid #999999;
+
 }
 
 .profile-dropdown li {
     margin: 5px 0px;
 }
 
-.logout_button_wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 0 5px;
-    margin-top: 5px;
-    margin-bottom: 0;
-}
-
 .manage_button {
-    border: 1px solid black;
+    border: 2px solid black;
+    box-shadow: 2px 2px #999;
     border-radius: 15px;
     background-color: #FF5A5F;
     color: #FFFFFF;
@@ -129,10 +125,6 @@
 
 .manage_button:hover {
     background-color: #ff8488;
-}
-
-.logout_button {
-    margin-top: 5px;
 }
 
 .hidden {
