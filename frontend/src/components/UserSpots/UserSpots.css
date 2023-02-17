@@ -22,6 +22,18 @@
     justify-content: space-evenly;
 }
 
+.spot_name_star_review_div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user_spot_tile_reviews_management_div {
+    display: flex;
+    justify-content: space-between;
+}
+
 .user_spot_tile_update_button {
     cursor: pointer;
     text-align: center;
@@ -30,8 +42,9 @@
     background-color: #FF5A5F;
     box-shadow: 2px 2px #999;
     color: #FFFFFF;
-    width: 100%;
+    min-width: 75px;
     padding: 5px;
+    margin-right: 5px;
 }
 
 .user_spot_tile_update_button:hover {
@@ -40,5 +53,5 @@
 
 .manage_user_spot_button_container {
     cursor: pointer;
-    width: 33%;
+    min-width: 75px;
 }
