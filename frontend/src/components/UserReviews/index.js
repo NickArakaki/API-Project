@@ -20,17 +20,21 @@ export default function UserReviews() {
 
     if (!sessionUser) return <Redirect to="/" />
 
+
     return (
         <div className="manage_reviews_div">
-            <h1 className="manage_reviews_title">Manage Reviews</h1>
-            {isLoaded && (
+            <h1 className="manage_reviews_title">My Reviews</h1>
+            {isLoaded && Object.values(userReviews).length > 0 && (
                 <div>
                     {Object.values(userReviews).map(userReview => {
                         return (
-                            <UserReview review={userReview} />
+                            <UserReview key={userReview.id} review={userReview} />
                         )
                     })}
                 </div>
+            )}
+            {isLoaded && Object.values(userReviews).length <= 0 && (
+                <div className="empty_user_reviews_list">Please visit a spot to post a review</div>
             )}
         </div>
     )
