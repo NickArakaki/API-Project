@@ -40,7 +40,7 @@ export default function SpotDetails() {
 
     // iterate over reviews to see if any of the reviews have a userId === session userId
     useEffect(() => {
-        const userReview = reviews.find(review => review.userId === sessionUser.id)
+        const userReview = reviews.find(review => review.userId === sessionUser?.id)
         if (userReview) {
             setUserHasReview(true)
         } else {

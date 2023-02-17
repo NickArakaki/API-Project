@@ -85,10 +85,12 @@ const seedSpotImages = num => {
     for (const i in spotImages) {
         spotImages[i] = {
             spotId: [Math.floor(Number(i) / 5) + 1],
-            url: faker.image.cats(),
+            url: "https://m.media-amazon.com/images/I/71ZPlj+mwrL.jpg",
             preview: Number(i) % 5 === 0 ? true : false
         }
     }
+
+    // loop over spotImages replace the obj with preview true with random image?
 
     return spotImages
 }
