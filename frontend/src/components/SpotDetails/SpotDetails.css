@@ -100,7 +100,6 @@
 .review_summary {
     display: flex;
     align-items: center;
-    margin: 15px 0;
 }
 
 .spot_details_post_review_button_div {
@@ -113,4 +112,5 @@
 
 .spot_details_reviews_div > .review_summary {
     font-size: 24pt;
+    margin-bottom: 10px;
 }
