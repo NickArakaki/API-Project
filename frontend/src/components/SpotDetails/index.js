@@ -1,24 +1,29 @@
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import * as spotActions from '../../store/spots';
 import * as reviewActions from '../../store/reviews';
 
+import SpotReviews from "./SpotReviews/SpotReviews";
+import OpenModalButton from "../OpenModalButton";
+import ReviewModal from "../AddReviewModal";
 import CalloutBox from "./CalloutBox";
+import ReviewsSummary from "./ReviewsSummary";
 
 import "./SpotDetails.css";
-import ReviewsSummary from "./ReviewsSummary";
-import Review from "./Review";
 
 export default function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
+
     const spot = useSelector((state) => state.spots.singleSpot);
-    const reviews = useSelector((state) => state.reviews.orderedSpotReviews)
-    // const reviews = useSelector(state => state.reviews.spotReviews);
+    const sessionUser = useSelector(state => state.session.user);
+    const reviews = useSelector((state) => state.reviews.orderedSpotReviews);
+
     const [isLoaded, setIsLoaded] = useState(false);
     const [successfulFetch, setSuccessfulFetch] = useState(false);
+    const [userHasReview, setUserHasReview] = useState(null);
 
     useEffect(() => {
         dispatch(spotActions.getSingleSpotThunk(spotId))
@@ -33,7 +38,17 @@ export default function SpotDetails() {
             });
     }, [dispatch, spotId])
 
-    if (!successfulFetch && isLoaded) return <h2>Unable to retrieve details. Please try again shortly.</h2>;
+    // iterate over reviews to see if any of the reviews have a userId === session userId
+    useEffect(() => {
+        const userReview = reviews.find(review => review.userId === sessionUser.id)
+        if (userReview) {
+            setUserHasReview(true)
+        } else {
+            setUserHasReview(false)
+        }
+    }, [reviews])
+
+    if (isLoaded && !successfulFetch) return <h2>Unable to retrieve details. Please try again shortly.</h2>;
 
     // iterate over SpotImages: assign previewImage the image where preview === true, if not === true add to other spot images
     let previewImage;
@@ -49,10 +64,10 @@ export default function SpotDetails() {
     }
 
     return (
-        <>
+        <div className="spot_details_div">
         {isLoaded && (
             <>
-                <div className="spot_details_div">
+                <div className="spot_details_info_div">
                     <h2 className="spot_details_name">{spot.name}</h2>
                     <div className="spot_details_location">{spot.city}, {spot.state}, {spot.country}</div>
                     <div className="spot_details_images_div">
@@ -78,17 +93,20 @@ export default function SpotDetails() {
                     </div>
                 </div>
                 <div className="spot_details_reviews_div">
-                    <div className="spot_details_review_summary_div">
-                        <ReviewsSummary spot={spot} />
-                    </div>
-                    {reviews.map(review => {
-                        return (
-                            <Review key={review.id} review={review} />
-                        )
-                    })}
+                    <ReviewsSummary spot={spot} />
+                    {sessionUser && sessionUser.id !== spot.Owner.id && !userHasReview && (
+                        <OpenModalButton
+                            modalComponent={<ReviewModal spotId={spotId} />}
+                            buttonText="Post Your Review"
+                        />
+                    )}
+                    {reviews.length < 1 && sessionUser && sessionUser.id !== spot.Owner.id && (
+                        <div className="spot_details_no_reviews_text">Be the first to post a review!</div>
+                    )}
+                    <SpotReviews spotId={spotId} />
                 </div>
             </>
         )}
-        </>
+        </div>
     )
 }

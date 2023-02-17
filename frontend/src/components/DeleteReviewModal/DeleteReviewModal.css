@@ -1,0 +1,39 @@
+.delete_review_confirmation_modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    font-family: sans-serif;
+}
+
+.delete_review_confirmation_title {
+    font-size: 24pt;
+    font-weight: bold;
+    margin: 0;
+}
+
+.delete_review_confirmation_modal > button {
+    cursor: pointer;
+    width: 100%;
+    height: 2.5rem;
+    margin: 5px 0;
+    box-shadow: 2px 2px #999999;
+    border: 2px solid black;
+}
+
+.delete_review_confirmation_button {
+    background-color: #FF5A5F;
+    box-shadow: 2px 2px #999;
+    color: #FFFFFF;
+}
+
+.delete_review_confirmation_button:hover {
+    background-color: #fe8589;
+}
+
+.delete_review_cancel_button {
+    background-color: #CCC;
+}
+.delete_review_cancel_button:hover {
+    background-color: #dad9d9;
+}

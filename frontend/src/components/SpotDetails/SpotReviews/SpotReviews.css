@@ -1,0 +1,19 @@
+.spot_reviews_div {
+    margin: 25px 0;
+}
+
+.user_review_user_firstName{
+    font-size: 14pt;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.user_review_date {
+    font-size: 12pt;
+    color: #999;
+}
+
+.user_review_review {
+    font-size: 12pt;
+    line-height: 1.5rem;
+}
