@@ -1,14 +1,29 @@
 import { csrfFetch } from "./csrf";
 
 /******************************** CONSTS TO PREVENT TYPOS *************************/
+const ADD_SPOT = 'spots/ADD_SPOT';
+const ADD_SPOT_IMAGE = 'spots/ADD_SPOT_IMAGE';
 const GET_ALL_SPOTS = 'spots/GET_ALL_SPOTS';
 const GET_USER_SPOTS = 'spots/GET_USER_SPOTS';
 const GET_SINGLE_SPOT = 'spots/GET_SINGLE_SPOT';
-const ADD_SPOT_IMAGE = 'spots/ADD_SPOT_IMAGE';
 const UPDATE_USER_SPOT = 'spots/UPDATE_USER_SPOT';
 const DELETE_USER_SPOT = 'spots/DELETE_USER_SPOT';
 
 /*********************************OBJECT ACTION CREATORS **************************/
+const addSpot = (spot) => {
+    return {
+        type: ADD_SPOT,
+        spot
+    }
+}
+
+const addSpotImage = (spotImage) => {
+    return {
+        type: ADD_SPOT_IMAGE,
+        spotImage
+    }
+}
+
 const getAllSpots = (allSpots) => {
     return {
         type: GET_ALL_SPOTS,
@@ -27,13 +42,6 @@ const getSingleSpot = (spot) => {
     return {
         type: GET_SINGLE_SPOT,
         spot
-    }
-}
-
-const addSpotImage = (spotImage) => {
-    return {
-        type: ADD_SPOT_IMAGE,
-        spotImage
     }
 }
 
@@ -60,7 +68,8 @@ export const addSpotThunk = (spotData) => async (dispatch) => {
         body: JSON.stringify(spotData)
     });
     const spot = await response.json();
-    dispatch(getSingleSpotThunk(spot.id));
+    // dispatch(getSingleSpotThunk(spot.id));
+    dispatch(addSpot(spot));
     return spot;
 }
 
@@ -134,6 +143,13 @@ export default function spotsReducer(state=initialState, action) {
     Object.freeze(state);
 
     switch (action.type) {
+        case ADD_SPOT: {
+            return {...state,
+                        allSpots: {...state.allSpots, [action.spot.id]: action.spot},
+                        singleSpot: action.spot,
+                        userSpots: {...state.userSpots, [action.spot.id]: action.spot}
+                    }
+        }
         case ADD_SPOT_IMAGE: {
             return {...state,
                         singleSpot: {...state.singleSpot,

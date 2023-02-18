@@ -69,8 +69,8 @@ const seedReviews = num => {
 
     for (const i in reviews) {
         reviews[i] = {
-            spotId: randomNum(100),
-            userId: randomNum(100),
+            spotId: randomNum(12), // dependent on num spots
+            userId: randomNum(100), // dependent on num users
             review: faker.lorem.paragraph(randomNum(7)),
             stars: randomNum(5)
         }
@@ -121,13 +121,10 @@ const seedSpotImages = num => {
     for (const i in spotImages) {
         spotImages[i] = {
             spotId: (Math.floor(Number(i) / 5) + 1),
-            url: imageURLs[randomNum(imageURLs.length - 2)],
+            url: imageURLs[randomNum(imageURLs.length - 2)], // get random url from imageURLs array
             preview: Number(i) % 5 === 0 ? true : false
         }
     }
-
-    // loop over spotImages replace the obj with preview true with random image?
-
     return spotImages
 }
 
@@ -136,7 +133,7 @@ const seedReviewImages = num => {
 
     for (const i in reviewImages) {
         reviewImages[i] = {
-            reviewId: randomNum(100),
+            reviewId: randomNum(100), // dependent on num of reviews
             url: faker.image.animals(),
         }
     }
