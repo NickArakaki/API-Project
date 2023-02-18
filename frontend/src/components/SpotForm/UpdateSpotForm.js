@@ -137,7 +137,7 @@ export default function UpdateUserSpotForm() {
                                     City: {validationErrors.city && <span className="spot_error">{validationErrors.city}</span>}
                                 </div>
                                 <input
-                                    className="add_spot_form_input"
+                                    className="spot_form_input"
                                     type="text"
                                     placeholder="City"
                                     value={city}
@@ -149,7 +149,7 @@ export default function UpdateUserSpotForm() {
                                     State: {validationErrors.state && <span className="spot_error">{validationErrors.state}</span>}
                                 </div>
                                 <input
-                                    className="add_spot_form_input"
+                                    className="spot_form_input"
                                     type="text"
                                     placeholder="STATE"
                                     value={state}
@@ -165,7 +165,7 @@ export default function UpdateUserSpotForm() {
                                     Latitude:
                                 </div>
                                 <input
-                                    className="add_spot_form_input"
+                                    className="spot_form_input"
                                     type="text"
                                     placeholder="Latitude"
                                     value={latitude}
@@ -177,7 +177,7 @@ export default function UpdateUserSpotForm() {
                                     Longitude:
                                 </div>
                                 <input
-                                    className="add_spot_form_input"
+                                    className="spot_form_input"
                                     type="text"
                                     placeholder="Longitude"
                                     value={longitude}

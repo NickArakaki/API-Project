@@ -28,7 +28,7 @@
 
 .spot_form_prompt {
     font-size: 12pt;
-    line-height: 1.5rem;;
+    line-height: 1.5rem;
 }
 
 .spot_form_location_inputs_div {
@@ -42,22 +42,31 @@
     margin-bottom: 5px;
 }
 
+.spot_form_input_title {
+    font-weight: bold;
+    font-size: 12pt;
+    margin: 10px 0;
+}
+
 .spot_form_city_state_div,
 .spot_form_lat_lng_div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 10px;
 }
 
 .spot_form_city_input_div,
-.spot_form_state_input_div,
 .spot_form_lat_input_div,
 .spot_form_lng_input_div,
-.add_spot_form_input {
+.spot_form_input {
     width: 100%;
 }
+.spot_form_state_input_div {
+    width: 45%;
+}
 
-.spot_form_input.spot_form_description_input {
+.spot_form_description_input {
     height: 15vh;
     resize: none;
     font-family: sans-serif;
@@ -83,6 +92,7 @@
     padding: 15px;
     text-align: center;
     border: 2px solid black;
+    border-radius: 15px;
     background-color: #FF5A5F;
     box-shadow: 2px 2px 2px #999;
     color: #FFFFFF;
