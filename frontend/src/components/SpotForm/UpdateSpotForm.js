@@ -5,7 +5,7 @@ import { Redirect, useHistory, useParams } from "react-router-dom"
 import { validateSpot } from "../../utils/validation";
 import * as spotActions from "../../store/spots";
 
-import "./UpdateUserSpotForm.css"
+import "./SpotForm.css"
 
 export default function UpdateUserSpotForm() {
     const history = useHistory();

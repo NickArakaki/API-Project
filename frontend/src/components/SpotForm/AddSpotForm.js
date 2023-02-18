@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
 import * as spotActions from '../../store/spots';
 import validateSpotForm from "../../utils/validation";
-import "./AddSpotForm.css"
+import "./SpotForm.css"
 
 export default function AddSpotForm() { // Refactoring idea: maybe use the rest operator for image1...image4
     const history = useHistory();

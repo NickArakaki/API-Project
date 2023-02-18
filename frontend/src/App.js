@@ -6,10 +6,10 @@ import * as sessionActions from './store/session';
 import Navigation from './components/Navigation';
 import SpotTiles from './components/SpotTile';
 import SpotDetails from './components/SpotDetails';
-import AddSpotForm from './components/AddSpotForm';
+import AddSpotForm from './components/SpotForm/AddSpotForm';
 import UserSpots from './components/UserSpots';
 import UserReviews from './components/UserReviews';
-import UpdateUserSpotForm from './components/UpdateUserSpotForm';
+import UpdateUserSpotForm from './components/SpotForm/UpdateSpotForm';
 
 function App() {
   const dispatch = useDispatch();
