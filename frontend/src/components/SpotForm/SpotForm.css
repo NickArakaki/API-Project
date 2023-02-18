@@ -42,22 +42,29 @@
     margin-bottom: 5px;
 }
 
+.spot_form_input {
+    width: 100%;
+}
+
 .spot_form_city_state_div,
 .spot_form_lat_lng_div {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    gap: 10px;
 }
 
 .spot_form_city_input_div,
-.spot_form_state_input_div,
 .spot_form_lat_input_div,
 .spot_form_lng_input_div,
 .add_spot_form_input {
     width: 100%;
 }
+.spot_form_state_input_div {
+    width: 45%;
+}
 
-.spot_form_input.spot_form_description_input {
+.spot_form_description_input {
     height: 15vh;
     resize: none;
     font-family: sans-serif;
