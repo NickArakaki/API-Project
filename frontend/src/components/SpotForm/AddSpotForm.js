@@ -113,11 +113,11 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
         <form className="spot_form" onSubmit={handleSubmit}>
             <h2 className="spot_form_title">Create a New Spot</h2>
             {serverErrors.length > 0 && (
-                <>
+                <ul className="spot_form_server_errors_list">
                     {serverErrors.map(error => (
-                        <li key={error} className="spot_error">{error}</li>
+                        <li key={error} className="spot_error spot_server_error">{error}</li>
                     ))}
-                </>
+                </ul>
             )}
             <div className="spot_form_location_div spot_form_block">
                 <div className="spot_form_block_heading">Where's your place located?</div>

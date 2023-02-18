@@ -90,107 +90,142 @@ export default function UpdateUserSpotForm() {
     }
 
     return (
-        <form className="update_spot_form" onSubmit={handleSubmit}>
-            <h2 className="update_spot_form_title">Update Your Spot</h2>
+        <form className="spot_form" onSubmit={handleSubmit}>
+            <h2 className="spot_form_title">Create a New Spot</h2>
             {serverErrors.length > 0 && (
-                <ul className="update_spot_server_errors_list">
+                <ul className="spot_form_server_errors_list">
                     {serverErrors.map(error => (
-                        <li key={error} className="error">{error}</li>
+                        <li key={error} className="spot_error spot_server_error">{error}</li>
                     ))}
                 </ul>
             )}
-            <div className="update_spot_form_location_div form_block">
-                <h3>Where's your place located?</h3>
-                <p>Guests will only get your exact address once they have booked a reservation.</p>
-                <div>
-                    Country: {validationErrors.country && <span className="error">{validationErrors.country}</span>}
-                    <input
-                        type="text"
-                        placeholder="Country"
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                    />
-                </div>
-                <div>
-                    Street Address: {validationErrors.address && <span className="error">{validationErrors.address}</span>}
-                    <input
-                        type="text"
-                        placeholder="Address"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                </div>
-                <div>
-                    City: {validationErrors.city && <span className="error">{validationErrors.city}</span>}
-                    <input
-                        type="text"
-                        placeholder="City"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                    />,
-                </div>
-                <div>
-                    State: {validationErrors.state && <span className="error">{validationErrors.state}</span>}
-                    <input
-                        type="text"
-                        placeholder="STATE"
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
-                    />
-                </div>
-                <div>
-                    Latitude:
-                    <input
-                        type="text"
-                        placeholder="Latitude"
-                        value={latitude}
-                        onChange={(e) => setLatitude(e.target.value)}
-                    />
-                </div>
-                <div>
-                    Longitude
-                    <input
-                        type="text"
-                        placeholder="Longitude"
-                        value={longitude}
-                        onChange={(e) => setLongitude(e.target.value)}
-                    />
+            <div className="spot_form_location_div spot_form_block">
+                <div className="spot_form_block_heading">Where's your place located?</div>
+                <p className="spot_form_prompt">Guests will only get your exact address once they have booked a reservation.</p>
+                <div className="spot_form_location_inputs_div">
+                    <div className="spot_form_input_div">
+                        <div className="spot_form_input_title">
+                            Country: {validationErrors.country && <span className="spot_error">{validationErrors.country}</span>}
+                        </div>
+                        <input
+                            className="spot_form_input"
+                            type="text"
+                            placeholder="Country"
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                        />
+                    </div>
+                    <div className="spot_form_input_div">
+                        <div className="spot_form_input_title">
+                            Street Address: {validationErrors.address && <span className="spot_error">{validationErrors.address}</span>}
+                        </div>
+                        <input
+                            className="spot_form_input"
+                            type="text"
+                            placeholder="Address"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
+                    </div>
+                    <div className="spot_form_input_div">
+                        <div className="spot_form_city_state_div">
+                            <div className="spot_form_city_input_div">
+                                <div className="spot_form_input_title">
+                                    City: {validationErrors.city && <span className="spot_error">{validationErrors.city}</span>}
+                                </div>
+                                <input
+                                    className="add_spot_form_input"
+                                    type="text"
+                                    placeholder="City"
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                    />
+                            </div>
+                            <div className="spot_form_state_input_div">
+                                <div className="spot_form_input_title">
+                                    State: {validationErrors.state && <span className="spot_error">{validationErrors.state}</span>}
+                                </div>
+                                <input
+                                    className="add_spot_form_input"
+                                    type="text"
+                                    placeholder="STATE"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                    />
+                            </div>
+                        </div>
+                    </div >
+                    <div className="spot_form_input_div">
+                        <div className="spot_form_lat_lng_div">
+                            <div className="spot_form_lat_input_div">
+                                <div className="spot_form_input_title">
+                                    Latitude:
+                                </div>
+                                <input
+                                    className="add_spot_form_input"
+                                    type="text"
+                                    placeholder="Latitude"
+                                    value={latitude}
+                                    onChange={(e) => setLatitude(e.target.value)}
+                                    />
+                            </div>
+                            <div className="spot_form_lng_input_div">
+                                <div className="spot_form_input_title">
+                                    Longitude:
+                                </div>
+                                <input
+                                    className="add_spot_form_input"
+                                    type="text"
+                                    placeholder="Longitude"
+                                    value={longitude}
+                                    onChange={(e) => setLongitude(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className="update_spot_form_description_div form_block">
-                <h3>Describe your place to guests</h3>
-                <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
+            <div className="spot_form_description_div spot_form_block">
+                <div className="spot_form_block_heading">Describe your place to guests</div>
+                <p className="spot_form_prompt">Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
+                {validationErrors.description && <span className="spot_error">{validationErrors.description}</span>}
                 <textarea
-                    className="update_spot_form_description_textarea"
+                    className="spot_form_input spot_form_description_input"
                     placeholder="Please write at least 30 characters"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                {validationErrors.description && <span className="error">{validationErrors.description}</span>}
             </div>
-            <div className="update_spot_form_title_wrapper form_block">
-                <h3>Create a tile for your spot</h3>
-                <p>Catch guests' attention with a spot title that highlights what makes your place special</p>
+            <div className="spot_form_title_div spot_form_block">
+                <div className="spot_form_block_heading">Create a tile for your spot</div>
+                <p className="spot_form_prompt">Catch guests' attention with a spot title that highlights what makes your place special</p>
+                {validationErrors.title && <span className="spot_error">{validationErrors.title}</span>}
                 <input
+                    className="spot_form_input spot_from_title_input"
                     type="text"
                     placeholder="Name of your spot"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
             </div>
-            {validationErrors.title && <span className="error">{validationErrors.title}</span>}
-            <div className="update_spot_form_price_wrapper form_block">
-                <h3>Set a base price for your spot</h3>
-                <p>Competitive pricing can help your listing stand out and rank higher ins search results</p>
-                $ <input
-                    type="number"
-                    placeholder="Price per night (USD)"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                />
-                {validationErrors.price && <span className="error">{validationErrors.price}</span>}
+            <div className="spot_form_price_div spot_form_block">
+                <div className="spot_form_block_heading">Set a base price for your spot</div>
+                <p className="spot_form_prompt">Competitive pricing can help your listing stand out and rank higher ins search results</p>
+                {validationErrors.price && <span className="spot_error">{validationErrors.price}</span>}
+                <div className="spot_form_price_input_div">
+                    <div className="spot_form_price_input_div">
+                        <div className="spot_form_price_label">$</div>
+                        <input
+                            className="spot_form_input spot_form_price_input"
+                            type="number"
+                            placeholder="Price per night (USD)"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                        />
+                    </div>
+                </div>
             </div>
-            <button className="update_spot_form_submit_button button" type="submit">Update Your Spot</button>
+            <button className="spot_form_submit_button" type="submit">Create Spot</button>
         </form>
     )
 }
