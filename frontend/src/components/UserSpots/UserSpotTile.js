@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import OpenModalButton from "../OpenModalButton"
-import DeleteSpotModal from "../DeleteSpotModal";
+import DeleteSpotModal from "../DeleteModal/DeleteSpotModal";
 
 export default function UserSpotTile({ spot }) {
     return (

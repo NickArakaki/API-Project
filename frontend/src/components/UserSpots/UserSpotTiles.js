@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Link, Redirect } from "react-router-dom";
 
-import OpenModalButton from "../OpenModalButton";
 import UserSpotTile from "./UserSpotTile";
-import DeleteSpotModal from "../DeleteSpotModal";
 import * as spotActions from '../../store/spots';
 
 export default function UserSpotTiles({ user }) {

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 import OpenModalButton from "../../OpenModalButton";
-import DeleteReviewModal from "../../DeleteReviewModal/DeleteReviewModal";
+import DeleteReviewModal from "../../DeleteModal/DeleteReviewModal";
 
 import { formatDate } from "../../../utils/formatting";
 

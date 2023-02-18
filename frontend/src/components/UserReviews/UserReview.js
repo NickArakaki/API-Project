@@ -1,5 +1,5 @@
 import OpenModalButton from "../OpenModalButton";
-import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
+import DeleteReviewModal from "../DeleteModal/DeleteReviewModal";
 import { formatDate } from "../../utils/formatting";
 
 export default function UserReview({ review }) {
