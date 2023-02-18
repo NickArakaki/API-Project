@@ -19,5 +19,5 @@
 }
 
 .user_review_delete_modal_button_container {
-    width: 15%;
+    width: fit-content;
 }

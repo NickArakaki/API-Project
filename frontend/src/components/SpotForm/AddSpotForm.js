@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
+
 import * as spotActions from '../../store/spots';
 import validateSpotForm from "../../utils/validation";
-import "./AddSpotForm.css"
+
+import "./SpotForm.css"
 
 export default function AddSpotForm() { // Refactoring idea: maybe use the rest operator for image1...image4
     const history = useHistory();
@@ -94,7 +96,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     })
                     history.push(`/spots/${spot.id}`);
                 })
-                .catch(async (res) => {
+                .catch(async res => {
                     const data = await res.json();
                     if (data && Object.values(data.errors).length > 0) {
                         setServerErrors(Object.values(data.errors));
@@ -108,44 +110,48 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
     }
 
     return (
-        <form className="add_spot_form" onSubmit={handleSubmit}>
-            <h2 className="add_spot_form_title">Create a New Spot</h2>
+        <form className="spot_form" onSubmit={handleSubmit}>
+            <h2 className="spot_form_title">Create a New Spot</h2>
             {serverErrors.length > 0 && (
-                <>
+                <ul className="spot_form_server_errors_list">
                     {serverErrors.map(error => (
-                        <li key={error} className="error">{error}</li>
+                        <li key={error} className="spot_error spot_server_error">{error}</li>
                     ))}
-                </>
+                </ul>
             )}
-            <div className="add_spot_form_location_div form_block">
-                <div className="form_prompt_title">Where's your place located?</div>
-                <p className="form_prompt">Guests will only get your exact address once they have booked a reservation.</p>
-                <div className="add_spot_location_div">
-                    <div className="add_spot_form_location_input">
-                        Country: {validationErrors.country && <span className="error">{validationErrors.country}</span>}
+            <div className="spot_form_location_div spot_form_block">
+                <div className="spot_form_block_heading">Where's your place located?</div>
+                <p className="spot_form_prompt">Guests will only get your exact address once they have booked a reservation.</p>
+                <div className="spot_form_location_inputs_div">
+                    <div className="spot_form_input_div">
+                        <div className="spot_form_input_title">
+                            Country: {validationErrors.country && <span className="spot_error">{validationErrors.country}</span>}
+                        </div>
                         <input
-                            className="add_spot_form_input"
+                            className="spot_form_input"
                             type="text"
                             placeholder="Country"
                             value={country}
                             onChange={(e) => setCountry(e.target.value)}
                         />
                     </div>
-                    <div className="add_spot_form_location_input">
-                        Street Address: {validationErrors.address && <span className="error">{validationErrors.address}</span>}
+                    <div className="spot_form_input_div">
+                        <div className="spot_form_input_title">
+                            Street Address: {validationErrors.address && <span className="spot_error">{validationErrors.address}</span>}
+                        </div>
                         <input
-                            className="add_spot_form_input"
+                            className="spot_form_input"
                             type="text"
                             placeholder="Address"
                             value={streetAddress}
                             onChange={(e) => setStreetAddress(e.target.value)}
                         />
                     </div>
-                    <div className="add_spot_form_location_input">
-                        <div className="add_spot_form_city_state_div">
-                            <div className="add_spot_form_city_div">
-                                <div>
-                                    City: {validationErrors.city && <span className="error">{validationErrors.city}</span>}
+                    <div className="spot_form_input_div">
+                        <div className="spot_form_city_state_div">
+                            <div className="spot_form_city_input_div">
+                                <div className="spot_form_input_title">
+                                    City: {validationErrors.city && <span className="spot_error">{validationErrors.city}</span>}
                                 </div>
                                 <input
                                     className="add_spot_form_input"
@@ -153,11 +159,11 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                                     placeholder="City"
                                     value={city}
                                     onChange={(e) => setCity(e.target.value)}
-                                    />,
+                                    />
                             </div>
-                            <div className="add_spot_form_city_div">
-                                <div>
-                                    State: {validationErrors.state && <span className="error">{validationErrors.state}</span>}
+                            <div className="spot_form_state_input_div">
+                                <div className="spot_form_input_title">
+                                    State: {validationErrors.state && <span className="spot_error">{validationErrors.state}</span>}
                                 </div>
                                 <input
                                     className="add_spot_form_input"
@@ -169,109 +175,122 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                             </div>
                         </div>
                     </div >
-                    <div className="add_spot_form_location_input">
-                        <div className="add_spot_form_lat_lng">
-                            Latitude:
-                            <input
-                                className="add_spot_form_input"
-                                type="text"
-                                placeholder="Latitude"
-                                value={latitude}
-                                onChange={(e) => setLatitude(e.target.value)}
+                    <div className="spot_form_input_div">
+                        <div className="spot_form_lat_lng_div">
+                            <div className="spot_form_lat_input_div">
+                                <div className="spot_form_input_title">
+                                    Latitude:
+                                </div>
+                                <input
+                                    className="add_spot_form_input"
+                                    type="text"
+                                    placeholder="Latitude"
+                                    value={latitude}
+                                    onChange={(e) => setLatitude(e.target.value)}
+                                    />
+                            </div>
+                            <div className="spot_form_lng_input_div">
+                                <div className="spot_form_input_title">
+                                    Longitude:
+                                </div>
+                                <input
+                                    className="add_spot_form_input"
+                                    type="text"
+                                    placeholder="Longitude"
+                                    value={longitude}
+                                    onChange={(e) => setLongitude(e.target.value)}
                                 />
-                            Longitude:
-                            <input
-                                className="add_spot_form_input"
-                                type="text"
-                                placeholder="Longitude"
-                                value={longitude}
-                                onChange={(e) => setLongitude(e.target.value)}
-                            />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="add_spot_form_description_div form_block">
-                <div className="form_prompt_title">Describe your place to guests</div>
-                <p className="form_prompt">Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
-                {validationErrors.description && <span className="error">{validationErrors.description}</span>}
+            <div className="spot_form_description_div spot_form_block">
+                <div className="spot_form_block_heading">Describe your place to guests</div>
+                <p className="spot_form_prompt">Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood.</p>
+                {validationErrors.description && <span className="spot_error">{validationErrors.description}</span>}
                 <textarea
-                    className="add_spot_form_description_textarea"
+                    className="spot_form_input spot_form_description_input"
                     placeholder="Please write at least 30 characters"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
             </div>
-            <div className="add_spot_form_title_wrapper form_block">
-                <div className="form_prompt_title">Create a tile for your spot</div>
-                <p className="form_prompt">Catch guests' attention with a spot title that highlights what makes your place special</p>
-                {validationErrors.title && <span className="error">{validationErrors.title}</span>}
+            <div className="spot_form_title_div spot_form_block">
+                <div className="spot_form_block_heading">Create a tile for your spot</div>
+                <p className="spot_form_prompt">Catch guests' attention with a spot title that highlights what makes your place special</p>
+                {validationErrors.title && <span className="spot_error">{validationErrors.title}</span>}
                 <input
+                    className="spot_form_input spot_from_title_input"
                     type="text"
                     placeholder="Name of your spot"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
             </div>
-            <div className="add_spot_form_price_wrapper form_block">
-                <div className="form_prompt_title">Set a base price for your spot</div>
-                <p className="form_prompt">Competitive pricing can help your listing stand out and rank higher ins search results</p>
-                {validationErrors.price && <span className="error">{validationErrors.price}</span>}
-                <div className="add_spot_form_input_wrapper">
-                    $ <input
-                        type="number"
-                        placeholder="Price per night (USD)"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
+            <div className="spot_form_price_div spot_form_block">
+                <div className="spot_form_block_heading">Set a base price for your spot</div>
+                <p className="spot_form_prompt">Competitive pricing can help your listing stand out and rank higher ins search results</p>
+                {validationErrors.price && <span className="spot_error">{validationErrors.price}</span>}
+                <div className="spot_form_price_input_div">
+                    <div className="spot_form_price_input_div">
+                        <div className="spot_form_price_label">$</div>
+                        <input
+                            className="spot_form_input spot_form_price_input"
+                            type="number"
+                            placeholder="Price per night (USD)"
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
                         />
+                    </div>
                 </div>
             </div>
-            <div className="add_spot_form_photo_wrapper form_block">
-                <div className="form_prompt_title">Liven up your spot with photos</div>
-                <p className="form_prompt">Submit a link to at least one photo to publish your spot</p>
-                {validationErrors.previewImage && <span className="error">{validationErrors.previewImage}</span>}
-                {validationErrors.previewImageType && <span className="error">{validationErrors.previewImageType}</span>}
+            <div className="spot_form_image_div spot_form_block">
+                <div className="spot_form_block_heading">Liven up your spot with photos</div>
+                <p className="spot_form_prompt  ">Submit a link to at least one photo to publish your spot</p>
+                {validationErrors.previewImage && <span className="spot_error">{validationErrors.previewImage}</span>}
+                {validationErrors.previewImageType && <span className="spot_error">{validationErrors.previewImageType}</span>}
                 <input
-                    className="add_spot_form_preview_image"
+                    className="spot_form_input spot_form_preview_image_input"
                     type="text"
                     placeholder="Preview Image URL"
                     value={previewImage}
                     onChange={(e) => setPreviewImage(e.target.value)}
                 />
-                {validationErrors.spotImagesType0 && <span className="error">{validationErrors.spotImagesType0}</span>}
+                {validationErrors.spotImagesType0 && <span className="spot_error">{validationErrors.spotImagesType0}</span>}
                 <input
-                    className="add_spot_form_image"
+                    className="spot_form_input spot_form_spot_image"
                     type="text"
                     placeholder="Image URL"
                     value={image1}
                     onChange={(e) => setImage1(e.target.value)}
                 />
-                {validationErrors.spotImagesType1 && <span className="error">{validationErrors.spotImagesType1}</span>}
+                {validationErrors.spotImagesType1 && <span className="spot_error">{validationErrors.spotImagesType1}</span>}
                 <input
-                    className="add_spot_form_image"
+                    className="spot_form_input spot_form_spot_image"
                     type="text"
                     placeholder="Image URL"
                     value={image2}
                     onChange={(e) => setImage2(e.target.value)}
                 />
-                {validationErrors.spotImagesType2 && <span className="error">{validationErrors.spotImagesType2}</span>}
+                {validationErrors.spotImagesType2 && <span className="spot_error">{validationErrors.spotImagesType2}</span>}
                 <input
-                    className="add_spot_form_image"
+                    className="spot_form_input spot_form_spot_image"
                     type="text"
                     placeholder="Image URL"
                     value={image3}
                     onChange={(e) => setImage3(e.target.value)}
                 />
-                {validationErrors.spotImagesType3 && <span className="error">{validationErrors.spotImagesType3}</span>}
+                {validationErrors.spotImagesType3 && <span className="spot_error">{validationErrors.spotImagesType3}</span>}
                 <input
-                    className="add_spot_form_image"
+                    className="spot_form_input spot_form_spot_image"
                     type="text"
                     placeholder="Image URL"
                     value={image4}
                     onChange={(e) => setImage4(e.target.value)}
                 />
             </div>
-            <button className="add_spot_form_submit_button" type="submit">Create Spot</button>
+            <button className="spot_form_submit_button" type="submit">Create Spot</button>
         </form>
     )
 }

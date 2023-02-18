@@ -1,1 +1,99 @@
-/*TODO: ADD SPOT FROM STYLING*/
+/* TODO: Add styling for Add Spot Form*/
+.spot_form * {
+    box-sizing: border-box;
+}
+
+.spot_form {
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+    font-family: sans-serif;
+}
+
+.spot_form_block {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid #CCC;
+    padding-bottom: 15px;
+    width: 100%;
+}
+
+.spot_form_block_heading {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.spot_form_prompt {
+    font-size: 12pt;
+    line-height: 1.5rem;;
+}
+
+.spot_form_location_inputs_div {
+    display: flex;
+    flex-direction: column;
+}
+
+.spot_form_input_div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.spot_form_city_state_div,
+.spot_form_lat_lng_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.spot_form_city_input_div,
+.spot_form_state_input_div,
+.spot_form_lat_input_div,
+.spot_form_lng_input_div,
+.add_spot_form_input {
+    width: 100%;
+}
+
+.spot_form_input.spot_form_description_input {
+    height: 15vh;
+    resize: none;
+    font-family: sans-serif;
+}
+
+.spot_form_price_input_div {
+    display: flex;
+    width: 100%;
+}
+
+.spot_form_price_input {
+    width: 100%;
+    margin-left: 5px;
+}
+
+.spot_form_preview_image_input,
+.spot_form_spot_image {
+    margin-bottom: 15px;
+}
+
+.spot_form_submit_button {
+    margin: 15px auto;
+    padding: 15px;
+    text-align: center;
+    border: 2px solid black;
+    background-color: #FF5A5F;
+    box-shadow: 2px 2px 2px #999;
+    color: #FFFFFF;
+}
+
+.spot_form_submit_button:hover {
+    background-color: #ff8488;
+}
+
+.spot_error {
+    color: #FF5A5F;
+    font-size: 10pt;
+    font-weight: bold;
+}

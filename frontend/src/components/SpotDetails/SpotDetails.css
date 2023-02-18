@@ -103,7 +103,7 @@
 }
 
 .spot_details_post_review_button_div {
-    width: 15%;
+    width: fit-content;
 }
 
 .review_summary > .review_summary_rating_and_number {

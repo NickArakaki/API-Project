@@ -12,10 +12,6 @@
     font-family: sans-serif;
 }
 
-.manage_spots_create_new_spot_button {
-
-}
-
 .user_spot_tile_management_div {
     display: flex;
     justify-content: space-evenly;
@@ -26,6 +22,12 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin-top: 10px;
+}
+
+.user_spot_tile_link {
+    text-decoration: none;
+    color: black;
 }
 
 .user_spot_tile_reviews_management_div {
