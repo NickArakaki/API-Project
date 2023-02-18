@@ -12,8 +12,8 @@ options.tableName = 'ReviewImages'
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    const reviewImages = seedReviewImages(100);
-    return await queryInterface.bulkInsert(options, reviewImages);
+    // const reviewImages = seedReviewImages(50);
+    // return await queryInterface.bulkInsert(options, reviewImages);
   },
 
   async down (queryInterface, Sequelize) {
