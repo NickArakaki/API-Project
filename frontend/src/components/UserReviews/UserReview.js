@@ -16,10 +16,12 @@ export default function UserReview({ review }) {
             <p className="user_review_review">{review.review}</p>
             <div className="user_review_management_buttons_div">
                 <button className="user_review_update_review_button" onClick={() => alert("update review feature coming soon")}>Update</button>
-                <OpenModalButton
-                    modalComponent={<DeleteReviewModal review={review} />}
-                    buttonText="Delete"
-                />
+                <div className="delete_user_review_modal_button_container">
+                    <OpenModalButton
+                        modalComponent={<DeleteReviewModal review={review} />}
+                        buttonText="Delete"
+                    />
+                </div>
             </div>
         </div>
     )
