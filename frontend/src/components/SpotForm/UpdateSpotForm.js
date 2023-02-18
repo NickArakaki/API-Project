@@ -49,7 +49,7 @@ export default function UpdateUserSpotForm() {
                     setIsLoaded(true)
                 }
             })
-    }, [dispatch])
+    }, [dispatch, sessionUser, spotId])
 
     // redirect to landing page if not logged in or not spot owner
     if (!sessionUser || !spotOwner) return <Redirect to="/" />
@@ -79,8 +79,11 @@ export default function UpdateUserSpotForm() {
             // redirect to updated spots detail page
             dispatch(spotActions.updateUserSpotThunk(spotId, updatedSpot))
                 .then(() => history.push(`/spots/${spotId}`))
-                .catch((errors) => {
-                    console.log(errors);
+                .catch(async res => {
+                    const data = await res.json();
+                    if (data && Object.values(data.errors).length > 0) {
+                        setServerErrors(Object.values(data.errors));
+                    }
                 })
 
         } else {

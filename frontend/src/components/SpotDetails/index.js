@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -46,7 +46,7 @@ export default function SpotDetails() {
         } else {
             setUserHasReview(false)
         }
-    }, [reviews])
+    }, [reviews, sessionUser])
 
     if (isLoaded && !successfulFetch) return <h2>Unable to retrieve details. Please try again shortly.</h2>;
 
@@ -71,10 +71,10 @@ export default function SpotDetails() {
                     <h2 className="spot_details_name">{spot.name}</h2>
                     <div className="spot_details_location">{spot.city}, {spot.state}, {spot.country}</div>
                     <div className="spot_details_images_div">
-                        <img className="spot_details_images_previewImage" src={previewImage.url} alt={`${spot.name} preview image`} />
+                        <img className="spot_details_images_previewImage" src={previewImage.url} alt={`${spot.name} preview`} />
                         <div className="spot_details_images_spotImages_div">
                             {spotImages.map(spotImage => (
-                                    <img key={spotImage.id} className="spot_details_images_spotImage" src={spotImage.url} />
+                                    <img key={spotImage.id} className="spot_details_images_spotImage" src={spotImage.url} alt={spot.name}/>
                                     ))}
                         </div>
                     </div>

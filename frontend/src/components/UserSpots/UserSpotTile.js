@@ -7,7 +7,7 @@ export default function UserSpotTile({ spot }) {
     return (
         <>
             <Link className="user_spot_tile_link" to={`/spots/${spot.id}`}>
-                <img className="spot_tile_img" src={spot.previewImage} alt={`${spot.name} preview image`}/>
+                <img className="spot_tile_img" src={spot.previewImage} alt={`${spot.name} preview`}/>
                 <div className="spot_name_star_review_div">
                     <div className="spot_tile_location_div">
                         <div className="spot_tile_spot_name spot_tile_info">{spot.name}</div>

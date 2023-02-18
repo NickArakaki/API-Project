@@ -96,7 +96,7 @@ export default function AddSpotForm() { // Refactoring idea: maybe use the rest 
                     })
                     history.push(`/spots/${spot.id}`);
                 })
-                .catch(async (res) => {
+                .catch(async res => {
                     const data = await res.json();
                     if (data && Object.values(data.errors).length > 0) {
                         setServerErrors(Object.values(data.errors));
