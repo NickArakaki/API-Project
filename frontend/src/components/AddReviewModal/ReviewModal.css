@@ -52,7 +52,7 @@
 
 .post_review_button.enabled {
     border: 2px solid black;
-    background-color: hwb(358 35% 0%);
+    background-color: #ff595f;
     box-shadow: 3px 3px #999;
     color: #FFFFFF;
 }
