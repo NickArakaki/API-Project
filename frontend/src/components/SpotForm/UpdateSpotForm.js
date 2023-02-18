@@ -94,7 +94,7 @@ export default function UpdateUserSpotForm() {
 
     return (
         <form className="spot_form" onSubmit={handleSubmit}>
-            <h2 className="spot_form_title">Create a New Spot</h2>
+            <h2 className="spot_form_title">Update Your Spot</h2>
             {serverErrors.length > 0 && (
                 <ul className="spot_form_server_errors_list">
                     {serverErrors.map(error => (
@@ -228,7 +228,7 @@ export default function UpdateUserSpotForm() {
                     </div>
                 </div>
             </div>
-            <button className="spot_form_submit_button" type="submit">Create Spot</button>
+            <button className="spot_form_submit_button" type="submit">Update Spot</button>
         </form>
     )
 }
