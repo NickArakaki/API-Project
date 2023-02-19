@@ -23,4 +23,9 @@ To launch Couch Crashers locally be sure to:
 * Create a .env file in the backend folder that will be used to define environment variables.
     * Populate the .env file based on the .env.example file in the backend folder
     * Recommended to assign PORT to 8000 (if you choose to use a different port be sure to update the proxy path in `frontend/package.json` )
-* run the command `npm run db-reset && npm start` in the root of the backend folder, and in another terminal run the command `npm start` in the root of the frontend folder
+* run the command `npm run db-reset && npm start` in the root of the backend folder to seed and run the backend locally, and in another terminal run the command `npm start` in the root of the frontend folder to start the frontend locally
+* Should be redirect to `http://localhost:3000/` and see the Couch Crashers landing page:
+
+![couch-crashers-landing-page]
+
+[couch-crashers-landing-page]:./assets/landingpage.png
