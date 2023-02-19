@@ -28,4 +28,4 @@ To launch Couch Crashers locally be sure to:
 
 ![couch-crashers-landing-page]
 
-[couch-crashers-landing-page]:./assets/landingpage.png
+[couch-crashers-landing-page]:./assets/landing-page.png
