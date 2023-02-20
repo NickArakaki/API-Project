@@ -8,6 +8,10 @@
     font-family: sans-serif;
 }
 
+.login_modal * {
+    box-sizing: border-box;
+}
+
 .form_title {
     align-self: center;
     font-size: 18pt;
@@ -48,21 +52,14 @@
     text-align: left;
 }
 
-/* .submit_button {
-    width: 100%;
-    align-self: center;
-    padding: 15px;
-    font-size: 14pt;
-} */
-
-.submit_button.enabled {
+/* .submit_button.enabled {
     border: 2px solid black;
     background-color: #FF5A5F;
-    box-shadow: 3px 3px black;
+    box-shadow: 3px 3px #999;
     color: #FFFFFF;
-}
+} */
 
-.submit_button.enabled:hover {
+/* .submit_button.enabled:hover {
     background-color: #ff8488;
 }
 
@@ -71,7 +68,7 @@
     background-color: #FFFFFF;
     box-shadow: 3px 3px #999999;
     color: #999999;
-}
+} */
 
 .demo_user_login_button {
     cursor: pointer;
