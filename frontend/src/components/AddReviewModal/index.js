@@ -29,12 +29,25 @@ export default function ReviewModal({ spotId, oldReview }) {
         if (errors.length) {
             setFormErrors(errors)
         } else {
-            const userReview = {
-                review,
-                stars: starRating
-            }
+            if (oldReview) {
+                oldReview.review = review;
+                oldReview.stars = starRating;
 
-            dispatch(reviewActions.addSpotReviewThunk(spotId, userReview, sessionUser))
+                dispatch(reviewActions.updateUserReviewThunk(oldReview))
+                    .then(closeModal)
+                    .catch(async res => {
+                        const data = await res.json()
+                        if (data && data.errors) {
+                            setFormErrors(Object.values(data.errors))
+                        }
+                    })
+            } else {
+                const userReview = {
+                    review,
+                    stars: starRating
+                }
+
+                dispatch(reviewActions.addSpotReviewThunk(spotId, userReview, sessionUser))
                 .then(closeModal)
                 .catch(async res => {
                     const data = await res.json();
@@ -42,6 +55,7 @@ export default function ReviewModal({ spotId, oldReview }) {
                         setFormErrors(Object.values(data.errors));
                     }
                 })
+            }
         }
     }
 

@@ -6,6 +6,7 @@ const ADD_SPOT_REVIEW = 'reviews/ADD_SPOT_REVIEW'
 const GET_SPOT_REVIEWS = 'reviews/GET_SPOT_REVIEWS';
 const GET_USER_REVIEWS = 'reviews/GET_USER_REVIEWS';
 const DELETE_USER_REVIEW = 'reviews/DELETE_USER_REVIEW';
+const UPDATE_USER_REVIEW = 'reviews/UPDATE_USER_REVIEW';
 
 /*********************************OBJECT ACTION CREATORS **************************/
 const addSpotReview = (spotReview, userInfo) => {
@@ -37,6 +38,13 @@ const deleteUserReview = (reviewId) => {
     }
 }
 
+const updateUserReview = (review) => {
+    return {
+        type: UPDATE_USER_REVIEW,
+        payload: review
+    }
+}
+
 /********************************** THUNK ACTION CREATORS *************************/
 // CREATE
 export const addSpotReviewThunk = (spotId, review, user) => async (dispatch) => {
@@ -64,6 +72,18 @@ export const getUserReviewsThunk = () => async (dispatch) => {
     const response = await csrfFetch(`/api/reviews/current`);
     const data = await response.json();
     dispatch(getUserReviews(data.Reviews));
+    return data;
+}
+
+// UPDATE
+export const updateUserReviewThunk = (review) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${review.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(review)
+    })
+    const data = await response.json();
+    dispatch(updateUserReview(data));
     return data;
 }
 
@@ -121,6 +141,13 @@ export default function reviewsReducer(state=initialState, action) {
             const normalizedUserReviews = {};
             action.userReviews.forEach(review => normalizedUserReviews[review.id] = review)
             return { ...state, userReviews: normalizedUserReviews };
+        }
+        case UPDATE_USER_REVIEW: {
+            const newState = { ...state }
+            // update user reviews
+            newState.userReviews = { ...state.userReviews, [action.payload.id]: action.payload }
+            // update the spot reviews if it's there
+            // update the ordered spot reviews if necessary
         }
         case DELETE_USER_REVIEW: {
             const newState = {...state,
