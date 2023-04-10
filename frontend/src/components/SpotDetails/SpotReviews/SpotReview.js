@@ -4,6 +4,7 @@ import OpenModalButton from "../../OpenModalButton";
 import DeleteReviewModal from "../../DeleteModal/DeleteReviewModal";
 
 import { formatDate } from "../../../utils/formatting";
+import ReviewModal from "../../AddReviewModal";
 
 export default function SpotReview({ review }) {
     const sessionUser = useSelector(state => state.session.user);
@@ -23,6 +24,10 @@ export default function SpotReview({ review }) {
             <p className="user_review_review">{review.review}</p>
             {displayButton && (
                 <div className="user_review_delete_modal_button_container">
+                    <OpenModalButton
+                        modalComponent={<ReviewModal oldReview={review} />}
+                        buttonText="Update"
+                    />
                     <OpenModalButton
                         modalComponent={<DeleteReviewModal review={review} />}
                         buttonText="Delete"

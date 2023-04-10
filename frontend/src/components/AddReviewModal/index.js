@@ -6,14 +6,14 @@ import { Redirect } from 'react-router-dom';
 import * as reviewActions from '../../store/reviews';
 import "./ReviewModal.css";
 
-export default function ReviewModal({ spotId }) {
+export default function ReviewModal({ spotId, oldReview }) {
     const sessionUser = useSelector(state => state.session.user);
     const { closeModal } = useModal();
     const dispatch = useDispatch();
     const inputValues = [1,2,3,4,5]
-    const [review, setReview] = useState("");
-    const [starRating, setStarRating] = useState(0);
-    const [hover, setHover] = useState(0);
+    const [review, setReview] = useState(oldReview ? oldReview.review : "");
+    const [starRating, setStarRating] = useState(oldReview ? oldReview.stars : 0);
+    const [hover, setHover] = useState(oldReview ? oldReview.stars : 0);
     const [formErrors, setFormErrors] = useState([]);
 
     if (!sessionUser) return <Redirect to="/" />
@@ -27,6 +27,18 @@ export default function ReviewModal({ spotId }) {
 
         if (errors.length) {
             setFormErrors(errors)
+        } else if (oldReview) {
+            oldReview.review = review;
+            oldReview.stars = starRating;
+
+            dispatch(reviewActions.updateUserReviewThunk(oldReview, spotId))
+                .then(closeModal)
+                .catch(async res => {
+                    const data = await res.json()
+                    if (data && data.errors) {
+                        setFormErrors(Object.values(data.errors))
+                    }
+                })
         } else {
             const userReview = {
                 review,
@@ -34,13 +46,13 @@ export default function ReviewModal({ spotId }) {
             }
 
             dispatch(reviewActions.addSpotReviewThunk(spotId, userReview, sessionUser))
-                .then(closeModal)
-                .catch(async res => {
-                    const data = await res.json();
-                    if (data && data.errors) {
-                        setFormErrors(Object.values(data.errors));
-                    }
-                })
+            .then(closeModal)
+            .catch(async res => {
+                const data = await res.json();
+                if (data && data.errors) {
+                    setFormErrors(Object.values(data.errors));
+                }
+            })
         }
     }
 

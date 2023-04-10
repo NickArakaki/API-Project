@@ -16,7 +16,7 @@ export default function SpotReviews({ spotId }) {
     useEffect(() => {
         dispatch(reviewActions.getSpotReviewsThunk(spotId))
             .then(() => setIsLoaded(true))
-    }, [dispatch])
+    }, [dispatch, spotId])
 
     return (
         <div className="spot_reviews_div">

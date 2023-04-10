@@ -1,5 +1,6 @@
 export default function ReviewsSummary({ spot }) {
     // conditionally assign what should be displayed to a variable
+    // just calculate the average star rating on the frontend
     let numReviews;
 
     if (!spot.numReviews) {
