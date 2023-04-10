@@ -146,8 +146,20 @@ export default function reviewsReducer(state=initialState, action) {
             const newState = { ...state }
             // update user reviews
             newState.userReviews = { ...state.userReviews, [action.payload.id]: action.payload }
+            newState.spotReviews = { ...state.spotReviews }
             // update the spot reviews if it's there
-            // update the ordered spot reviews if necessary
+            if (action.payload.id in newState.spotReviews) {
+                newState.spotReviews[action.payload.id].stars = action.payload.stars
+                newState.spotReviews[action.payload.id].review = action.payload.review
+
+                // update the ordered spot reviews if necessary
+                const updatedOrderedSpotReviews = Object.values(newState.spotReviews).sort((a,b) => {
+                    return Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
+                })
+
+                newState.orderedSpotReviews = updatedOrderedSpotReviews
+            }
+            return newState;
         }
         case DELETE_USER_REVIEW: {
             const newState = {...state,
