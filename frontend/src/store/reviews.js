@@ -84,6 +84,7 @@ export const updateUserReviewThunk = (review) => async (dispatch) => {
     })
     const data = await response.json();
     dispatch(updateUserReview(data));
+    dispatch(getSingleSpotThunk(review.spotId));
     return data;
 }
 

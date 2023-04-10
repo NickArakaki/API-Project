@@ -25,7 +25,7 @@ export default function SpotReview({ review }) {
             {displayButton && (
                 <div className="user_review_delete_modal_button_container">
                     <OpenModalButton
-                        modalComponent={<ReviewModal oldReview={review}/>}
+                        modalComponent={<ReviewModal oldReview={review} />}
                         buttonText="Update"
                     />
                     <OpenModalButton

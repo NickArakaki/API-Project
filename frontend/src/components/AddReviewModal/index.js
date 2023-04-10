@@ -7,7 +7,6 @@ import * as reviewActions from '../../store/reviews';
 import "./ReviewModal.css";
 
 export default function ReviewModal({ spotId, oldReview }) {
-    console.log(oldReview)
     const sessionUser = useSelector(state => state.session.user);
     const { closeModal } = useModal();
     const dispatch = useDispatch();
@@ -28,34 +27,32 @@ export default function ReviewModal({ spotId, oldReview }) {
 
         if (errors.length) {
             setFormErrors(errors)
-        } else {
-            if (oldReview) {
-                oldReview.review = review;
-                oldReview.stars = starRating;
+        } else if (oldReview) {
+            oldReview.review = review;
+            oldReview.stars = starRating;
 
-                dispatch(reviewActions.updateUserReviewThunk(oldReview))
-                    .then(closeModal)
-                    .catch(async res => {
-                        const data = await res.json()
-                        if (data && data.errors) {
-                            setFormErrors(Object.values(data.errors))
-                        }
-                    })
-            } else {
-                const userReview = {
-                    review,
-                    stars: starRating
-                }
-
-                dispatch(reviewActions.addSpotReviewThunk(spotId, userReview, sessionUser))
+            dispatch(reviewActions.updateUserReviewThunk(oldReview, spotId))
                 .then(closeModal)
                 .catch(async res => {
-                    const data = await res.json();
+                    const data = await res.json()
                     if (data && data.errors) {
-                        setFormErrors(Object.values(data.errors));
+                        setFormErrors(Object.values(data.errors))
                     }
                 })
+        } else {
+            const userReview = {
+                review,
+                stars: starRating
             }
+
+            dispatch(reviewActions.addSpotReviewThunk(spotId, userReview, sessionUser))
+            .then(closeModal)
+            .catch(async res => {
+                const data = await res.json();
+                if (data && data.errors) {
+                    setFormErrors(Object.values(data.errors));
+                }
+            })
         }
     }
 
