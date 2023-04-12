@@ -1,6 +1,11 @@
 # About Couch Crashers
 Couch crashers is a web application inspired by AirBnB, that provides an online marketplace for lodging, primarily homestays with an extra couch for vacationers or traveling business people. [Click here to view the Couch Crashers site.](https://couchcrashers.onrender.com/)
 
+### Landing Page
+![couch-crashers-landing-page]
+
+[couch-crashers-landing-page]:./assets/landing-page.png
+
 ### Helpful Links:
 - [API Routes](https://github.com/NickArakaki/Couch-Crashers/wiki/API-routes)
 - [Database Schema](https://github.com/NickArakaki/Couch-Crashers/wiki/Database-schema)
@@ -21,15 +26,32 @@ Couch crashers is a web application inspired by AirBnB, that provides an online 
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 
+
 ### Launch Application Locally
-To launch Couch Crashers locally be sure to:
-* Install the dependencies in both the frontend and backend folders using the command `npm install`
-* Create a .env file in the backend folder that will be used to define environment variables.
+To launch Couch Crashers locally:
+1. Clone this repository:
+   ```
+   https://github.com/NickArakaki/Couch-Crashers.git
+   ```
+   
+2. Install dependencies in both the backend and frontend directories.  Make a new terminal for each directory and run the following command:
+   ```
+   npm install
+   ```
+   
+3. Create a .env file in the backend folder that will be used to define environment variables.
     * Populate the .env file based on the .env.example file in the backend folder
     * Recommended to assign PORT to 8000 (if you choose to use a different port be sure to update the proxy path in `frontend/package.json` )
-* run the command `npm run db-reset && npm start` in the root of the backend folder to seed and run the backend locally, and in another terminal run the command `npm start` in the root of the frontend folder to start the frontend locally
-* Should be redirect to `http://localhost:3000/` and see the Couch Crashers landing page:
-
-![couch-crashers-landing-page]
-
-[couch-crashers-landing-page]:./assets/landing-page.png
+    
+4. In the root of the backend directory, run the command:
+   ```
+   npm run db-reset && npm start
+   ``` 
+      * This will seed and start the database
+      
+5. In the root of the frontend directory, run the command:
+   ```
+   npm start
+   ```
+   * This will start the app for the frontend
+   * You should be redirect to `http://localhost:3000/` and see the Couch Crashers landing page
