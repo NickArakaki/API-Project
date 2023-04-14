@@ -55,3 +55,109 @@ To launch Couch Crashers locally:
    ```
    * This will start the app for the frontend
    * You should be redirect to `http://localhost:3000/` and see the Couch Crashers landing page
+   
+### API Routes
+Some of the API Routes implemented in this project.
+To see more please checkout the [API Routes](https://github.com/NickArakaki/Couch-Crashers/wiki/API-routes) in the wiki
+
+#### All endpoints that require authentication
+All endpoints that require a current user to be logged in.
+* Request: endpoints that require authentication
+* Error Response: Require Authentication
+   * Status Code: 401
+   * Headers:
+      * Content-Type: application/json
+   * Body:
+   ```json
+   {
+     "message": "Authentication required",
+     "statusCode": 401
+   }
+   ```
+
+#### All endpoints that require proper authorization
+All endpoints that require authentication and the current user does not have the correct role(s) or permission(s)
+
+* Request: endpoints that require proper authorization
+* Error Response: Require proper authorization
+   * Status Code: 403
+   * Headers:
+      * Content-Type: application/json
+   * Body:
+   ```json
+   {
+     "message": "Forbidden",
+     "statusCode": 403
+   }
+   ```
+
+#### Create a Spot
+Creates and returns a new spot
+
+* Require Authentication: true
+
+* Request: 
+   * Method: POST
+   * URL: /api/spots
+   * Headers:
+      * Content-Type: application/json
+   * Body:
+   ```json
+   {
+     "address": "123 Disney Lane",
+     "city": "San Francisco",
+     "state": "California",
+     "country": "United States of America",
+     "lat": 37.7645358,
+     "lng": -122.4730327,
+     "name": "App Academy",
+     "description": "Place where web developers are created",
+     "price": 123
+   }
+   ```
+
+* Successful Response:
+   * Status Code: 201
+   * Headers:
+      * Content-Type: application/json
+   * Body:
+   ```json
+   {
+     "id": 1,
+     "ownerId": 1,
+     "address": "123 Disney Lane",
+     "city": "San Francisco",
+     "state": "California",
+     "country": "United States of America",
+     "lat": 37.7645358,
+     "lng": -122.4730327,
+     "name": "App Academy",
+     "description": "Place where web developers are created",
+     "price": 123,
+     "createdAt": "2021-11-19 20:39:36",
+     "updatedAt": "2021-11-19 20:39:36"
+   }
+   ```
+
+* Error Response: Body Validation Error
+   * Status Code: 400
+   * Headers: 
+      * Content-Type: application/json
+   * Body:
+   ```json
+   {
+     "message": "Validation Error",
+     "statusCode": 400,
+     "errors": {
+       "address": "Street address is required",
+       "city": "City is required",
+       "state": "State is required",
+       "country": "Country is required",
+       "lat": "Latitude is not valid",
+       "lng": "Longitude is not valid",
+       "name": "Name must be less than 50 characters",
+       "description": "Description is required",
+       "price": "Price per day is required"
+     }
+   }
+   ``` 
