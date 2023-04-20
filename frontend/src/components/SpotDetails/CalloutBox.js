@@ -1,3 +1,5 @@
+import AddBookingModal from "../Bookings/AddBookingModal"
+import OpenModalButton from "../OpenModalButton"
 import ReviewsSummary from "./ReviewsSummary"
 
 export default function CalloutBox({ spot }) {
@@ -11,7 +13,10 @@ export default function CalloutBox({ spot }) {
                     <ReviewsSummary spot={ spot } />
                 </div>
             </div>
-            <button onClick={() => alert("Feature coming soon")} className="spot_details_callout_info_box_register_button">Reserve</button>
+            <OpenModalButton
+                buttonText="Reserve"
+                modalComponent={AddBookingModal}
+            />
         </>
     )
 }
