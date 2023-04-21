@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { DateRange } from 'react-date-range';
 import {formatDateYYYYMMDD} from "../../../utils/dates"
+import { getListOfBookedDates } from '../../../utils/reservationUtils/dates';
 
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -9,6 +10,7 @@ import './ReservationForm.css'
 
 function ReservationForm() {
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
+    const bookedDates = getListOfBookedDates(bookings)
 
     const [dateRange, setDateRange] = useState([
         {
@@ -34,14 +36,15 @@ function ReservationForm() {
     return (
         <form onSubmit={handleSubmit}>
             <DateRange
+                className="reservation-form-date-input"
                 onChange={item => setDateRange([item.selection])}
+                ranges={dateRange}
+                months={2}
+                minDate={new Date()}
                 editableDateInputs={true}
                 moveRangeOnFirstSelection={false}
-                ranges={dateRange}
-                minDate={new Date()}
-                months={2}
                 direction="horizontal"
-                className="reservation-form-date-input"
+                disabledDates={bookedDates}
             />
             <button type='submit'>Reserve</button>
         </form>
