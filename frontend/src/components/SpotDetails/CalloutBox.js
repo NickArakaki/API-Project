@@ -1,6 +1,7 @@
-import AddBookingModal from "../Bookings/AddBookingModal"
-import OpenModalButton from "../OpenModalButton"
+// import AddBookingModal from "../Bookings/AddBookingModal"
+// import OpenModalButton from "../OpenModalButton"
 import ReviewsSummary from "./ReviewsSummary"
+import ReservationForm from "./ReservationForm"
 
 export default function CalloutBox({ spot }) {
     return (
@@ -13,10 +14,11 @@ export default function CalloutBox({ spot }) {
                     <ReviewsSummary spot={ spot } />
                 </div>
             </div>
-            <OpenModalButton
+            <ReservationForm />
+            {/* <OpenModalButton
                 buttonText="Reserve"
                 modalComponent={AddBookingModal}
-            />
+            /> */}
         </>
     )
 }

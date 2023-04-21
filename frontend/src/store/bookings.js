@@ -53,9 +53,16 @@ export const getAllSpotBookingsThunk = (spotId) => async (dispatch) => {
     return data;
 }
 
-export const getAllUserBookingsThunk = (spotId) => async (dispatch) => {
-    // /api/bookings/current, GET
-    // do the things
+export const getAllUserBookingsThunk = (spotId, booking) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/:spotId/bookings`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify(booking)
+    })
+
+    const postedBooking = await response.json();
+    dispatch(postSpotBooking(postedBooking));
+    return postedBooking;
 }
 
 export const postSpotBookingThunk = (spotId) => async (dispatch) => {
@@ -84,6 +91,13 @@ export default function bookingsReducer(state=initialState, action) {
             for (const booking of action.payload) {
                 newState.spotBookings[booking.startDate] = booking
             }
+            return newState;
+        }
+        case POST_SPOT_BOOKING: {
+            newState.spotBookings = { ...state.spotBookings };
+            newState.userBookings = { ...state.userBookings };
+            newState.spotBookings[action.payload.startDate] = action.payload;
+            newState.userBookings[action.payload.id] = action.payload;
             return newState;
         }
         default:
