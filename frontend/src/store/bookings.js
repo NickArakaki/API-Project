@@ -47,8 +47,10 @@ const deleteSpotBooking = (bookingId) => {
 
 /***************************** THUNKS ***************************************/
 export const getAllSpotBookingsThunk = (spotId) => async (dispatch) => {
-    // /api/bookings/:spotId, GET
-    // do the things
+    const response = await csrfFetch(`/api/spots/${spotId}/bookings`)
+    const data = await response.json();
+    dispatch(getAllSpotBookings(data.Bookings));
+    return data;
 }
 
 export const getAllUserBookingsThunk = (spotId) => async (dispatch) => {
@@ -70,12 +72,20 @@ export const postSpotBookingThunk = (spotId) => async (dispatch) => {
 
 
 /******************************** REDUCER ***************************/
-const initialState = {}
+const initialState = { spotBookings: {}, userBookings: {} }
 
 export default function bookingsReducer(state=initialState, action) {
     Object.freeze(state);
+    const newState = { ...state }
 
     switch(action.type) {
+        case GET_SPOT_BOOKINGS: {
+            newState.spotBookings = {}
+            for (const booking of action.payload) {
+                newState.spotBookings[booking.startDate] = booking
+            }
+            return newState;
+        }
         default:
             return state;
     }
