@@ -53,6 +53,10 @@ export const getAllSpotBookingsThunk = (spotId) => async (dispatch) => {
     return data;
 }
 
+export const getAllUserBookingsThunk = (spotId) => async (dispatch) => {
+    // /api/bookings/:spotId, POST
+}
+
 export const postSpotBookingThunk = (spotId, booking) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/bookings`, {
         method: "POST",
@@ -63,10 +67,6 @@ export const postSpotBookingThunk = (spotId, booking) => async (dispatch) => {
     const postedBooking = await response.json();
     dispatch(postSpotBooking(postedBooking));
     return postedBooking;
-}
-
-export const getAllUserBookingsThunk = (spotId) => async (dispatch) => {
-    // /api/bookings/:spotId, POST
 }
 
 // export const updateSpotBookingThunk => (bookingId) => async (dispatch) => {

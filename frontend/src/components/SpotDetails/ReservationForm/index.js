@@ -34,10 +34,8 @@ function ReservationForm() {
         }
         // TODO: create custom validator for reservations
 
-        console.log(spotId)
-        console.log(newReservation)
         dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
-        alert('dispatched post booking, check state')
+        // TODO: add error handling
     }
 
     return (
