@@ -1,14 +1,19 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DateRange } from 'react-date-range';
 import {formatDateYYYYMMDD} from "../../../utils/dates"
 import { getListOfBookedDates } from '../../../utils/reservationUtils/dates';
 
+import * as bookingActions from "../../../store/bookings"
+
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import './ReservationForm.css'
+import { useParams } from 'react-router-dom';
 
 function ReservationForm() {
+    const dispatch = useDispatch();
+    const {spotId} = useParams()
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
     const bookedDates = getListOfBookedDates(bookings)
 
@@ -23,14 +28,16 @@ function ReservationForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // validate the form data
         const newReservation = {
             startDate: formatDateYYYYMMDD(dateRange[0].startDate),
             endDate: formatDateYYYYMMDD(dateRange[0].endDate)
         }
+        // TODO: create custom validator for reservations
 
+        console.log(spotId)
         console.log(newReservation)
-        alert("this is the submit button working")
+        dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
+        alert('dispatched post booking, check state')
     }
 
     return (

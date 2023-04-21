@@ -15,10 +15,6 @@ export default function CalloutBox({ spot }) {
                 </div>
             </div>
             <ReservationForm />
-            {/* <OpenModalButton
-                buttonText="Reserve"
-                modalComponent={AddBookingModal}
-            /> */}
         </>
     )
 }
