@@ -3,9 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DateRange } from 'react-date-range';
 import {formatDateYYYYMMDD} from "../../../utils/dates"
 import { getListOfBookedDates } from '../../../utils/reservationUtils/dates';
-
-// import * as bookingActions from "../../../store/bookings"
-
+import * as bookingActions from "../../../store/bookings"
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import './ReservationForm.css'
@@ -17,6 +15,7 @@ function ReservationForm() {
     const {spotId} = useParams()
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
     const bookedDates = getListOfBookedDates(bookings)
+    const [showDatePicker, setShowDatePicker] = useState(false)
 
     const [dateRange, setDateRange] = useState([
         {
@@ -26,26 +25,33 @@ function ReservationForm() {
         }
     ])
 
+    const handleDateChange = item => {
+        setDateRange([item.selection])
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const newReservation = {
-            startDate: formatDateYYYYMMDD(dateRange[0].startDate),
-            endDate: formatDateYYYYMMDD(dateRange[0].endDate)
+            startDate: (dateRange[0].startDate),
+            endDate: (dateRange[0].endDate)
         }
         // TODO: create custom validator for reservations
 
         console.log(newReservation)
+
         // Direct user to booking confirmation page where they can pay
-        // dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
+        dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
         // TODO: add error handling
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <DateRange
+            <button type='button' onClick={() => setShowDatePicker(prev => !prev)}>Show Date Picker</button>
+            {showDatePicker && (
+                <DateRange
                 className="reservation-form-date-input"
-                onChange={item => setDateRange([item.selection])}
+                onChange={handleDateChange}
                 ranges={dateRange}
                 months={2}
                 minDate={new Date()}
@@ -53,7 +59,8 @@ function ReservationForm() {
                 moveRangeOnFirstSelection={false}
                 direction="horizontal"
                 disabledDates={bookedDates}
-            />
+                />
+            )}
             {/* Enable submit button if the current user is not the owner of the spot */}
             <button type='submit'>Reserve</button>
         </form>
