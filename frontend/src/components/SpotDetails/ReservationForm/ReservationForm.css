@@ -1,12 +1,14 @@
-.rdrCalendarWrapper {
-    display: block;
-    color: #ff767be6;
+.rdrDateRangeWrapper {
+    position: absolute;
+    right: 0;
+    top: 80%;
+    border: 2px solid black;
+    border-radius: 1rem;
 }
 
-/* .rdrDateDisplay {
-    display: none;
-} */
-
+.rdrDateDisplayWrapper {
+    border-radius: 1rem;
+}
 
 .date-container {
     display: flex;

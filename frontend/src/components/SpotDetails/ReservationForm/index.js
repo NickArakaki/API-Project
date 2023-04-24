@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DateRange } from 'react-date-range';
 import {formatDateYYYYMMDD} from "../../../utils/dates"
@@ -11,12 +11,12 @@ import { useParams } from 'react-router-dom';
 
 function ReservationForm() {
     const sessionUser = useSelector(state => state.session.user)
+    const calendarRef = useRef(null);
     const dispatch = useDispatch();
     const {spotId} = useParams()
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
     const bookedDates = getListOfBookedDates(bookings)
     const [showDatePicker, setShowDatePicker] = useState(false)
-
     const [dateRange, setDateRange] = useState([
         {
             startDate: new Date(),
@@ -40,8 +40,27 @@ function ReservationForm() {
         // TODO: create custom validator for reservations
 
         // Direct user to booking confirmation page where they can pay
+        // open a modal to confirm the payment and length of stay?
         dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
     }
+
+    const hideOnEscape = (e) => {
+        if (e.key === "Escape") {
+            setShowDatePicker(false)
+        }
+    }
+
+    const hideOnClick = (e) => {
+        if (calendarRef.current && !calendarRef.current.contains(e.target)) {
+            setShowDatePicker(false)
+        }
+    }
+
+    // add event listeners
+    useEffect(() => {
+        document.addEventListener("keydown", hideOnEscape, true)
+        document.addEventListener("click", hideOnClick, true)
+    }, [])
 
     return (
         <form onSubmit={handleSubmit}>
@@ -54,6 +73,8 @@ function ReservationForm() {
                     End Date: {formatDateYYYYMMDD(dateRange[0].endDate)}
                 </div>
             </div>
+            {/* TODO: useRef to close date range picker */}
+            <div ref={calendarRef}>
             {showDatePicker && (
                 <DateRange
                 className="reservation-form-date-input"
@@ -67,7 +88,8 @@ function ReservationForm() {
                 disabledDates={bookedDates}
                 rangeColors={["#ff767be6"]}
                 />
-            )}
+                )}
+            </div>
             {/* Enable submit button if the current user is not the owner of the spot */}
             <button type='submit'>Reserve</button>
         </form>
