@@ -53,8 +53,12 @@ export const getAllSpotBookingsThunk = (spotId) => async (dispatch) => {
     return data;
 }
 
-export const getAllUserBookingsThunk = (spotId) => async (dispatch) => {
+export const getAllUserBookingsThunk = () => async (dispatch) => {
     // /api/bookings/:spotId, POST
+    const response = await csrfFetch(`/api/bookings/current`)
+    const data = await response.json();
+    dispatch(getUserBookings(data.Bookings));
+    return data;
 }
 
 export const postSpotBookingThunk = (spotId, booking) => async (dispatch) => {
@@ -79,7 +83,7 @@ export const postSpotBookingThunk = (spotId, booking) => async (dispatch) => {
 
 
 /******************************** REDUCER ***************************/
-const initialState = { spotBookings: {}, userBookings: {} }
+const initialState = { spotBookings: {}, userBookings: { pastBookings: {}, futureBookings: {} } }
 
 export default function bookingsReducer(state=initialState, action) {
     Object.freeze(state);
@@ -93,11 +97,34 @@ export default function bookingsReducer(state=initialState, action) {
             }
             return newState;
         }
+        case GET_USER_BOOKINGS: {
+            // normalize user bookings
+            const normalizedPastBookings = {};
+            const normalizedFutureBookings = {};
+
+
+            for (const booking of action.payload) {
+                const startDate = new Date(booking.startDate)
+                if (startDate > new Date()) {
+                    // if startDate is after today then add normalized data to future booking
+                    normalizedFutureBookings[booking.id] = booking;
+                } else {
+                    // else add normalized data to past bookings
+                    normalizedPastBookings[booking.id] = booking;
+                }
+            }
+
+            newState.userBookings = { pastBookings: normalizedPastBookings, futureBookings: normalizedFutureBookings };
+            return newState;
+        }
         case POST_SPOT_BOOKING: {
             newState.spotBookings = { ...state.spotBookings };
-            newState.userBookings = { ...state.userBookings };
             newState.spotBookings[action.payload.startDate] = action.payload;
-            newState.userBookings[action.payload.id] = action.payload;
+
+            newState.userBookings = { ...state.userBookings };
+            newState.userBookings.futureBookings = { ...state.userBookings.futureBookings }
+            newState.userBookings.futureBookings[action.payload.id] = action.payload;
+
             return newState;
         }
         default:
