@@ -27,6 +27,7 @@ function ReservationForm() {
 
     const handleDateChange = item => {
         setDateRange([item.selection])
+        // make a function to find the new max date based on
     }
 
     const handleSubmit = (e) => {
@@ -38,16 +39,21 @@ function ReservationForm() {
         }
         // TODO: create custom validator for reservations
 
-        console.log(newReservation)
-
         // Direct user to booking confirmation page where they can pay
         dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
-        // TODO: add error handling
     }
 
     return (
         <form onSubmit={handleSubmit}>
-            <button type='button' onClick={() => setShowDatePicker(prev => !prev)}>Show Date Picker</button>
+            {/* <button type='button' onClick={() => setShowDatePicker(prev => !prev)}>Show Date Picker</button> */}
+            <div className='date-container'>
+                <div onClick={() => setShowDatePicker(prev => !prev)} className='date-div'>
+                    Start Date: {formatDateYYYYMMDD(dateRange[0].startDate)}
+                </div>
+                <div onClick={() => setShowDatePicker(prev => !prev)} className='date-div'>
+                    End Date: {formatDateYYYYMMDD(dateRange[0].endDate)}
+                </div>
+            </div>
             {showDatePicker && (
                 <DateRange
                 className="reservation-form-date-input"
@@ -59,6 +65,8 @@ function ReservationForm() {
                 moveRangeOnFirstSelection={false}
                 direction="horizontal"
                 disabledDates={bookedDates}
+                maxDate={null}
+                rangeColors={["#ff767be6"]}
                 />
             )}
             {/* Enable submit button if the current user is not the owner of the spot */}
