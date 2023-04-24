@@ -4,7 +4,7 @@ import { DateRange } from 'react-date-range';
 import {formatDateYYYYMMDD} from "../../../utils/dates"
 import { getListOfBookedDates } from '../../../utils/reservationUtils/dates';
 
-import * as bookingActions from "../../../store/bookings"
+// import * as bookingActions from "../../../store/bookings"
 
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -12,6 +12,7 @@ import './ReservationForm.css'
 import { useParams } from 'react-router-dom';
 
 function ReservationForm() {
+    const sessionUser = useSelector(state => state.session.user)
     const dispatch = useDispatch();
     const {spotId} = useParams()
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
@@ -34,7 +35,9 @@ function ReservationForm() {
         }
         // TODO: create custom validator for reservations
 
-        dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
+        console.log(newReservation)
+        // Direct user to booking confirmation page where they can pay
+        // dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
         // TODO: add error handling
     }
 
@@ -51,6 +54,7 @@ function ReservationForm() {
                 direction="horizontal"
                 disabledDates={bookedDates}
             />
+            {/* Enable submit button if the current user is not the owner of the spot */}
             <button type='submit'>Reserve</button>
         </form>
     )

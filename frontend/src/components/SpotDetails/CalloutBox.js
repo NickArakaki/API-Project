@@ -2,11 +2,11 @@
 // import OpenModalButton from "../OpenModalButton"
 import ReviewsSummary from "./ReviewsSummary"
 import ReservationForm from "./ReservationForm"
-import { useSelector } from "react-redux"
+// import { useSelector } from "react-redux"
 
 export default function CalloutBox({ spot }) {
-    const sessionUser = useSelector(state => state.session.user)
-    console.log("spot in callout box", spot)
+    // const sessionUser = useSelector(state => state.session.user)
+    // console.log("spot in callout box", spot)
     return (
         <>
             <div className="callout_box_price_reviews">
@@ -17,11 +17,7 @@ export default function CalloutBox({ spot }) {
                     <ReviewsSummary spot={ spot } />
                 </div>
             </div>
-            {sessionUser?.id === spot.Owner.id ? (
-                null
-            ) : (
-                <ReservationForm />
-            )}
+            <ReservationForm />
         </>
     )
 }

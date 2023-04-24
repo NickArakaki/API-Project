@@ -94,6 +94,10 @@ export default function SpotDetails() {
                         </div>
                     </div>
                 </div>
+                <div>
+                    Where You'll Be Staying:
+                    This will be the google map
+                </div>
                 <div className="spot_details_reviews_div">
                     <ReviewsSummary spot={spot} />
                     {sessionUser && sessionUser.id !== spot.Owner.id && !userHasReview && (
