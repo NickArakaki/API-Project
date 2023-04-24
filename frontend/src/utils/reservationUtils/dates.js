@@ -23,9 +23,7 @@ export const getListOfDates = (start, end) => {
     const dateList = []
 
     const startDate = new Date(start)
-    console.log(startDate)
     const endDate = new Date(end)
-    console.log(endDate)
 
     for (const date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
         dateList.push(new Date(date))

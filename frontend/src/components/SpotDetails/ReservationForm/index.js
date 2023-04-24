@@ -65,7 +65,6 @@ function ReservationForm() {
                 moveRangeOnFirstSelection={false}
                 direction="horizontal"
                 disabledDates={bookedDates}
-                maxDate={null}
                 rangeColors={["#ff767be6"]}
                 />
             )}
