@@ -9,6 +9,7 @@ import SpotDetails from './components/SpotDetails';
 import AddSpotForm from './components/SpotForm/AddSpotForm';
 import UserSpots from './components/UserSpots';
 import UserReviews from './components/UserReviews';
+import UserReservations from './components/UserReservations';
 import UpdateUserSpotForm from './components/SpotForm/UpdateSpotForm';
 
 function App() {
@@ -42,6 +43,9 @@ function App() {
           </Route>
           <Route path="/spots/:spotId">
             <SpotDetails />
+          </Route>
+          <Route path={"/mytrips"}>
+            <UserReservations />
           </Route>
           <Route>
             <h2>Page not found</h2>
