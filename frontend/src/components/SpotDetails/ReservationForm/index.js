@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {formatDateYYYYMMDD} from "../../../utils/dates"
 import { getListOfBookedDates } from '../../../utils/reservationUtils/dates';
 import * as bookingActions from "../../../store/bookings"
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
-import './ReservationForm.css'
 import { useParams } from 'react-router-dom';
 
 import "react-dates/initialize";
 import { DateRangePicker } from "react-dates";
 import "react-dates/lib/css/_datepicker.css";
+import './ReservationForm.css'
 
 function ReservationForm() {
     const dispatch = useDispatch();
@@ -27,6 +25,15 @@ function ReservationForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const newReservation = {
+            startDate: startDate.format("YYYY-MM-DD"),
+            endDate: endDate.format("YYYY-MM-DD")
+        }
+
+        console.log(newReservation)
+
+        dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
     }
 
     return (
@@ -34,6 +41,8 @@ function ReservationForm() {
             <div className='date-container'>
             </div>
             <DateRangePicker
+                minimumNights={1}
+                showClearDates={true}
                 startDate={startDate}
                 startDateId='start-date-id'
                 endDate={endDate}
@@ -47,7 +56,7 @@ function ReservationForm() {
                     setFocusedInput(focusedInput)
                 }}
             />
-            <button disabled={true} type='submit'>Reserve</button>
+            <button type='submit'>Reserve</button>
         </form>
     )
 }
