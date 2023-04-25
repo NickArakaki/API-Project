@@ -7,12 +7,14 @@ function UserReservationSummary({ reservation }) {
     const history = useHistory();
     const startDate = new Date(reservation.startDate)
     const endDate = new Date(reservation.endDate)
+    const today = new Date();
 
     const handleClick = () => {
         history.push(`/spots/${reservation.Spot.id}`)
     }
 
     return (
+        <>
         <div onClick={handleClick} className="reservation-summary-container">
             <div className="reservation-summary-image-container">
                 <img className="reservation-summary-preview-image" src={reservation.Spot.previewImage}></img>
@@ -23,6 +25,13 @@ function UserReservationSummary({ reservation }) {
                 <div className="reservation-summary-dates">{`${formatDateYYYYMMDD(startDate)} to ${formatDateYYYYMMDD(endDate)}`}</div>
             </div>
         </div>
+        {startDate > today && (
+            <div className="reservation-summary-buttons-div">
+                <button>Edit</button>
+                <button>Delete</button>
+            </div>
+        )}
+        </>
     )
 }
 
