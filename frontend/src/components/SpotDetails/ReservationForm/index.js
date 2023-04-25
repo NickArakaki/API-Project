@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListOfBookedDates, sortBookingsByStart } from '../../../utils/reservationUtils/dates';
+import { checkIfOutOfRange, findMaxEndDate, getListOfBookedDates, sortBookingsByStart } from '../../../utils/reservationUtils/dates';
 import { isValidDay } from '../../../utils/reservationUtils/dates';
 import * as bookingActions from "../../../store/bookings"
 import { useParams } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { DateRangePicker } from 'react-dates';
 import "react-dates/lib/css/_datepicker.css"
 
 import './ReservationForm.css'
+import moment from 'moment';
 
 // TODO: find first available date with appropriate range
 //       sort reservations by start date
@@ -27,18 +28,23 @@ function ReservationForm() {
     )
 
     const sortedBookedDates = sortBookingsByStart(bookedDates);
-    console.log(sortedBookedDates)
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [minDate, setMinDate] = useState(null);
+    // const [minDate, setMinDate] = useState(null);
     const [maxDate, setMaxDate] = useState(null);
     const [focusedInput, setFocusedInput] = useState();
 
-    const handleDateChange = ({ startDate, endDate }) => {
-        setStartDate(startDate);
-        setEndDate(endDate);
-    }
+    useEffect(() => {
+        const maxEndDate = findMaxEndDate(startDate, sortedBookedDates);
+        console.log(maxEndDate)
+        setMaxDate(maxEndDate)
+    }, [startDate])
+
+    // const handleDateChange = ({ newStartDate, newEndDate }) => {
+    //     setStartDate(newStartDate);
+    //     setEndDate(newEndDate);
+    // }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -67,14 +73,16 @@ function ReservationForm() {
                 startDateId='start-date-id'
                 endDate={endDate}
                 endDateId='end-date-id'
-                minDate={minDate}
-                maxDate={maxDate}
-                onDatesChange={handleDateChange}
+                onDatesChange={({startDate, endDate}) => {
+                    setStartDate(startDate);
+                    setEndDate(endDate);
+                }}
                 focusedInput={focusedInput}
                 onFocusChange={(focusedInput) => {
                     setFocusedInput(focusedInput)
                 }}
                 isDayBlocked={(day) => isValidDay(day, bookedDates)}
+                isOutsideRange={(day) => checkIfOutOfRange(day, startDate, maxDate)}
             />
             <button type='submit'>Reserve</button>
         </form>
