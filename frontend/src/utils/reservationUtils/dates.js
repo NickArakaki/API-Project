@@ -105,7 +105,7 @@ export const findMaxEndDate = (startDate, sortedBookingsList) => {
 }
 
 export const findMinStartDate = (startDate, sortedBookingsList) => {
-
+    //
 }
 
 export const findRange = (startDate) => {
