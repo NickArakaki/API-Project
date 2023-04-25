@@ -19,10 +19,10 @@ function UserReservations() {
     return (
         <>
         {isLoaded ? (
-            <>
-                <h1>Trips</h1>
+            <div className="manage-trips-container">
+                <h1 className="manage-trips-title">Trips</h1>
                 <section>
-                    <h2>
+                    <h2 className="manage-trips-section-heading">
                         Where You're Going
                     </h2>
                     <div className="user-upcoming-trips-div user-trips-div">
@@ -36,7 +36,7 @@ function UserReservations() {
                     </div>
                 </section>
                 <section>
-                    <h2>
+                    <h2 className="manage-trips-section-heading">
                         Where You've Been
                     </h2>
                     <div className="user-past-trips-div user-trips-div">
@@ -48,7 +48,7 @@ function UserReservations() {
                         {/* Map over user past trips */}
                     </div>
                 </section>
-            </>
+            </div>
             ) : (
                 <h1>Loading...</h1>
             )}
