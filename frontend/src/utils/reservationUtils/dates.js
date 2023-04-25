@@ -3,7 +3,7 @@
 // returns a list of date objects within each date range for dates on/after today
 export const getListOfBookedDates = (dateRanges) => {
     const bookedDates = []
-    const today = new Date(formatUTCDate(new Date()));
+    const today = new Date(formatDateYYYYMMDD(new Date()));
 
     // iterate over list of dateRanges
     dateRanges.forEach(dateRange => {
@@ -32,11 +32,11 @@ export const getListOfDates = (start, end) => {
     return dateList;
 }
 
-// formatUTCDate
-export const formatUTCDate = (date) => {
-    const year = date.getUTCFullYear();
-    const month = date.getUTCMonth() + 1;
-    const day = date.getUTCDate();
+// formatDateYYYYMMDD
+export const formatDateYYYYMMDD = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
 
     return formatDate(year, month, day);
 }
