@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListOfBookedDates } from '../../../utils/reservationUtils/dates';
+import { getListOfBookedDates, sortBookingsByStart } from '../../../utils/reservationUtils/dates';
 import { isValidDay } from '../../../utils/reservationUtils/dates';
 import * as bookingActions from "../../../store/bookings"
 import { useParams } from 'react-router-dom';
@@ -10,6 +10,9 @@ import { DateRangePicker } from 'react-dates';
 import "react-dates/lib/css/_datepicker.css"
 
 import './ReservationForm.css'
+
+// TODO: find first available date with appropriate range
+//       sort reservations by start date
 
 function ReservationForm() {
     const dispatch = useDispatch();
@@ -23,21 +26,34 @@ function ReservationForm() {
         }
     )
 
-    const [startDate, setStartDate] = useState();
-    const [endDate, setEndDate] = useState();
+    const sortedBookedDates = sortBookingsByStart(bookedDates);
+    console.log(sortedBookedDates)
+
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [minDate, setMinDate] = useState(null);
+    const [maxDate, setMaxDate] = useState(null);
     const [focusedInput, setFocusedInput] = useState();
+
+    const handleDateChange = ({ startDate, endDate }) => {
+        setStartDate(startDate);
+        setEndDate(endDate);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const newReservation = {
-            startDate: startDate.format("YYYY-MM-DD"),
-            endDate: endDate.format("YYYY-MM-DD")
+        if (!startDate || !endDate) {
+            alert("please select a valid start and/or end date")
+        } else {
+            const newReservation = {
+                startDate: startDate.format("YYYY-MM-DD"),
+                endDate: endDate.format("YYYY-MM-DD")
+            }
+
+            dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
         }
 
-        console.log(newReservation)
-
-        dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
     }
 
     return (
@@ -51,10 +67,9 @@ function ReservationForm() {
                 startDateId='start-date-id'
                 endDate={endDate}
                 endDateId='end-date-id'
-                onDatesChange={({ startDate, endDate }) => {
-                    setStartDate(startDate)
-                    setEndDate(endDate)
-                }}
+                minDate={minDate}
+                maxDate={maxDate}
+                onDatesChange={handleDateChange}
                 focusedInput={focusedInput}
                 onFocusChange={(focusedInput) => {
                     setFocusedInput(focusedInput)

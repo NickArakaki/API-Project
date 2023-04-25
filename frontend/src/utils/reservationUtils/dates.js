@@ -68,3 +68,17 @@ export const isValidDay = (inputDate, bookedDateRanges) => {
 
     return isNotValid;
 }
+
+// Sort bookings by startDate
+export const sortBookingsByStart = (bookingsList) => {
+    return bookingsList.sort((a, b) => {
+        return Date.parse(new Date(a[0])) - Date.parse(new Date(b[0]))
+    })
+}
+
+// find first available start date
+// must be at least 2 continuous days
+// cannot be before today
+export const findFirstAvailableStart = (bookingsList) => {
+    const today = new Date();
+}
