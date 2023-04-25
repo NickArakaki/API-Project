@@ -77,18 +77,18 @@ function ReservationForm() {
             <div className='datepicker-container' ref={calendarRef}>
             {showDatePicker && (
                 <DateRange
-                className="reservation-form-date-input"
-                onChange={handleDateChange}
-                ranges={dateRange}
-                months={2}
-                minDate={new Date()}
-                editableDateInputs={true}
-                moveRangeOnFirstSelection={false}
-                direction="horizontal"
-                disabledDates={bookedDates}
-                rangeColors={["#ff767be6"]}
+                    className="reservation-form-date-input"
+                    onChange={handleDateChange}
+                    ranges={dateRange}
+                    months={2}
+                    minDate={new Date()}
+                    editableDateInputs={true}
+                    moveRangeOnFirstSelection={false}
+                    direction="horizontal"
+                    disabledDates={bookedDates}
+                    rangeColors={["#ff767be6"]}
                 />
-                )}
+            )}
             </div>
             {/* Enable submit button if the current user is not the owner of the spot */}
             <button type='submit'>Reserve</button>
