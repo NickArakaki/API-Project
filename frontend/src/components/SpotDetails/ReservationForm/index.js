@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getListOfBookedDates } from '../../../utils/reservationUtils/dates';
+import { isValidDay } from '../../../utils/reservationUtils/dates';
 import * as bookingActions from "../../../store/bookings"
 import { useParams } from 'react-router-dom';
 
@@ -13,11 +14,14 @@ import './ReservationForm.css'
 function ReservationForm() {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user)
-    const calendarRef = useRef(null);
     const {spotId} = useParams()
 
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
-    const bookedDates = getListOfBookedDates(bookings)
+
+    const bookedDates = bookings.map(booking => {
+        return [booking.startDate, booking.endDate]
+        }
+    )
 
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
@@ -55,6 +59,7 @@ function ReservationForm() {
                 onFocusChange={(focusedInput) => {
                     setFocusedInput(focusedInput)
                 }}
+                isDayBlocked={(day) => isValidDay(day, bookedDates)}
             />
             <button type='submit'>Reserve</button>
         </form>

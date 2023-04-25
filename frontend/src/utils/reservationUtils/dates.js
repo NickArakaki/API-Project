@@ -1,5 +1,8 @@
 // takes in a list objects
 // each object contains a startDate and an endDate string 'yyyy-mm-dd'
+
+import moment from "moment";
+
 // returns a list of date objects within each date range for dates on/after today
 export const getListOfBookedDates = (dateRanges) => {
     const bookedDates = []
@@ -48,4 +51,20 @@ export const formatDate = (year, month, day) => {
     if (day < 10) day = "0" + day.toString();
 
     return `${year}-${month}-${day}`
+}
+
+
+// Input: 2D array, each element is a [ [startDate, endDate], ...]
+// Output: boolean indicating if inputDate is in one of the ranges
+export const isValidDay = (inputDate, bookedDateRanges) => {
+    let isNotValid = false
+
+    for (const bookedDateRange of bookedDateRanges) {
+        if (inputDate.isBetween(bookedDateRange[0], bookedDateRange[1])) {
+            isNotValid=true;
+            break
+        }
+    }
+
+    return isNotValid;
 }
