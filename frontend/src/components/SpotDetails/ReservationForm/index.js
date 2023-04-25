@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {formatDateYYYYMMDD} from "../../../utils/dates"
 import { getListOfBookedDates } from '../../../utils/reservationUtils/dates';
 import * as bookingActions from "../../../store/bookings"
 import { useParams } from 'react-router-dom';
 
-import "react-dates/initialize";
-import { DateRangePicker } from "react-dates";
-import "react-dates/lib/css/_datepicker.css";
+import "react-dates/initialize"
+import { DateRangePicker } from 'react-dates';
+import "react-dates/lib/css/_datepicker.css"
+
 import './ReservationForm.css'
 
 function ReservationForm() {

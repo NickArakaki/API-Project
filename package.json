@@ -23,9 +23,5 @@
   "bugs": {
     "url": "https://github.com/NickArakaki/API-project/issues"
   },
-  "homepage": "https://github.com/NickArakaki/API-project#readme",
-  "dependencies": {
-    "moment": "^2.29.4",
-    "react-dates": "^21.8.0"
-  }
+  "homepage": "https://github.com/NickArakaki/API-project#readme"
 }
