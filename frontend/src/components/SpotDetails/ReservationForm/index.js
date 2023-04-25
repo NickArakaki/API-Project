@@ -74,7 +74,7 @@ function ReservationForm() {
                 </div>
             </div>
             {/* TODO: useRef to close date range picker */}
-            <div ref={calendarRef}>
+            <div className='datepicker-container' ref={calendarRef}>
             {showDatePicker && (
                 <DateRange
                 className="reservation-form-date-input"

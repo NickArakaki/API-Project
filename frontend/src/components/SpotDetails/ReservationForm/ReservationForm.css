@@ -1,13 +1,17 @@
 .rdrDateRangeWrapper {
     position: absolute;
-    right: 0;
-    top: 80%;
+    right: 20px;
+    top: 10px;
     border: 2px solid black;
     border-radius: 1rem;
 }
 
 .rdrDateDisplayWrapper {
     border-radius: 1rem;
+}
+
+.datepicker-container {
+    position: relative;
 }
 
 .date-container {
