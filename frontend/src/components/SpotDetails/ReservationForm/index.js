@@ -35,23 +35,30 @@ function ReservationForm({ spot }) {
     const sortedBookedDates = sortBookingsByStart(bookedDates);
 
     const firstValidDate = findFirstValidDate(sortedBookedDates)
-    console.log(firstValidDate.format("YYYY-MM-DD"))
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [minDate, setMinDate] = useState(moment());
+    const [minDate, setMinDate] = useState(null);
     const [maxDate, setMaxDate] = useState(null);
     const [focusedInput, setFocusedInput] = useState();
 
     useEffect(() => {
         const maxEndDate = findMaxEndDate(startDate, sortedBookedDates);
+        const minStartDate = findMinStartDate(startDate, sortedBookedDates);
         setMaxDate(maxEndDate)
+        setMinDate(minStartDate)
     }, [startDate])
 
     useEffect(() => {
         const minStartDate = findMinStartDate(endDate, sortedBookedDates);
+        const maxEndDate = findMaxEndDate(endDate, sortedBookedDates)
         setMinDate(minStartDate);
+        setMaxDate(maxEndDate)
     }, [endDate])
+
+    useEffect(() => {
+        setMinDate(firstValidDate)
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault();
