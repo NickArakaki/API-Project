@@ -17,7 +17,7 @@ export default function CalloutBox({ spot }) {
                     <ReviewsSummary spot={ spot } />
                 </div>
             </div>
-            <ReservationForm />
+            <ReservationForm spot={spot} />
         </>
     )
 }

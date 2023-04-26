@@ -15,7 +15,7 @@ import moment from 'moment';
 // TODO: find first available date with appropriate range
 //       sort reservations by start date
 
-function ReservationForm() {
+function ReservationForm({ spot }) {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user)
     const {spotId} = useParams()
@@ -81,7 +81,7 @@ function ReservationForm() {
                 isDayBlocked={(day) => isValidDay(day, bookedDates)}
                 isOutsideRange={(day) => checkIfOutOfRange(day, minDate, maxDate)}
             />
-            <button type='submit'>Reserve</button>
+            <button disabled={spot.Owner.id === sessionUser?.id} type='submit'>Reserve</button>
         </form>
     )
 }
