@@ -79,9 +79,28 @@ export const sortBookingsByStart = (bookingsList) => {
 // find first available start date
 // must be at least 2 continuous days
 // cannot be before today
-export const findFirstAvailableStart = (bookingsList) => {
-    const today = new Date();
+export const findFirstValidDate = (sortedBookingList) => {
+    let startDate = moment();
 
+    // iterate over sortedBookingList
+    for (const booking of sortedBookingList) {
+        const start = moment(booking[0]);
+        const end = moment(booking[1]);
+
+        if (end.isAfter(startDate) && start.isAfter(startDate)) {
+            // calculate the difference between startDate and start
+            const difference = start.diff(startDate, "days")
+            if (difference >= 2) {
+                // if difference is two days return the startDate
+                return startDate;
+            } else {
+                // else change the startDate to the day after end
+                startDate = end.add(1, "days");
+            }
+        }
+    }
+
+    return startDate;
 }
 
 // find the maxDate given a start date and list of ordered bookings

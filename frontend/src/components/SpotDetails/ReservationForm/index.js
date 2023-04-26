@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkIfOutOfRange, findMaxEndDate, findMinStartDate, getListOfBookedDates, sortBookingsByStart } from '../../../utils/reservationUtils/dates';
+import {
+    checkIfOutOfRange,
+    findFirstValidDate,
+    findMaxEndDate,
+    findMinStartDate,
+    sortBookingsByStart
+} from '../../../utils/reservationUtils/dates';
 import { isValidDay } from '../../../utils/reservationUtils/dates';
 import * as bookingActions from "../../../store/bookings"
 import { useParams } from 'react-router-dom';
@@ -19,7 +25,6 @@ function ReservationForm({ spot }) {
     const dispatch = useDispatch();
     const sessionUser = useSelector(state => state.session.user)
     const {spotId} = useParams()
-
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
 
     const bookedDates = bookings.map(booking => {
@@ -28,6 +33,9 @@ function ReservationForm({ spot }) {
     )
 
     const sortedBookedDates = sortBookingsByStart(bookedDates);
+
+    const firstValidDate = findFirstValidDate(sortedBookedDates)
+    console.log(firstValidDate.format("YYYY-MM-DD"))
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
