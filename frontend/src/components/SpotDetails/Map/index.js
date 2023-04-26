@@ -9,7 +9,7 @@ function Map({ spot }) {
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     })
 
-    const center = useMemo(() => ({ lat: spot.lat, lng: spot.lng}), [])
+    const center = useMemo(() => ({ lat: Number(spot.lat), lng: Number(spot.lng)}), [])
 
     if (!isLoaded) return <div>Loading...</div>
 
