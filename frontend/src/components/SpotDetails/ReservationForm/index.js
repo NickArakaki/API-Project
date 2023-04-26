@@ -87,6 +87,8 @@ function ReservationForm({ spot }) {
 
     }
 
+    const isSubmitDisabled = (!sessionUser || spot.Owner.id === sessionUser.id);
+
     return (
         <form className='reservation-form' onSubmit={handleSubmit}>
             {errors.map((error, idx) => (
@@ -110,7 +112,7 @@ function ReservationForm({ spot }) {
                 isDayBlocked={(day) => isValidDay(day, bookedDates)}
                 isOutsideRange={(day) => checkIfOutOfRange(day, minDate, maxDate)}
             />
-            <button disabled={spot.Owner.id === sessionUser?.id} type='submit'>Reserve</button>
+            <button disabled={isSubmitDisabled} type='submit'>Reserve</button>
         </form>
     )
 }
