@@ -128,18 +128,20 @@ export const findMinStartDate = (endDate, sortedBookingsList) => {
     // or the current date whichever comes later
     // find the end date of the previous booking
     const newEndDate = moment(endDate);
-    const today = moment();
+    const firstValidDate = findFirstValidDate(sortedBookingsList);
 
     let minStartDate;
 
     for(let i = sortedBookingsList.length; i >= 0; i--) {
         const booking = sortedBookingsList[i]
-        if (booking && moment(booking[1]).isBefore(newEndDate) && moment(booking[1]).isAfter(today)) {
+        // this logic is flawed, need to refactor to find based on date passed
+        if (booking && moment(booking[1]).isBefore(newEndDate) && moment(booking[1]).isAfter(firstValidDate)) {
             minStartDate = moment(booking[1])
+            return minStartDate;
         }
     }
 
-    return minStartDate || today;
+    return firstValidDate;
 }
 
 export const checkIfOutOfRange = (day, startDate, endDate) => {
