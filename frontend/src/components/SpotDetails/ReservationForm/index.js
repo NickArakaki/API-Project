@@ -9,7 +9,7 @@ import {
 } from '../../../utils/reservationUtils/dates';
 import { isValidDay } from '../../../utils/reservationUtils/dates';
 import * as bookingActions from "../../../store/bookings"
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import "react-dates/initialize"
 import { DateRangePicker } from 'react-dates';
@@ -23,6 +23,7 @@ import moment from 'moment';
 
 function ReservationForm({ spot }) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const sessionUser = useSelector(state => state.session.user)
     const {spotId} = useParams()
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
@@ -72,6 +73,9 @@ function ReservationForm({ spot }) {
             }
 
             dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
+                .then(() => {
+                    history.push("/mytrips")
+                })
         }
 
     }
