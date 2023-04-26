@@ -45,7 +45,6 @@ function UserReservations() {
                                 <UserReservationSummary key={booking.id} reservation={booking} />
                             )
                         })}
-                        {/* Map over user past trips */}
                     </div>
                 </section>
             </div>

@@ -34,9 +34,9 @@ function ReservationForm({ spot }) {
     )
 
     const sortedBookedDates = sortBookingsByStart(bookedDates);
-
     const firstValidDate = findFirstValidDate(sortedBookedDates)
 
+    const [errors, setErrors] = useState([])
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [minDate, setMinDate] = useState(null);
@@ -65,7 +65,7 @@ function ReservationForm({ spot }) {
         e.preventDefault();
 
         if (!startDate || !endDate) {
-            alert("please select a valid start and/or end date")
+            setErrors(["please select a valid start and/or end date"])
         } else {
             const newReservation = {
                 startDate: startDate.format("YYYY-MM-DD"),
@@ -76,12 +76,19 @@ function ReservationForm({ spot }) {
                 .then(() => {
                     history.push("/mytrips")
                 })
+                .catch(async (error) => {
+                    const data = await error.json();
+                    setErrors([data.message]);
+                })
         }
 
     }
 
     return (
         <form className='reservation-form' onSubmit={handleSubmit}>
+            {errors.map((error, idx) => (
+                <div className='reservation-form-error' key={idx}>{error}</div>
+            ))}
             <DateRangePicker
                 minimumNights={1}
                 showClearDates={true}

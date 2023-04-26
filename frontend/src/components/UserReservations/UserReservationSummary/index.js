@@ -13,6 +13,14 @@ function UserReservationSummary({ reservation }) {
         history.push(`/spots/${reservation.Spot.id}`)
     }
 
+    const handleEdit = () => {
+        alert("Edit Feature Coming Soon")
+    }
+
+    const handleDelete = () => {
+        alert("Delete Feature Coming Soon")
+    }
+
     return (
         <>
         <div onClick={handleClick} className="reservation-summary-container">
@@ -27,8 +35,8 @@ function UserReservationSummary({ reservation }) {
         </div>
         {startDate > today && (
             <div className="reservation-summary-buttons-div">
-                <button>Edit</button>
-                <button>Delete</button>
+                <button onClick={handleEdit}>Edit</button>
+                <button onClick={handleDelete}>Delete</button>
             </div>
         )}
         </>
