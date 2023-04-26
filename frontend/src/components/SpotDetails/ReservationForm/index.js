@@ -1,31 +1,35 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+
+// Redux Store Booking Thunks
+import * as bookingActions from "../../../store/bookings"
+
+// React-Dates Required Files
+import "react-dates/initialize"
+import { DateRangePicker } from 'react-dates';
+import "react-dates/lib/css/_datepicker.css"
+
+// Custom Helper Functions For React-Dates
 import {
     checkIfOutOfRange,
     findFirstValidDate,
     findMaxEndDate,
     findMinStartDate,
-    sortBookingsByStart
+    sortBookingsByStart,
+    isValidDay
 } from '../../../utils/reservationUtils/dates';
-import { isValidDay } from '../../../utils/reservationUtils/dates';
-import * as bookingActions from "../../../store/bookings"
-import { useHistory, useParams } from 'react-router-dom';
 
-import "react-dates/initialize"
-import { DateRangePicker } from 'react-dates';
-import "react-dates/lib/css/_datepicker.css"
-
+// Custom CSS File to Overwrite React-Dates CSS file and apply custom styling
 import './ReservationForm.css'
-import moment from 'moment';
 
-// TODO: find first available date with appropriate range
-//       sort reservations by start date
 
 function ReservationForm({ spot }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const sessionUser = useSelector(state => state.session.user)
     const {spotId} = useParams()
+
+    const sessionUser = useSelector(state => state.session.user)
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
 
     const bookedDates = bookings.map(booking => {
