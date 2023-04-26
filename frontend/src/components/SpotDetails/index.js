@@ -11,6 +11,7 @@ import OpenModalButton from "../OpenModalButton";
 import ReviewModal from "../AddReviewModal";
 import CalloutBox from "./CalloutBox";
 import ReviewsSummary from "./ReviewsSummary";
+import Map from "./Map";
 
 import "./SpotDetails.css";
 
@@ -94,9 +95,11 @@ export default function SpotDetails() {
                         </div>
                     </div>
                 </div>
-                <div>
-                    Where You'll Be Staying:
-                    This will be the google map
+                <div className="spot-details-map-div">
+                    <div className="spot-details-map-container">
+                        Where You'll Be Staying:
+                    </div>
+                    <Map spot={spot} />
                 </div>
                 <div className="spot_details_reviews_div">
                     <ReviewsSummary spot={spot} />
