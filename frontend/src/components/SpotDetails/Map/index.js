@@ -1,11 +1,11 @@
 import { useMemo } from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api"
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"
 
 import "./Map.css"
 
 
 function Map({ spot }) {
-    const { isLoaded } = useLoadScript({
+    const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     })
 
