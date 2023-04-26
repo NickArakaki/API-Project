@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import * as spotActions from '../../store/spots';
 import * as reviewActions from '../../store/reviews';
+import * as bookingActions from '../../store/bookings';
 
 import SpotReviews from "./SpotReviews/SpotReviews";
 import OpenModalButton from "../OpenModalButton";
@@ -28,6 +29,7 @@ export default function SpotDetails() {
     useEffect(() => {
         dispatch(spotActions.getSingleSpotThunk(spotId))
             .then(() => dispatch(reviewActions.getSpotReviewsThunk(spotId)))
+            .then(() => dispatch(bookingActions.getAllSpotBookingsThunk(spotId)))
             .then(() => {
                 setSuccessfulFetch(true)
                 setIsLoaded(true)
@@ -91,6 +93,10 @@ export default function SpotDetails() {
                             <CalloutBox spot={spot} />
                         </div>
                     </div>
+                </div>
+                <div>
+                    Where You'll Be Staying:
+                    This will be the google map
                 </div>
                 <div className="spot_details_reviews_div">
                     <ReviewsSummary spot={spot} />

@@ -1,0 +1,29 @@
+.reservation-summary-container {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+
+.reservation-summary-spot-title,
+.reservation-summary-dates {
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.reservation-summary-spot-title {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.reservation-summary-preview-image {
+    object-fit: fill;
+    height: 100px;
+    width: 100px;
+    border-radius: 1rem;
+}
+
+.reservation-summary-spot-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 1em;
+}

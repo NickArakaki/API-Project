@@ -1,0 +1,17 @@
+/* TODO: add styling for user reservations here */
+.manage-trips-container {
+    margin: 0 2em;
+}
+
+.user-trips-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1em;
+    margin: 0 5em;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.manage-trips-section-heading,
+.manage-trips-title {
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+}

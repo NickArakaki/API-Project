@@ -1,6 +1,12 @@
+// import AddBookingModal from "../Bookings/AddBookingModal"
+// import OpenModalButton from "../OpenModalButton"
 import ReviewsSummary from "./ReviewsSummary"
+import ReservationForm from "./ReservationForm"
+// import { useSelector } from "react-redux"
 
 export default function CalloutBox({ spot }) {
+    // const sessionUser = useSelector(state => state.session.user)
+    // console.log("spot in callout box", spot)
     return (
         <>
             <div className="callout_box_price_reviews">
@@ -11,7 +17,7 @@ export default function CalloutBox({ spot }) {
                     <ReviewsSummary spot={ spot } />
                 </div>
             </div>
-            <button onClick={() => alert("Feature coming soon")} className="spot_details_callout_info_box_register_button">Reserve</button>
+            <ReservationForm spot={spot} />
         </>
     )
 }

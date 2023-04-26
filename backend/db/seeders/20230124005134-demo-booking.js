@@ -17,26 +17,74 @@ module.exports = {
       {
         spotId: 1,
         userId: 50,
-        startDate: '2023-01-27 00:06:18.179 +00:00',
-        endDate: '2023-02-09 09:47:00.137 +00:00'
+        startDate: new Date('2023-01-27T00:00:00.000Z'),
+        endDate: new Date('2023-02-09T00:00:00.000Z')
       },
       {
         spotId: 1,
         userId: 25,
-        startDate: '2023-04-27 00:06:18.179 +00:00',
-        endDate: '2023-04-30 09:47:00.137 +00:00'
+        startDate: new Date('2023-04-27T00:00:00.000Z'),
+        endDate: new Date('2023-04-30T00:00:00.000Z')
       },
       {
         spotId: 1,
         userId: 69,
-        startDate: '2021-04-27 00:06:18.179 +00:00',
-        endDate: '2021-04-30 09:47:00.137 +00:00'
+        startDate: new Date('2021-04-27T00:00:00.000Z'),
+        endDate: new Date('2021-04-30T00:00:00.000Z')
       },
       {
         spotId: 1,
         userId: 46,
-        startDate: '2021-03-27 00:06:18.179 +00:00',
-        endDate: '2021-03-30 09:47:00.137 +00:00'
+        startDate: new Date('2021-03-27T00:00:00.000Z'),
+        endDate: new Date('2021-03-30T00:00:00.000Z')
+      },
+      {
+        spotId: 2,
+        userId: 50,
+        startDate: new Date('2023-01-27T00:00:00.000Z'),
+        endDate: new Date('2023-02-09T00:00:00.000Z')
+      },
+      {
+        spotId: 2,
+        userId: 25,
+        startDate: new Date('2023-04-27T00:00:00.000Z'),
+        endDate: new Date('2023-04-30T00:00:00.000Z')
+      },
+      {
+        spotId: 2,
+        userId: 69,
+        startDate: new Date('2021-04-27T00:00:00.000Z'),
+        endDate: new Date('2021-04-30T00:00:00.000Z')
+      },
+      {
+        spotId: 2,
+        userId: 46,
+        startDate: new Date('2021-03-27T00:00:00.000Z'),
+        endDate: new Date('2021-03-30T00:00:00.000Z')
+      },
+      {
+        spotId: 3,
+        userId: 1,
+        startDate: new Date('2023-01-27T00:00:00.000Z'),
+        endDate: new Date('2023-02-09T00:00:00.000Z')
+      },
+      {
+        spotId: 4,
+        userId: 1,
+        startDate: new Date('2023-04-27T00:00:00.000Z'),
+        endDate: new Date('2023-04-30T00:00:00.000Z')
+      },
+      {
+        spotId: 5,
+        userId: 1,
+        startDate: new Date('2021-04-27T00:00:00.000Z'),
+        endDate: new Date('2021-04-30T00:00:00.000Z')
+      },
+      {
+        spotId: 6,
+        userId: 1,
+        startDate: new Date('2021-03-27T00:00:00.000Z'),
+        endDate: new Date('2021-03-30T00:00:00.000Z')
       }
     ]
     return await queryInterface.bulkInsert(options, bookings)

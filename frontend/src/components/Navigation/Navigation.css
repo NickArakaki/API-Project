@@ -108,6 +108,10 @@
 
 }
 
+.profile_menu_dropdown_container button {
+    cursor: pointer;
+}
+
 .profile-dropdown li {
     margin: 5px 0px;
 }
