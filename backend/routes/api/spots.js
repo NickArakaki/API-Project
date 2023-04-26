@@ -57,7 +57,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
   })
 
 // GET all Bookings of a Spot based on the Spot's id
-router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+router.get('/:spotId/bookings', async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId);
 
   if (!spot) {
@@ -69,7 +69,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
   let include = [];
 
   // request more data if user is the owner of the Spot
-  if (spot.ownerId === req.user.id) {
+  if (spot.ownerId === req.user?.id) {
     attributes.push('id', 'userId', 'createdAt', 'updatedAt');
     include.push({
       model: User,

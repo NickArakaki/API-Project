@@ -27,7 +27,6 @@ import './ReservationForm.css'
 function ReservationForm({ spot }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const {spotId} = useParams()
 
     const sessionUser = useSelector(state => state.session.user)
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
@@ -76,7 +75,7 @@ function ReservationForm({ spot }) {
                 endDate: endDate.format("YYYY-MM-DD")
             }
 
-            dispatch(bookingActions.postSpotBookingThunk(spotId, newReservation))
+            dispatch(bookingActions.postSpotBookingThunk(spot.id, newReservation))
                 .then(() => {
                     history.push("/mytrips")
                 })
