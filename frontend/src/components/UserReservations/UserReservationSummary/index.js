@@ -1,4 +1,5 @@
 import { useHistory } from "react-router-dom";
+import OpenModalButton from "../../OpenModalButton"
 
 import { formatDateYYYYMMDD } from "../../../utils/reservationUtils/dates";
 import "./UserReservationSummary.css"
@@ -35,8 +36,14 @@ function UserReservationSummary({ reservation }) {
         </div>
         {startDate > today && (
             <div className="reservation-summary-buttons-div">
-                <button onClick={handleEdit}>Edit</button>
-                <button onClick={handleDelete}>Delete</button>
+                <OpenModalButton
+                    buttonText={"edit"}
+                    modalComponent={<h1>Hello From Edit Button</h1>}
+                />
+                <OpenModalButton
+                    buttonText={"delete"}
+                    modalComponent={<h1>Hello from Delete button</h1>}
+                />
             </div>
         )}
         </>
