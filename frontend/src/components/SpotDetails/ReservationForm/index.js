@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkIfOutOfRange, findMaxEndDate, getListOfBookedDates, sortBookingsByStart } from '../../../utils/reservationUtils/dates';
+import { checkIfOutOfRange, findMaxEndDate, findMinStartDate, getListOfBookedDates, sortBookingsByStart } from '../../../utils/reservationUtils/dates';
 import { isValidDay } from '../../../utils/reservationUtils/dates';
 import * as bookingActions from "../../../store/bookings"
 import { useParams } from 'react-router-dom';
@@ -31,20 +31,19 @@ function ReservationForm() {
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    // const [minDate, setMinDate] = useState(null);
+    const [minDate, setMinDate] = useState(moment());
     const [maxDate, setMaxDate] = useState(null);
     const [focusedInput, setFocusedInput] = useState();
 
     useEffect(() => {
         const maxEndDate = findMaxEndDate(startDate, sortedBookedDates);
-        console.log(maxEndDate)
         setMaxDate(maxEndDate)
     }, [startDate])
 
-    // const handleDateChange = ({ newStartDate, newEndDate }) => {
-    //     setStartDate(newStartDate);
-    //     setEndDate(newEndDate);
-    // }
+    useEffect(() => {
+        const minStartDate = findMinStartDate(endDate, sortedBookedDates);
+        setMinDate(minStartDate);
+    }, [endDate])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -64,8 +63,6 @@ function ReservationForm() {
 
     return (
         <form className='reservation-form' onSubmit={handleSubmit}>
-            <div className='date-container'>
-            </div>
             <DateRangePicker
                 minimumNights={1}
                 showClearDates={true}
@@ -82,7 +79,7 @@ function ReservationForm() {
                     setFocusedInput(focusedInput)
                 }}
                 isDayBlocked={(day) => isValidDay(day, bookedDates)}
-                isOutsideRange={(day) => checkIfOutOfRange(day, startDate, maxDate)}
+                isOutsideRange={(day) => checkIfOutOfRange(day, minDate, maxDate)}
             />
             <button type='submit'>Reserve</button>
         </form>

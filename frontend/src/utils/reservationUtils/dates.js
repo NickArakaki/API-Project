@@ -97,19 +97,30 @@ export const findMaxEndDate = (startDate, sortedBookingsList) => {
         const bookedStart = moment(booking[0])
         if (bookedStart.isAfter(start)) { // we found the next start date
             // the max date is the day before the next booking starts
-            return bookedStart.subtract(1, "day")
+            return bookedStart;
         }
     }
     // if there are no bookings that start after the new Start return null
     return null;
 }
 
-export const findMinStartDate = (startDate, sortedBookingsList) => {
-    //
-}
+export const findMinStartDate = (endDate, sortedBookingsList) => {
+    // return a moment obj where the date is the minimum start date before the previous listing
+    // or the current date whichever comes later
+    // find the end date of the previous booking
+    const newEndDate = moment(endDate);
+    const today = moment();
 
-export const findRange = (startDate) => {
+    let minStartDate;
 
+    for(let i = sortedBookingsList.length; i >= 0; i--) {
+        const booking = sortedBookingsList[i]
+        if (booking && moment(booking[1]).isBefore(newEndDate) && moment(booking[1]).isAfter(today)) {
+            minStartDate = moment(booking[1])
+        }
+    }
+
+    return minStartDate || today;
 }
 
 export const checkIfOutOfRange = (day, startDate, endDate) => {
