@@ -99,7 +99,7 @@ export default function SpotDetails() {
                     <div className="spot-details-map-container">
                         Where You'll Be Staying:
                     </div>
-                    <Map />
+                    <Map spot={spot} />
                 </div>
                 <div className="spot_details_reviews_div">
                     <ReviewsSummary spot={spot} />

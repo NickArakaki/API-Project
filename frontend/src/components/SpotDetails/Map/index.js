@@ -4,12 +4,12 @@ import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api"
 import "./Map.css"
 
 
-function Map() {
+function Map({ spot }) {
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     })
 
-    const center = useMemo(() => ({ lat: 40, lng: -80}), [])
+    const center = useMemo(() => ({ lat: spot.lat, lng: spot.lng}), [])
 
     if (!isLoaded) return <div>Loading...</div>
 
