@@ -1038,7 +1038,7 @@ Return all the bookings that the current user has made.
 
 Return all the bookings for a spot specified by id.
 
-* Require Authentication: true
+* Require Authentication: false
 * Request
   * Method: GET
   * URL: /api/spots/:spotId/bookings
