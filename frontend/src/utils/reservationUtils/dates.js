@@ -95,7 +95,7 @@ export const findFirstValidDate = (sortedBookingList) => {
                 return startDate;
             } else {
                 // else change the startDate to the day after end
-                startDate = end;
+                startDate = end.add(1, "days");
             }
         }
     }

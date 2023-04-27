@@ -33,16 +33,15 @@ function ReservationForm({ spot, reservation }) {
     const history = useHistory();
 
     const sessionUser = useSelector(state => state.session.user)
-    const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
+    const bookings = useSelector(state => state.bookings.spotBookings)
 
-    const bookedDates = bookings.filter(booking => {
-        // exclude the reservation to be updated when getting list of booked dates
-        if (reservation?.id !== booking.id) {
-            return [booking.startDate, booking.endDate]
-        }
-    })
+    if (reservation?.id in bookings) {
+        delete bookings[reservation.id]
+    }
+
+    const bookedDates = Object.values(bookings).map(booking => [booking.startDate, booking.endDate])
+
     const sortedBookedDates = sortBookingsByStart(bookedDates);
-
     const firstValidDate = findFirstValidDate(sortedBookedDates)
 
     const [errors, setErrors] = useState([])
