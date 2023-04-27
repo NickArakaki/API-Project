@@ -35,14 +35,14 @@ function ReservationForm({ spot, reservation }) {
     const sessionUser = useSelector(state => state.session.user)
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
 
-    const bookedDates = bookings.map(booking => {
+    const bookedDates = bookings.filter(booking => {
         // exclude the reservation to be updated when getting list of booked dates
         if (reservation?.id !== booking.id) {
             return [booking.startDate, booking.endDate]
         }
     })
-
     const sortedBookedDates = sortBookingsByStart(bookedDates);
+
     const firstValidDate = findFirstValidDate(sortedBookedDates)
 
     const [errors, setErrors] = useState([])
