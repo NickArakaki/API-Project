@@ -24,7 +24,11 @@ import {
 import './ReservationForm.css'
 
 
-function ReservationForm({ spot }) {
+function ReservationForm({ spot, reservation }) {
+    //TODO: if there is a reservation passed, we need to exclude that reservation from the sorted booked list
+    //      when the form is submitted and there is a reservation passed to this component we need to pass the updated
+    //      reservation instead of newReservation to the thunk
+
     const dispatch = useDispatch();
     const history = useHistory();
 

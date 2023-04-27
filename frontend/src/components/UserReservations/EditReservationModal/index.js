@@ -10,7 +10,6 @@ function EditReservationModal({ reservation }) {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     const spotDetails = useSelector(state => state.spots.singleSpot)
-    const spotBookings = useSelector(state => Object.values(state.bookings.spotBookings))
 
     useEffect(() => {
         dispatch(spotActions.getSingleSpotThunk(reservation.spotId))
@@ -20,11 +19,11 @@ function EditReservationModal({ reservation }) {
     if (!isLoaded) return <div>Loading...</div>
 
     return (
-        <>
-            <div>Hello from edit reservation modal</div>
+        <div className="edit-reservation-form">
+            <h1>Edit Reservation</h1>
 
-            <ReservationForm spot={spotDetails}/>
-        </>
+            <ReservationForm spot={spotDetails} reservatio={reservation} />
+        </div>
     )
 }
 
