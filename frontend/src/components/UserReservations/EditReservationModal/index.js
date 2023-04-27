@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../../context/Modal";
 import ReservationForm from "../../SpotDetails/ReservationForm"
 import * as spotActions from "../../../store/spots"
-import * as bookingActions from "../../../store/bookings"
 import "./EditReservationModal.css"
+import { Redirect } from "react-router-dom";
 
 function EditReservationModal({ reservation }) {
     const dispatch = useDispatch();

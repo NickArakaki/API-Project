@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux"
+import { Redirect } from "react-router-dom";
 import * as bookingActions from "../../store/bookings"
 import UserReservationSummary from "./UserReservationSummary";
 
 import "./UserReservations.css"
 
 function UserReservations() {
+    const sessionUser = useSelector(state => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
     const dispatch = useDispatch();
     const userFutureBookings = useSelector(state => Object.values(state.bookings.userBookings.futureBookings))
@@ -14,7 +16,12 @@ function UserReservations() {
     useEffect(() => {
         dispatch(bookingActions.getAllUserBookingsThunk())
             .then(() => setIsLoaded(true))
+            .catch(async (error) => {
+                console.log(error);
+            })
     }, [])
+
+    if (!sessionUser) return <Redirect to={"/"} />
 
     return (
         <>
