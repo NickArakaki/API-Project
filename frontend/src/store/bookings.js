@@ -73,13 +73,20 @@ export const postSpotBookingThunk = (spotId, booking) => async (dispatch) => {
     return postedBooking;
 }
 
-// export const updateSpotBookingThunk => (bookingId) => async (dispatch) => {
+// export const updateSpotBookingThunk = (bookingId) => async (dispatch) => {
 //     // /api/bookings/:bookingId, PUT
 // }
 
-// export const deleteSpotBookingThunk => (bookingId) => async(dispatch) => {
-//     // /api/bookings/:bookingId, DELETE
-// }
+export const deleteSpotBookingThunk = (bookingId) => async(dispatch) => {
+    // /api/bookings/:bookingId, DELETE
+    const response = await csrfFetch(`/api/bookings/${bookingId}`, {
+        method: "DELETE",
+    })
+
+    const confirmation = await response.json();
+    dispatch(deleteSpotBooking(bookingId));
+    return confirmation;
+}
 
 
 /******************************** REDUCER ***************************/
@@ -125,6 +132,16 @@ export default function bookingsReducer(state=initialState, action) {
             newState.userBookings.futureBookings = { ...state.userBookings.futureBookings }
             newState.userBookings.futureBookings[action.payload.id] = action.payload;
 
+            return newState;
+        }
+        case DELETE_SPOT_BOOKING: {
+            newState.spotBookings = { ...state.spotBookings }
+            // check to see if the spotBooking have the bookingId?
+            // if (newState.spotBookings[0] && newState.spotBookings[0].startDate === )
+            newState.userBookings = { ...state.userBookings }
+            newState.userBookings.futureBookings = { ...state.userBookings.futureBookings }
+            delete newState.userBookings.futureBookings[action.payload]
+            // remove the booking from the userBOokings
             return newState;
         }
         default:
