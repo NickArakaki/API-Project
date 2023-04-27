@@ -100,7 +100,7 @@ export default function bookingsReducer(state=initialState, action) {
         case GET_SPOT_BOOKINGS: {
             newState.spotBookings = {}
             for (const booking of action.payload) {
-                newState.spotBookings[booking.startDate] = booking
+                newState.spotBookings[booking.id] = booking
             }
             return newState;
         }
@@ -108,7 +108,6 @@ export default function bookingsReducer(state=initialState, action) {
             // normalize user bookings
             const normalizedPastBookings = {};
             const normalizedFutureBookings = {};
-
 
             for (const booking of action.payload) {
                 const startDate = new Date(booking.startDate)
@@ -126,7 +125,7 @@ export default function bookingsReducer(state=initialState, action) {
         }
         case POST_SPOT_BOOKING: {
             newState.spotBookings = { ...state.spotBookings };
-            newState.spotBookings[action.payload.startDate] = action.payload;
+            newState.spotBookings[action.payload.id] = action.payload;
 
             newState.userBookings = { ...state.userBookings };
             newState.userBookings.futureBookings = { ...state.userBookings.futureBookings }
@@ -137,7 +136,10 @@ export default function bookingsReducer(state=initialState, action) {
         case DELETE_SPOT_BOOKING: {
             newState.spotBookings = { ...state.spotBookings }
             // check to see if the spotBooking have the bookingId?
-            // if (newState.spotBookings[0] && newState.spotBookings[0].startDate === )
+            if (action.payload in newState.spotBookings) {
+                delete newState.spotBookings[action.payload]
+            }
+
             newState.userBookings = { ...state.userBookings }
             newState.userBookings.futureBookings = { ...state.userBookings.futureBookings }
             delete newState.userBookings.futureBookings[action.payload]
