@@ -23,7 +23,6 @@ function UserReservationSummary({ reservation }) {
             </div>
             <div className="reservation-summary-spot-details">
                 <div className="reservation-summary-spot-title">{reservation.Spot.name}</div>
-                {/* <div className="reservation-summary-host"></div> */}
                 <div className="reservation-summary-dates">{`${formatDateYYYYMMDD(startDate)} to ${formatDateYYYYMMDD(endDate)}`}</div>
             </div>
         </div>
