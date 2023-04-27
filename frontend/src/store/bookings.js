@@ -148,7 +148,9 @@ export default function bookingsReducer(state=initialState, action) {
 
             newState.userBookings = { ...state.userBookings };
             newState.userBookings.futureBookings = { ...state.userBookings.futureBookings };
-            newState.userBookings.futureBookings[action.payload.id] = action.payload;
+            newState.userBookings.futureBookings[action.payload.id] = { ...state.userBookings.futureBookings[action.payload.id]};
+            newState.userBookings.futureBookings[action.payload.id].startDate = action.payload.startDate;
+            newState.userBookings.futureBookings[action.payload.id].endDate = action.payload.endDate;
 
             return newState;
         }

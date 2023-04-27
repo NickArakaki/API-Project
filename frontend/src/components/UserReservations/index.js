@@ -17,7 +17,8 @@ function UserReservations() {
         dispatch(bookingActions.getAllUserBookingsThunk())
             .then(() => setIsLoaded(true))
             .catch(async (error) => {
-                console.log(error);
+                const data = await error;
+                console.log(data);
             })
     }, [])
 

@@ -12,7 +12,7 @@ function UserReservationSummary({ reservation }) {
     const today = new Date();
 
     const handleClick = () => {
-        history.push(`/spots/${reservation.Spot.id}`)
+        history.push(`/spots/${reservation.spotId}`)
     }
 
     return (
