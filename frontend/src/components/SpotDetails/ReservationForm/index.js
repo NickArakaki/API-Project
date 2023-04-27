@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useModal } from '../../../context/Modal';
 
 // Redux Store Booking Thunks
 import * as bookingActions from "../../../store/bookings"
@@ -28,7 +29,7 @@ function ReservationForm({ spot, reservation }) {
     //TODO: if there is a reservation passed, we need to exclude that reservation from the sorted booked list
     //      when the form is submitted and there is a reservation passed to this component we need to pass the updated
     //      reservation instead of newReservation to the thunk
-
+    const { closeModal } = useModal;
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -78,9 +79,6 @@ function ReservationForm({ spot, reservation }) {
             reservation.startDate = startDate.format("YYYY-MM-DD");
             reservation.endDate = endDate.format("YYYY-MM-DD");
             dispatch(bookingActions.updateSpotBookingThunk(reservation))
-                .then(() => {
-                    history.push("/mytrips")
-                })
                 .catch(async (error) => {
                     const data = await error.json();
                     setErrors([data.message])
