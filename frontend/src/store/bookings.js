@@ -73,12 +73,19 @@ export const postSpotBookingThunk = (spotId, booking) => async (dispatch) => {
     return postedBooking;
 }
 
-// export const updateSpotBookingThunk = (bookingId) => async (dispatch) => {
-//     // /api/bookings/:bookingId, PUT
-// }
+export const updateSpotBookingThunk = (booking) => async (dispatch) => {
+    const response = await csrfFetch(`/api/bookings/${booking.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(booking)
+    })
+
+    const updatedBooking = await response.json();
+    dispatch(updateSpotBooking(updatedBooking));
+    return updatedBooking;
+}
 
 export const deleteSpotBookingThunk = (bookingId) => async(dispatch) => {
-    // /api/bookings/:bookingId, DELETE
     const response = await csrfFetch(`/api/bookings/${bookingId}`, {
         method: "DELETE",
     })
@@ -133,6 +140,18 @@ export default function bookingsReducer(state=initialState, action) {
 
             return newState;
         }
+        case UPDATE_SPOT_BOOKING: {
+            newState.spotBookings = { ...state.spotBookings };
+            if (action.payload.id in newState.spotBookings) {
+                newState.spotBookings[action.payload.id] = action.payload
+            }
+
+            newState.userBookings = { ...state.userBookings };
+            newState.userBookings.futureBookings = { ...state.userBookings.futureBookings };
+            newState.userBookings.futureBookings[action.payload.id] = action.payload;
+
+            return newState;
+        }
         case DELETE_SPOT_BOOKING: {
             newState.spotBookings = { ...state.spotBookings }
             // check to see if the spotBooking have the bookingId?
@@ -143,7 +162,6 @@ export default function bookingsReducer(state=initialState, action) {
             newState.userBookings = { ...state.userBookings }
             newState.userBookings.futureBookings = { ...state.userBookings.futureBookings }
             delete newState.userBookings.futureBookings[action.payload]
-            // remove the booking from the userBOokings
             return newState;
         }
         default:
