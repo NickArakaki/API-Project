@@ -64,13 +64,13 @@ router.get('/:spotId/bookings', async (req, res, next) => {
     return next(notFound('Spot'))
   }
 
-  const attributes = ['spotId', 'startDate', 'endDate'];
+  const attributes = ['id', 'spotId', 'startDate', 'endDate'];
 
   let include = [];
 
   // request more data if user is the owner of the Spot
   if (spot.ownerId === req.user?.id) {
-    attributes.push('id', 'userId', 'createdAt', 'updatedAt');
+    attributes.push('userId', 'createdAt', 'updatedAt');
     include.push({
       model: User,
       attributes: ['id', 'firstName', 'lastName']

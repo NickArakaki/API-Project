@@ -37,9 +37,9 @@ export const getListOfDates = (start, end) => {
 
 // formatDateYYYYMMDD
 export const formatDateYYYYMMDD = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth() + 1;
+    const day = date.getUTCDate();
 
     return formatDate(year, month, day);
 }
@@ -95,7 +95,7 @@ export const findFirstValidDate = (sortedBookingList) => {
                 return startDate;
             } else {
                 // else change the startDate to the day after end
-                startDate = end;
+                startDate = end.add(1, "days");
             }
         }
     }

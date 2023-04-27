@@ -73,13 +73,27 @@ export const postSpotBookingThunk = (spotId, booking) => async (dispatch) => {
     return postedBooking;
 }
 
-// export const updateSpotBookingThunk => (bookingId) => async (dispatch) => {
-//     // /api/bookings/:bookingId, PUT
-// }
+export const updateSpotBookingThunk = (booking) => async (dispatch) => {
+    const response = await csrfFetch(`/api/bookings/${booking.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(booking)
+    })
 
-// export const deleteSpotBookingThunk => (bookingId) => async(dispatch) => {
-//     // /api/bookings/:bookingId, DELETE
-// }
+    const updatedBooking = await response.json();
+    dispatch(updateSpotBooking(updatedBooking));
+    return updatedBooking;
+}
+
+export const deleteSpotBookingThunk = (bookingId) => async(dispatch) => {
+    const response = await csrfFetch(`/api/bookings/${bookingId}`, {
+        method: "DELETE",
+    })
+
+    const confirmation = await response.json();
+    dispatch(deleteSpotBooking(bookingId));
+    return confirmation;
+}
 
 
 /******************************** REDUCER ***************************/
@@ -93,7 +107,7 @@ export default function bookingsReducer(state=initialState, action) {
         case GET_SPOT_BOOKINGS: {
             newState.spotBookings = {}
             for (const booking of action.payload) {
-                newState.spotBookings[booking.startDate] = booking
+                newState.spotBookings[booking.id] = booking
             }
             return newState;
         }
@@ -101,7 +115,6 @@ export default function bookingsReducer(state=initialState, action) {
             // normalize user bookings
             const normalizedPastBookings = {};
             const normalizedFutureBookings = {};
-
 
             for (const booking of action.payload) {
                 const startDate = new Date(booking.startDate)
@@ -119,12 +132,38 @@ export default function bookingsReducer(state=initialState, action) {
         }
         case POST_SPOT_BOOKING: {
             newState.spotBookings = { ...state.spotBookings };
-            newState.spotBookings[action.payload.startDate] = action.payload;
+            newState.spotBookings[action.payload.id] = action.payload;
 
             newState.userBookings = { ...state.userBookings };
             newState.userBookings.futureBookings = { ...state.userBookings.futureBookings }
             newState.userBookings.futureBookings[action.payload.id] = action.payload;
 
+            return newState;
+        }
+        case UPDATE_SPOT_BOOKING: {
+            newState.spotBookings = { ...state.spotBookings };
+            if (action.payload.id in newState.spotBookings) {
+                newState.spotBookings[action.payload.id] = action.payload
+            }
+
+            newState.userBookings = { ...state.userBookings };
+            newState.userBookings.futureBookings = { ...state.userBookings.futureBookings };
+            newState.userBookings.futureBookings[action.payload.id] = { ...state.userBookings.futureBookings[action.payload.id]};
+            newState.userBookings.futureBookings[action.payload.id].startDate = action.payload.startDate;
+            newState.userBookings.futureBookings[action.payload.id].endDate = action.payload.endDate;
+
+            return newState;
+        }
+        case DELETE_SPOT_BOOKING: {
+            newState.spotBookings = { ...state.spotBookings }
+            // check to see if the spotBooking have the bookingId?
+            if (action.payload in newState.spotBookings) {
+                delete newState.spotBookings[action.payload]
+            }
+
+            newState.userBookings = { ...state.userBookings }
+            newState.userBookings.futureBookings = { ...state.userBookings.futureBookings }
+            delete newState.userBookings.futureBookings[action.payload]
             return newState;
         }
         default:

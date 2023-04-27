@@ -1,5 +1,7 @@
 import { useHistory } from "react-router-dom";
-
+import OpenModalButton from "../../OpenModalButton"
+import DeleteReservationModal from "../../DeleteModal/DeleteReservation";
+import EditReservationModal from "../EditReservationModal";
 import { formatDateYYYYMMDD } from "../../../utils/reservationUtils/dates";
 import "./UserReservationSummary.css"
 
@@ -10,15 +12,7 @@ function UserReservationSummary({ reservation }) {
     const today = new Date();
 
     const handleClick = () => {
-        history.push(`/spots/${reservation.Spot.id}`)
-    }
-
-    const handleEdit = () => {
-        alert("Edit Feature Coming Soon")
-    }
-
-    const handleDelete = () => {
-        alert("Delete Feature Coming Soon")
+        history.push(`/spots/${reservation.spotId}`)
     }
 
     return (
@@ -29,14 +23,19 @@ function UserReservationSummary({ reservation }) {
             </div>
             <div className="reservation-summary-spot-details">
                 <div className="reservation-summary-spot-title">{reservation.Spot.name}</div>
-                {/* <div className="reservation-summary-host"></div> */}
                 <div className="reservation-summary-dates">{`${formatDateYYYYMMDD(startDate)} to ${formatDateYYYYMMDD(endDate)}`}</div>
             </div>
         </div>
         {startDate > today && (
             <div className="reservation-summary-buttons-div">
-                <button onClick={handleEdit}>Edit</button>
-                <button onClick={handleDelete}>Delete</button>
+                <OpenModalButton
+                    buttonText={"edit"}
+                    modalComponent={<EditReservationModal reservation={reservation} />}
+                />
+                <OpenModalButton
+                    buttonText={"delete"}
+                    modalComponent={<DeleteReservationModal reservation={reservation} />}
+                />
             </div>
         )}
         </>

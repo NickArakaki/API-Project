@@ -1,0 +1,7 @@
+/* TODO: add styling for edit reservation modal */
+.edit-reservation-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1em;
+}

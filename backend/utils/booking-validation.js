@@ -46,20 +46,20 @@ const validateTimeFrame = async (req, res, next) => {
 
     const prevBooks = await Booking.findAll({
         where: {
-        startDate: {
-            [Op.lte]: startDate
-        },
-        spotId: req.spotId || req.params.spotId,
+            startDate: {
+                [Op.lte]: startDate
+            },
+            spotId: req.spotId || req.params.spotId,
         },
         order: [['startDate', 'DESC']]
     })
 
     const nextBooks = await Booking.findAll({
         where: {
-        spotId: req.spotId || req.params.spotId,
-        startDate: {
-            [Op.gte]: startDate
-        }
+            spotId: req.spotId || req.params.spotId,
+            startDate: {
+                [Op.gte]: startDate
+            }
         },
         order: [['startDate', 'ASC']]
     })
