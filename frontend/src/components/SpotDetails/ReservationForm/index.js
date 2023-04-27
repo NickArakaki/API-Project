@@ -29,10 +29,9 @@ function ReservationForm({ spot, reservation }) {
     //TODO: if there is a reservation passed, we need to exclude that reservation from the sorted booked list
     //      when the form is submitted and there is a reservation passed to this component we need to pass the updated
     //      reservation instead of newReservation to the thunk
-    const { closeModal } = useModal;
     const dispatch = useDispatch();
     const history = useHistory();
-
+    const { closeModal } = useModal();
     const sessionUser = useSelector(state => state.session.user)
     const bookings = useSelector(state => state.bookings.spotBookings)
 
@@ -79,11 +78,11 @@ function ReservationForm({ spot, reservation }) {
             reservation.startDate = startDate.format("YYYY-MM-DD");
             reservation.endDate = endDate.format("YYYY-MM-DD");
             dispatch(bookingActions.updateSpotBookingThunk(reservation))
+                .then(() => closeModal())
                 .catch(async (error) => {
                     const data = await error.json();
                     setErrors([data.message])
                 })
-
         } else {
             const newReservation = {
                 startDate: startDate.format("YYYY-MM-DD"),

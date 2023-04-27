@@ -8,9 +8,9 @@ import "./EditReservationModal.css"
 
 function EditReservationModal({ reservation }) {
     const dispatch = useDispatch();
+    const { closeModal } = useModal();
     const [isLoaded, setIsLoaded] = useState(false);
     const spotDetails = useSelector(state => state.spots.singleSpot)
-    const { closeModal } = useModal();
 
     useEffect(() => {
         dispatch(spotActions.getSingleSpotThunk(reservation.spotId))
