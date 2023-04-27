@@ -36,9 +36,11 @@ function ReservationForm({ spot, reservation }) {
     const bookings = useSelector(state => Object.values(state.bookings.spotBookings))
 
     const bookedDates = bookings.map(booking => {
-        return [booking.startDate, booking.endDate]
+        // exclude the reservation to be updated when getting list of booked dates
+        if (reservation?.id !== booking.id) {
+            return [booking.startDate, booking.endDate]
         }
-    )
+    })
 
     const sortedBookedDates = sortBookingsByStart(bookedDates);
     const firstValidDate = findFirstValidDate(sortedBookedDates)
@@ -73,6 +75,18 @@ function ReservationForm({ spot, reservation }) {
 
         if (!startDate || !endDate) {
             setErrors(["please select a valid start and/or end date"])
+        } else if (reservation) {
+            reservation.startDate = startDate.format("YYYY-MM-DD");
+            reservation.endDate = endDate.format("YYYY-MM-DD");
+            dispatch(bookingActions.updateSpotBookingThunk(reservation))
+                .then(() => {
+                    history.push("/mytrips")
+                })
+                .catch(async (error) => {
+                    const data = await error.json();
+                    setErrors([data.message])
+                })
+
         } else {
             const newReservation = {
                 startDate: startDate.format("YYYY-MM-DD"),
