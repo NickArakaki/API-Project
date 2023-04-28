@@ -72,6 +72,14 @@ function ReservationForm({ spot, reservation }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        if (!sessionUser) {
+            setErrors(["Please login to make a reservation"])
+        }
+
+        if (spot.Onwer.id === sessionUser.id) {
+            setErrors(["You are not allowed to reserve your own listing"])
+        }
+
         if (!startDate || !endDate) {
             setErrors(["please select a valid start and/or end date"])
         } else if (reservation) {
@@ -101,7 +109,7 @@ function ReservationForm({ spot, reservation }) {
 
     }
 
-    const isSubmitDisabled = (!sessionUser || spot.Owner.id === sessionUser.id);
+    // const isSubmitDisabled = (!sessionUser || spot.Owner.id === sessionUser.id);
 
     return (
         <form className='reservation-form' onSubmit={handleSubmit}>
@@ -126,7 +134,7 @@ function ReservationForm({ spot, reservation }) {
                 isDayBlocked={(day) => isValidDay(day, bookedDates)}
                 isOutsideRange={(day) => checkIfOutOfRange(day, minDate, maxDate)}
             />
-            <button disabled={isSubmitDisabled} type='submit'>Reserve</button>
+            <button className='submit_button' type='submit'>Reserve</button>
         </form>
     )
 }
