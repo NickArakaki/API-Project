@@ -14,8 +14,14 @@
     font-size: 1.25rem;
 }
 
-.reservation-summary-preview-image {
+.reservation-summary-image-container {
+    border: 1px solid #CCC;
     object-fit: fill;
+}
+
+.reservation-summary-image-container,
+.reservation-summary-preview-image {
+    /* object-fit: fill; */
     height: 100px;
     width: 100px;
     border-radius: 1rem;

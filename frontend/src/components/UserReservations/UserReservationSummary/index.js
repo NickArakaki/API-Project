@@ -18,9 +18,9 @@ function UserReservationSummary({ reservation }) {
     return (
         <>
         <div onClick={handleClick} className="reservation-summary-container">
-            <div className="reservation-summary-image-container">
+            {/* <div className="reservation-summary-image-container"> */}
                 <img className="reservation-summary-preview-image" src={reservation.Spot.previewImage}></img>
-            </div>
+            {/* </div> */}
             <div className="reservation-summary-spot-details">
                 <div className="reservation-summary-spot-title">{reservation.Spot.name}</div>
                 <div className="reservation-summary-dates">{`${formatDateYYYYMMDD(startDate)} to ${formatDateYYYYMMDD(endDate)}`}</div>
