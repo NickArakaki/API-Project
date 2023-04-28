@@ -29,11 +29,11 @@ function UserReservationSummary({ reservation }) {
         {startDate > today && (
             <div className="reservation-summary-buttons-div">
                 <OpenModalButton
-                    buttonText={"edit"}
+                    buttonText={"Edit"}
                     modalComponent={<EditReservationModal reservation={reservation} />}
                 />
                 <OpenModalButton
-                    buttonText={"delete"}
+                    buttonText={"Cancel"}
                     modalComponent={<DeleteReservationModal reservation={reservation} />}
                 />
             </div>

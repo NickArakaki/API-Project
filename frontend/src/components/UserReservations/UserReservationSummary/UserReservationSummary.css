@@ -27,3 +27,14 @@
     justify-content: space-around;
     padding: 1em;
 }
+
+.reservation-summary-buttons-div {
+    display: flex;
+    flex-direction: row;
+    gap: .5em;
+    justify-content: flex-start;
+}
+
+.reservation-summary-buttons-div > * {
+    width: 25%;
+}
