@@ -71,17 +71,22 @@ function ReservationForm({ spot, reservation }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const errors = [];
 
         if (!sessionUser) {
-            setErrors(["Please login to make a reservation"])
+            errors.push("Please login to make a reservation");
         }
 
-        if (spot.Onwer.id === sessionUser.id) {
-            setErrors(["You are not allowed to reserve your own listing"])
+        if (spot.Owner.id === sessionUser.id) {
+            errors.push("You are not allowed to reserve your own listing");
         }
 
         if (!startDate || !endDate) {
-            setErrors(["please select a valid start and/or end date"])
+           errors.push("please select a valid start and/or end date")
+        }
+
+        if (errors.length) {
+            setErrors(errors);
         } else if (reservation) {
             reservation.startDate = startDate.format("YYYY-MM-DD");
             reservation.endDate = endDate.format("YYYY-MM-DD");
