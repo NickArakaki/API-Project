@@ -6,7 +6,6 @@ import ReservationForm from "./ReservationForm"
 
 export default function CalloutBox({ spot }) {
     // const sessionUser = useSelector(state => state.session.user)
-    // console.log("spot in callout box", spot)
     return (
         <>
             <div className="callout_box_price_reviews">

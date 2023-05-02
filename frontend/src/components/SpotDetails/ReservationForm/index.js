@@ -26,9 +26,6 @@ import './ReservationForm.css'
 
 
 function ReservationForm({ spot, reservation }) {
-    //TODO: if there is a reservation passed, we need to exclude that reservation from the sorted booked list
-    //      when the form is submitted and there is a reservation passed to this component we need to pass the updated
-    //      reservation instead of newReservation to the thunk
     const dispatch = useDispatch();
     const history = useHistory();
     const { closeModal } = useModal();
@@ -71,17 +68,20 @@ function ReservationForm({ spot, reservation }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const errors = [];
 
         if (!sessionUser) {
-            setErrors(["Please login to make a reservation"])
+            errors.push("Please login to make a reservation");
         }
 
-        if (spot.Onwer.id === sessionUser.id) {
-            setErrors(["You are not allowed to reserve your own listing"])
+        if (spot.Owner.id === sessionUser.id) {
+            errors.push("You are not allowed to reserve your own listing");
+        } else if (!startDate || !endDate) {
+            errors.push("Please select a valid start and/or end date")
         }
 
-        if (!startDate || !endDate) {
-            setErrors(["please select a valid start and/or end date"])
+        if (errors.length) {
+            setErrors(errors);
         } else if (reservation) {
             reservation.startDate = startDate.format("YYYY-MM-DD");
             reservation.endDate = endDate.format("YYYY-MM-DD");
@@ -109,12 +109,10 @@ function ReservationForm({ spot, reservation }) {
 
     }
 
-    // const isSubmitDisabled = (!sessionUser || spot.Owner.id === sessionUser.id);
-
     return (
         <form className='reservation-form' onSubmit={handleSubmit}>
             {errors.map((error, idx) => (
-                <div className='reservation-form-error' key={idx}>{error}</div>
+                <div className='reservation-form-error' key={idx}>! {error}</div>
             ))}
             <DateRangePicker
                 minimumNights={1}
