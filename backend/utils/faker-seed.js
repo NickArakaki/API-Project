@@ -1,3 +1,4 @@
+const { validAddresses } = require('./spot-address-seed-data');
 const { faker } = require('@faker-js/faker');
 const bcrypt = require('bcryptjs');
 
@@ -30,21 +31,22 @@ const seedUsers = num => {
 
 const seedSpots = num => {
     const spots = new Array(num).fill('');
-
     for (const i in spots) {
         spots[i] = {
             ownerId: Number(i) + 1,
-            address: faker.address.streetAddress(),
-            city: faker.address.city(),
-            state: faker.address.state(),
+            address: validAddresses[i].streetAddress,
+            city: validAddresses[i].city,
+            state: validAddresses[i].state,
             country: 'USA',
-            lat: faker.address.latitude(),
-            lng: faker.address.longitude(),
+            lat: validAddresses[i].lat,
+            lng: validAddresses[i].lng,
             name: faker.company.name(),
             description: faker.lorem.paragraph(randomNum(3)),
             price: faker.commerce.price()
         }
+
     }
+
 
     return spots;
 }

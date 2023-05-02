@@ -76,10 +76,8 @@ function ReservationForm({ spot, reservation }) {
 
         if (spot.Owner.id === sessionUser.id) {
             errors.push("You are not allowed to reserve your own listing");
-        }
-
-        if (!startDate || !endDate) {
-           errors.push("Please select a valid start and/or end date")
+        } else if (!startDate || !endDate) {
+            errors.push("Please select a valid start and/or end date")
         }
 
         if (errors.length) {
