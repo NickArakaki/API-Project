@@ -114,7 +114,7 @@ function ReservationForm({ spot, reservation }) {
     return (
         <form className='reservation-form' onSubmit={handleSubmit}>
             {errors.map((error, idx) => (
-                <div className='reservation-form-error' key={idx}>{error}</div>
+                <div className='reservation-form-error' key={idx}>! {error}</div>
             ))}
             <DateRangePicker
                 minimumNights={1}
