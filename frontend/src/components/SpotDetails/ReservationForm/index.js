@@ -26,9 +26,6 @@ import './ReservationForm.css'
 
 
 function ReservationForm({ spot, reservation }) {
-    //TODO: if there is a reservation passed, we need to exclude that reservation from the sorted booked list
-    //      when the form is submitted and there is a reservation passed to this component we need to pass the updated
-    //      reservation instead of newReservation to the thunk
     const dispatch = useDispatch();
     const history = useHistory();
     const { closeModal } = useModal();
@@ -82,7 +79,7 @@ function ReservationForm({ spot, reservation }) {
         }
 
         if (!startDate || !endDate) {
-           errors.push("please select a valid start and/or end date")
+           errors.push("Please select a valid start and/or end date")
         }
 
         if (errors.length) {
@@ -113,8 +110,6 @@ function ReservationForm({ spot, reservation }) {
         }
 
     }
-
-    // const isSubmitDisabled = (!sessionUser || spot.Owner.id === sessionUser.id);
 
     return (
         <form className='reservation-form' onSubmit={handleSubmit}>
